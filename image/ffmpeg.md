@@ -1,0 +1,132 @@
+![](icon_ffmpeg.svg "FFMPEG" ) [MÉMENTO](../README.md)::FFMPEG
+=================================
+
+
+Basic 
+------
+
+```
+ffmpeg -i <input_file> <output_file>
+```
+
+Presets
+---------
+possible presets, from worst to best are :
+ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
+
+_example_ :
+```
+ffmpeg -i video.mov -preset veryslow video.mp4
+```
+
+
+Images wth/to
+--------------
+
+### video to images
+```
+ffmpeg -i video.mov -q:v 1 %05d.jpg
+```
+
+- `-q:v 1` Set the __quality__ of the video encoder, where the -q means quality and the :v means video.
+Values range from 1 to 31, where lower means better.
+
+to extract a single image at frame 10:
+```
+ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg
+```
+
+### images to video
+
+```
+ffmpeg -framerate 1/5 -i img%03d.png -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
+```
+
+__Note__: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
+
+
+Timing
+-------
+
+### trim
+You can use the -ss option to specify a start timestamp, and the -t option to specify the encoding duration. The timestamps need to be in HH:MM:SS.xxx format or in seconds. 
+
+```
+ffmpeg -i input.wmv -ss 00:00:30.0 -c copy -t 00:00:10.0 output.wmv
+ffmpeg -i input.wmv -ss 30 -c copy -t 10 output.wmv
+```
+
+### framerate
+
+```
+ffmpeg -i input.wmv -framerate 1 output.wmv
+```
+
+### Patrol Cycle (back and forth)
+
+```
+ffmpeg -i input.mp4 -filter_complex "[0]reverse[r];[0][r]concat,setpts=N/25/TB" output.mp4
+```
+The ```setpts``` is applied to avoid frame drops, and the value ```25``` should be replaced with the framerate of the clip.
+
+Geometry
+---------
+
+### crop
+```
+-filter:v "crop=100:100:12:34"
+```
+
+```
+-filter:v "crop=200:ih:12:34"
+```
+
+### scale
+
+```
+-filter:v scale=iw*2:-1"
+```
+
+### rotation
+
+```
+-filter:v "transpose=1"
+```
+with possible values :
+- 0 = 90CounterCLockwise and Vertical Flip (default)
+- 1 = 90Clockwise
+- 2 = 90CounterClockwise
+- 3 = 90Clockwise and Vertical Flip
+
+stereo 3D
+----------
+__note__: to use this feature, you may have a recent version of ffmpeg.
+
+use the filter `stereo3d` :
+
+__example__:
+[source](https://trac.ffmpeg.org/wiki/Stereoscopic)
+
+side by side half width left first to Red cyan gray/monochrome
+```
+ffmpeg -i SbS.mp4 -vf stereo3d=sbs2l:arbg -y anaglyph.mp4
+```
+the options stand for :
+- `sbs`: side by side
+- `2`: half width
+- `l` : left first
+- `a`: anaglyph
+- `rbg`: red blue grey
+
+If the output video is still squeezed, use `sbsl` and complete wiht `scale=iw*2:ih`. It result in :
+```
+ffmpeg -i SbS.mp4 -vf "stereo3d=sbsl:arcg,scale=iw*2:ih" -y anaglyph.mp4
+```
+
+Audio
+-------
+
+```
+ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
+```
+0 is better
