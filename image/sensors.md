@@ -1,4 +1,4 @@
-MÉMENTO::IMAGE::SENSORS
+[MÉMENTO](../README.md)::SENSORS
 ===============
 camera aparatus
 
