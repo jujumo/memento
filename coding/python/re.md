@@ -1,4 +1,4 @@
-![](icon_python.svg "PYTHON") [MÉMENTO](../README.md)::Python::re
+![](icon_python.svg "PYTHON") [MÉMENTO](../../README.md)::Python::re
 =========================
 
 ### Nota:

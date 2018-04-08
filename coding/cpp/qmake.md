@@ -1,4 +1,4 @@
-![](icon_cpp.svg "C++") [MÉMENTO](../README.md)::CPP::QMAKE
+![](icon_cpp.svg "C++") [MÉMENTO](../../README.md)::CPP::QMAKE
 ======================
 
 Variables

@@ -1,4 +1,4 @@
-![](icon_cpp.svg "C++") [MÉMENTO](../README.md)::CPP::RULES
+![](icon_cpp.svg "C++") [MÉMENTO](../../README.md)::CPP::RULES
 ==================
 C++ Rule of thumb
 

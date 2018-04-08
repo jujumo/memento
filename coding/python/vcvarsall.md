@@ -1,4 +1,4 @@
-![](icon_python.svg "PYTHON") [MÉMENTO](../README.md)::Python::VCVARSALL
+![](icon_python.svg "PYTHON") [MÉMENTO](../../README.md)::Python::VCVARSALL
 ====================
 How to get rid of VCVARSALL error on windows
 
