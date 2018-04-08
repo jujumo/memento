@@ -1,0 +1,77 @@
+![](icon_python.svg "PYTHON") [MÉMENTO](../README.md)::Python::snippets
+===================
+
+[TOC]
+
+### Main program structure
+
+```python
+#!/usr/bin/env python3
+
+__author__ = 'jumo'
+
+import argparse
+import logging
+
+
+def main():
+    try:
+        parser = argparse.ArgumentParser(description='Description of the program.')
+        parser.add_argument('-v', '--verbose', action='store_true', help='verbose message')
+
+        parser.add_argument('-i', '--input', nargs='+', required=True, help='input')
+        parser.add_argument('-o', '--output', default='', help='input')
+        args = parser.parse_args()
+
+        if args.verbose:
+            logging.getLogger().setLevel(logging.INFO)
+        if __debug__:
+            logging.getLogger().setLevel(logging.DEBUG)
+		
+        #########################
+		# place youre code here #
+		#########################
+		
+    except Exception as e:
+        logging.critical(e)
+        if __debug__:
+            raise
+
+
+if __name__ == '__main__':
+    main()
+```
+
+### List files
+
+#### Using glob module
+
+```python
+from glob import glob
+file_list = glob('./*.jpg')
+```
+
+#### Using walk
+```python
+import os
+for root, dirs, files in os.walk(".", topdown=True):
+    print('------------------------------------------')
+    print('in :' + root + 'there are:')
+    for filename in files:
+        print('file:' + filename)
+    for dirname in dirs:
+        print('dir: ' + dirname)
+```
+
+### Ternary conditional syntax
+
+```python
+>>>'true' if True else 'false'
+'true'
+```
+
+### check a variable exists
+
+| global                 |  local                  | attribute  |
+|---------------------------------------------------------------|
+| `'myVar' in locals()`  | `'myVar' in globals()`  | `hasattr(obj, 'attr_name')` |
