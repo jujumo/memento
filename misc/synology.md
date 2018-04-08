@@ -1,0 +1,127 @@
+![icon_synology](icon_synology.svg "icon_synology") [MÉMENTO](../README.md)::Synology
+===============
+My hacks
+
+ssh
+--------
+To enable SSH access, go on DSM web interface :
+- activate SSH in panel `config` > `terminal & SNMP`,
+- change default port (ine of most important point to secure your NAS),
+
+connect through SSH as _root_ (the only user allowed on SSH):
+- edit `/etc/passwd` (eg. `vi /etc/passwd`),
+- for the user you want,  change the end of line `/sbin/nologin` with `/bin/ash`,
+- save, quit and loggoff (`^D`).
+
+to check :
+- reconnect through SSH as user.
+
+ssh key
+------------
+As _user_, do:
+
+ - create ssh key :
+```bash
+ssh-keygen -t dsa
+```
+
+ - make sure home dir permission is `755` (cf: [superuser][su]) :
+```bash
+cd
+chmod 755 ~/
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+```
+
+ - copy public key on remote server :
+![WARNING](warning.svg "WARNING") this will erase previously key set
+```bash
+scp -P PORT .ssh/id_dsa.pub USER@REMOTE:.ssh/authorized_keys
+```
+replace:
+  - PORT: by the port number you selected when you activated SSH (default is 23, but strongly recommend to change this),
+  - USER: the user name on the remote server,
+  - REMOTE : domain name (or ip) of the remote server.
+
+
+[su]:https://superuser.com/questions/736055/ssh-with-no-password-passwordless-on-synology-dsm-5-as-other-non-root-user/769819#769819?newreg=593ce82fe74c491f80bb906c69644f49
+
+ipkg
+------
+Source: [installer-la-commande-ipkg-sur-un-nas-synology-recent](http://blog.nouveauxterritoires.fr/fr/2014/04/23/installer-la-commande-ipkg-sur-un-nas-synology-recent/)
+
+As _root_, do:
+```bash
+mkdir /volume1/@optware
+mkdir /opt
+ln -s /volume1/@optware /opt  ### instead of mount -o bind /volume1/@optware /opt
+```
+```bash
+feed=http://ipkg.nslu2-linux.org/feeds/optware/cs08q1armel/cross/unstable
+ipk_name=`wget -qO- $feed/Packages | awk '/^Filename: ipkg-opt/ {print $2}'`
+wget $feed/$ipk_name
+tar -xOvzf $ipk_name ./data.tar.gz | tar -C / -xzvf -
+mkdir -p /opt/etc/ipkg
+echo "src cross $feed" > /opt/etc/ipkg/feeds.conf
+```
+
+
+and then apply changes :
+
+```bash
+cd /etc
+wget --no-check-certificate https://gist.github.com/zarino/8632360/raw/6f54c3573e22d07cf7fc68e2fcef4a50623fdff2/rc.local
+chmod 755 rc.local
+wget --no-check-certificate https://gist.github.com/zarino/8632372/raw/ef13804d25c2a3188dde698f7fede1f96a36c073/rc.optware
+chmod 755 rc.optware
+/opt/bin/ipkg update
+```
+
+Edit your `.profile` to add ipkg to your path (see profile section).
+
+profile
+--------
+As _user_, create your own profile:
+```bash
+sudo cp /root/.profile ~/
+sed -i 's,/root,'`echo ~`',g' ~/.profile
+echo 'export PATH=/opt/bin:/opt/sbin:$PATH' >> ~/.profile
+```
+
+finally, lock and load:
+```bash
+source ~/.profile
+```
+
+sudo
+------
+Note: may not be necessary on latest version
+To install `sudo`, you need to be logged as root, and to have IPKG installed (see [ipkg](ipkg)) :
+```bash
+ipkg install sudo
+```
+ and add your user (replace 'user' by your own username) to the sudoers :
+ edit `/opt/etc/sudoers` (eg. `nano /opt/etc/sudoers`), append somewhere :
+```bash
+user ALL=(ALL) ALL
+```
+
+Git server
+-------------
+Enable git server package in DSM, and allow port forwarding in ssh. Edit
+```bash
+/etc/ssh/ssh_config
+```
+
+uncomment the following line :
+```
+AllowForwarding yes
+```
+
+rsync
+---------
+see [rsync](rsync.md) page.
+
+crontab
+-----------
+__NOTE__ : `/etc/crontab` is reset at each synology updates. I recommend to use the synology cron hadler (in DSM) instead of directly edit crontab by your own.
