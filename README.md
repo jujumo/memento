@@ -17,4 +17,4 @@
 - ![](misc/icon_openssl.svg "OPENSSL") [openssl](openssl.md)
 - ![](misc/icon_rsync.svg "Rsync") [rsync](misc/rsync.md)
 - ![](misc/icon_synology.svg "Synology") [synology](misc/synology.md)
-- ![](misc/icon_key.svg "keyboard") [keyboard](us_keyboard.md)
+- ![](misc/icon_key.svg "keyboard") [keyboard](misc/us_keyboard.md)
