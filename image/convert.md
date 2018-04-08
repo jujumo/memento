@@ -1,4 +1,4 @@
-![](icon_magick.svg "MAGICK") MÉMENTO::Convert (magick) 
+![](icon_magick.svg "MAGICK")  [MÉMENTO](../README.md)::Convert (magick) 
 =================================
 
 
