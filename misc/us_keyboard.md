@@ -13,12 +13,12 @@ _Note_ :
 * in windows, type `Alt` + digits of ASCII code,
 * in Inkscape, go into text mode and type `Ctrl` + `U` and the 4-digits unicode.
 
-	 Symbol		| glyph	| Ascii	| Unicode 	|
-|---------------|-------|-------|-----------|
-	 infinity 		| ∞		| 236  	|			|
-	 near equal	| ≈		| --	| 			|
+	Symbol			| glyph	| Ascii	| Unicode	
+	----------------|-------|-------|-----------
+	nfinity  		| ∞	 	| 236  	| 			|
+	 near equal		| ≈		| --	| 			|
 	 not equal		| ≠		| 		| 			|
-	 plus/minus	| ±		| 0177	| 			|
+	 plus/minus		| ±		| 0177	| 			|
 	 alpha (lower)	| α		|		| 03b1		|
 	 alpha (upper)	| A		|		| 0391		|
 	 beta	(lower)	| β		| 225	| 03b2		|
@@ -42,5 +42,3 @@ _Note_ :
 	 sigma	(upper)	| Σ 	|		| 03a3		|
 	 theta	(lower)	| θ		|		| 03b8		|
 	 theta	(upper)	| Θ		|		| 0398		|
-
-
