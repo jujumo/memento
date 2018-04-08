@@ -1,4 +1,4 @@
-![](icon_python.svg "PYTHON") [MÉMENTO](../README.md)::Python::pathes
+![](icon_python.svg "PYTHON") [MÉMENTO](../../README.md)::Python::pathes
 ==============
 
 Current working directory
