@@ -1,0 +1,99 @@
+![icon_openssl](icon_openssl.svg "icon_openssl") [MÉMENTO](../README.md)::OpenSSL 
+===================
+for windows
+
+Install
+--------
+1) download binaries from [here](http://downloads.sourceforge.net/gnuwin32/openssl-0.9.8h-1-bin.zip).
+
+2) set path of Openssl
+```set OPENSSL=d:\dev\OpenSSL-Win32```
+
+3) create config file with default folowing template :
+```
+#
+# OpenSSL configuration file.
+#
+# Establish working directory.
+dir					= .
+[ ca ]
+default_ca				= CA_default
+[ CA_default ]
+serial					= $dir/serial
+database				= $dir/certindex.txt
+new_certs_dir				= $dir/certs
+certificate				= $dir/cacert.pem
+private_key				= $dir/private/cakey.pem
+default_days				= 365
+default_md				= md5
+preserve				= no
+email_in_dn				= no
+nameopt					= default_ca
+certopt					= default_ca
+policy					= policy_match
+[ policy_match ]
+countryName				= match
+stateOrProvinceName			= match
+organizationName			= match
+organizationalUnitName			= optional
+commonName				= supplied
+emailAddress				= optional
+[ req ]
+default_bits				= 1024			# Size of keys
+default_keyfile				= key.pem		# name of generated keys
+default_md				= md5				# message digest algorithm
+string_mask				= nombstr		# permitted characters
+distinguished_name			= req_distinguished_name
+req_extensions				= v3_req
+[ req_distinguished_name ]
+# Variable name				Prompt string
+#-------------------------	  ----------------------------------
+0.organizationName			= Organization Name (company)
+organizationalUnitName			= Organizational Unit Name (department, division)
+emailAddress				= Email Address
+emailAddress_max			= 40
+localityName				= Locality Name (city, district)
+stateOrProvinceName			= State or Province Name (full name)
+countryName				= Country Name (2 letter code)
+countryName_min				= 2
+countryName_max				= 2
+commonName				= Common Name (hostname, IP, or your name)
+commonName_max				= 64
+# Default values for the above, for consistency and less typing.
+# Variable name				Value
+#------------------------	  ------------------------------
+0.organizationName_default		= My Company
+localityName_default			= My Town
+stateOrProvinceName_default		= State or Providence
+countryName_default			= US
+[ v3_ca ]
+basicConstraints			= CA:TRUE
+subjectKeyIdentifier			= hash
+authorityKeyIdentifier			= keyid:always,issuer:always
+[ v3_req ]
+basicConstraints			= CA:FALSE
+subjectKeyIdentifier			= hash
+```
+
+4) set path of config file
+```set OPENSSL_CONF=%OPENSSL%\openssl.cfg```
+
+5) append `%OPENSSL%` to your path
+
+Use cases
+---------
+
+- encrypt simple string "Hello World" with base64
+```bash
+echo "Hello World" | openssl enc -aes-256-cbc -pass pass:"Secret Passphrase" -e -base64
+```
+
+- Encrypt file with base64 and interactive passphrase:
+```bash
+openssl aes-256-cbc -salt -in CLEAR_FILE -base64 -out CRYPTED_FILE
+```
+
+- Decrypt file with base64 and interactive passphrase:
+```bash
+openssl aes-256-cbc -d -base64 -in CRYPTED_FILE -out CLEAR_FILE
+```
