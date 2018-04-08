@@ -1,0 +1,35 @@
+![](icon_python.svg "PYTHON") [MÉMENTO](../README.md)::Python::argparse
+===================
+
+```python
+#!/usr/bin/env python3
+
+__author__ = 'jumo'
+
+import argparse
+import logging
+
+
+def main():
+    try:
+        parser = argparse.ArgumentParser(description='Description of the program.')
+        parser.add_argument('-v', '--verbose', action='store_true', help='verbose message')
+        parser.add_argument('-i', '--input', required=True, help='input')
+
+        args = parser.parse_args()
+
+        if args.verbose:
+            logging.getLogger().setLevel(logging.INFO)
+        if __debug__:
+            logging.getLogger().setLevel(logging.DEBUG)
+
+		# place the main fnuction call
+
+    except Exception as e:
+        logging.critical(e)
+        if __debug__:
+            raise
+
+if __name__ == '__main__':
+    main()
+```

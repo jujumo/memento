@@ -1,0 +1,131 @@
+[MÉMENTO](../README.md)::DOS
+==========================
+
+Commands
+--------------
+
+|  command  |																					|
+|-----------|-----------------------------------------------------------------------------------|
+| `@`  		| Does not echo back the text after the `@` symbol. often used as `@ECHO OFF` to prevent any of the commands in the batch file from being displayed. |
+|`%*` 		| for everything 																	|
+|`%0` 		| the command used to call the batch file (could be foo, ..\foo, c:\bats\foo, etc.)	|
+|`%1` 		| is the first command line parameter,												|
+|`%2` 		| is the second command line parameter, 											|
+|...		|																					|
+|`%9` 		| is the 9th command line.															|
+|`%~nx0` 	| the actual name of the batch file, regardless of calling method (some-batch.bat) 	|
+|`%~dp0` 	| drive and path to the script (d:\scripts)											|
+|`%~dpnx0`	| is the fully qualified path name of the script (d:\scripts\some-batch.bat) 		|
+| `::`		| One of two ways of adding remarks into the batch 									|
+| `:LABEL` 	| A label allows you to skip to certain sections of a batch file, see `GOTO`		|
+| `GOTO LB` | Used to go to a certain label (LB). 												|
+| `CALL`	| A call is used to run another batch file within a batch file.						|
+| `START`	| Used for Windows 95 and later to start a Windows application						|
+| `ECHO`	| Will echo a message in the batch file. 											|
+
+Pathes
+---------
+
+## Execute the script in its actual path
+```dos
+@echo off
+SET me=%~dp0
+pushd
+cd /d %me%
+echo %cd% -- %me%
+popd
+```
+
+Result in 
+```dos
+> C:\Users\jmorat>C:\dev\repo\wiki\md\batch\tets.bat
+C:\dev\repo\wiki\md\batch -- C:\dev\repo\wiki\md\batch\
+```
+
+
+|       |																					|
+|-------|-----------------------------------------------------------------------------------|
+|`%~nx0` | the actual name of the batch file, regardless of calling method (some-batch.bat) |
+|`%~dp0` | drive and path to the script (d:\scripts)										|
+|`%~dpnx0`| is the fully qualified path name of the script (d:\scripts\some-batch.bat) 		|
+
+Error handling
+--------------
+
+```dos
+if ERROR (
+	ECHO this is the error.
+	GOTO:error
+)
+REM DO YOUR JOB HERE
+REM ... till the end
+GOTO:EOF
+
+:error
+ECHO.
+ECHO Press any key to exit.
+PAUSE >nul
+GOTO:EOF
+```
+
+
+Check a command is available
+-----------------------------
+Checks if the command exists before I run it. i.e. if the command is reachable in PATH.
+
+```dos
+WHERE mycommand
+IF %ERRORLEVEL% NEQ 0 ECHO mycommand wasn't found 
+```
+
+
+Check for administrator privileges
+----------------------------------
+
+```dos
+@echo off
+REM  --> Check for permissions
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+REM --> If error flag set, we do not have admin.
+if '%errorlevel%' NEQ '0' (
+    REM Display the error and quit
+) else (
+    REM Do whatever needs admin rigth
+)
+```
+
+
+Loop over files
+----------------
+```dos
+FORFILES /S /M *.doc /C "cmd /c echo @fname : @fsize"
+```
+
+| Keyword 	| Description 								|
+|-----------|-------------------------------------------|
+| @FILE		| filename. 								|
+| @FNAME	| filename wo extension.					|
+| @EXT		| extension. 								|
+| @PATH		| absolute path.							|
+| @RELPATH	| relative path.							|
+| @ISDIR	| TRUE if it is a directory, FALSE otherwise.|
+| @FSIZE	| File size in bytes.						|
+| @FDATE	| Last modification date.					|
+| @FTIME	| Last modification time.					|
+
+Mapped drives reconnection error (at startup)
+---------------------------------------------
+__symptoms__:
+At startup, windows shows error "Failed to reconnect network drives.". But once you click on the drive, it become working.
+
+__solution__:
+
+A: Not proven: ensure all devices share the same network name (eg: WORKGROUP)
+B: Not working: Enable Linked Connections in registry. Create a _reg_ file (eg. nameg _nas.reg_), copy-paste the following and execute.
+
+```dos
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System]
+"EnableLinkedConnections"=dword:00000001
+```
