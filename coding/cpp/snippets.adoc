@@ -3,7 +3,7 @@
 ## Map with default value
 
 
-.Rational:
+### Rational
 a maps that's returns a default value in case key is not found in the map.
 
 ```cpp

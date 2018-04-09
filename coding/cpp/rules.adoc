@@ -20,8 +20,6 @@ Use standard order for readability:
 and then lexicographic order.
 
 ## Best practices
-
-
 [options="header", cols=">5,^1s,5"]
 |===============================================================================
 | practice                    | severity | Reason

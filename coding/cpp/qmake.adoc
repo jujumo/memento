@@ -1,11 +1,12 @@
 # image:icon_cpp.svg["QMAKE", width=64px] QMAKE
+:toc:
 
 ## Variables
 
-.assign:
+### assign
 `VAR = foobar` is assigned when __qmake__ is run
 
-.retrieve:
+### retrieve
 
 [options="header", cols=">m,2,2"]
 |====================================================

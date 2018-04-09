@@ -1,6 +1,5 @@
 # image:icon_synology.svg["Synology", width=64px] Synology
-
-My hacks
+:toc:
 
 ## ssh
 To enable SSH access, go on DSM web interface :

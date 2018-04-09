@@ -1,8 +1,6 @@
-= image:icon_magick.svg["SENSORS", width=64px] camera Aparatus
+# image:icon_magick.svg["SENSORS", width=64px] camera Aparatus
 
 ## Sensors
-
-
 [options="header",cols=">10,^m,^m,^m,^m"]
 |==================================================================================
 | name                       | Diag (mm) | Width (mm)  | Height (mm)  | Area (mm2)
