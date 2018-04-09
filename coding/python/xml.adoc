@@ -1,4 +1,4 @@
-![](icon_python.svg "PYTHON") [MÉMENTO](../../README.md)::Python::XML
+# image:icon_python.svg["PYTHON", width=64px] Python::xml
 ==================
 
 ## import
@@ -7,9 +7,7 @@
 import xml.etree.ElementTree as ET
 ```
 
-Read
-----------
-
+## Read
 We can import this data by reading from a file:
 ```python
 import xml.etree.ElementTree as ET
@@ -23,6 +21,5 @@ Or directly from a string:
 root = ET.fromstring(country_data_as_string)
 ```
 
-Accesss values
---------------
-
+## Access values
+TODO

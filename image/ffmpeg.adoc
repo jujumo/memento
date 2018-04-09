@@ -1,16 +1,15 @@
-![](icon_ffmpeg.svg "FFMPEG" ) [MÉMENTO](../README.md)::FFMPEG
-=================================
+# image:icon_ffmpeg.svg["FFMPEG", width=64px] FFMPEG
 
-
-Basic 
-------
-
+.Basic
 ```
 ffmpeg -i <input_file> <output_file>
 ```
+link:https://www.ffmpeg.org/[Offcial website]
 
-Presets
----------
+:toc:
+
+## Presets
+
 possible presets, from worst to best are :
 ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow
 
@@ -19,9 +18,7 @@ _example_ :
 ffmpeg -i video.mov -preset veryslow video.mp4
 ```
 
-
-Images wth/to
---------------
+## Images wth/to
 
 ### video to images
 ```
@@ -42,14 +39,13 @@ ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg
 ffmpeg -framerate 1/5 -i img%03d.png -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
 ```
 
-__Note__: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
+NOTE: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
 
+## Timing
 
-Timing
--------
 
 ### trim
-You can use the -ss option to specify a start timestamp, and the -t option to specify the encoding duration. The timestamps need to be in HH:MM:SS.xxx format or in seconds. 
+You can use the -ss option to specify a start timestamp, and the -t option to specify the encoding duration. The timestamps need to be in HH:MM:SS.xxx format or in seconds.
 
 ```
 ffmpeg -i input.wmv -ss 00:00:30.0 -c copy -t 00:00:10.0 output.wmv
@@ -69,8 +65,7 @@ ffmpeg -i input.mp4 -filter_complex "[0]reverse[r];[0][r]concat,setpts=N/25/TB" 
 ```
 The ```setpts``` is applied to avoid frame drops, and the value ```25``` should be replaced with the framerate of the clip.
 
-Geometry
----------
+## Geometry
 
 ### crop
 ```
@@ -98,14 +93,13 @@ with possible values :
 - 2 = 90CounterClockwise
 - 3 = 90Clockwise and Vertical Flip
 
-stereo 3D
-----------
-__note__: to use this feature, you may have a recent version of ffmpeg.
+## stereo 3D
+
+NOTE: to use this feature, you may have a recent version of ffmpeg.
 
 use the filter `stereo3d` :
 
-__example__:
-[source](https://trac.ffmpeg.org/wiki/Stereoscopic)
+__example__: link:https://trac.ffmpeg.org/wiki/Stereoscopic[source]
 
 side by side half width left first to Red cyan gray/monochrome
 ```
@@ -123,9 +117,7 @@ If the output video is still squeezed, use `sbsl` and complete wiht `scale=iw*2:
 ffmpeg -i SbS.mp4 -vf "stereo3d=sbsl:arcg,scale=iw*2:ih" -y anaglyph.mp4
 ```
 
-Audio
--------
-
+## Audio
 ```
 ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
 ```

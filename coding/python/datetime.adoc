@@ -1,0 +1,5 @@
+# image:icon_python.svg["PYTHON", width=64px] Python::datetime
+
+TODO
+
+https://docs.python.org/3.4/library/datetime.html

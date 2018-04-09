@@ -1,16 +1,15 @@
-![icon_openssl](icon_openssl.svg "icon_openssl") [MÉMENTO](../README.md)::OpenSSL 
-===================
+# image:icon_openssl.svg["PYTHON", width=64px] OpenSSL
 for windows
 
-Install
---------
+## Install
 1) download binaries from [here](http://downloads.sourceforge.net/gnuwin32/openssl-0.9.8h-1-bin.zip).
 
 2) set path of Openssl
-```set OPENSSL=d:\dev\OpenSSL-Win32```
+  `set OPENSSL=d:\dev\OpenSSL-Win32`
 
 3) create config file with default folowing template :
-```
+
+```bash
 #
 # OpenSSL configuration file.
 #
@@ -75,13 +74,11 @@ basicConstraints			= CA:FALSE
 subjectKeyIdentifier			= hash
 ```
 
-4) set path of config file
-```set OPENSSL_CONF=%OPENSSL%\openssl.cfg```
+4) set path of config file `set OPENSSL_CONF=%OPENSSL%\openssl.cfg`
 
 5) append `%OPENSSL%` to your path
 
-Use cases
----------
+## Use cases
 
 - encrypt simple string "Hello World" with base64
 ```bash

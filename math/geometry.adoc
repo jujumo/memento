@@ -1,15 +1,12 @@
-![](icon_geometry.svg "geometry") [MÉMENTO](../README.md)::Geometry
-================
+# image:icon_geometry.svg["PYTHON", width=64px] math::geometry
 
-trigonometry
-------------
+## trigonometry
 
-![trigo circle](trigo.svg)
+image:trigo.svg["trigo circle"]
 
 
-Cross-product
---------------
-
+## Cross-product
+ TODO: 
 $$
 \begin{vmatrix}
 \mathbf{a}_1 \\
@@ -30,10 +27,10 @@ $$
 \end{vmatrix}
 $$
 
-_Note_ : If two vectors are aligned or if either one has zero length, then their cross product is zero.
+NOTE: If two vectors are aligned or if either one has zero length, then their cross product is zero.
 
-![Cross product vector](Cross_product_parallelogram.svg)
+image:Cross_product_parallelogram.svg[Cross product vector]
 
-Dot-product
--------------
+## Dot-product
+
 Takes two equal-length sequences of numbers and returns a single number.
