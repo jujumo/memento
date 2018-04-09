@@ -1,5 +1,4 @@
-= image:icon_magick.svg["MAGICK", width=64px] Convert (magick)
-
+# image:icon_magick.svg["MAGICK", width=64px] Convert (magick)
 :toc:
 
 ## Basic
