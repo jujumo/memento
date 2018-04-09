@@ -1,4 +1,5 @@
 # image:icon_python.svg["PYTHON", width=64px] Python::os::path
+:toc:
 
 some of most used path functions
 

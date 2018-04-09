@@ -1,4 +1,5 @@
 # image:icon_bash.svg["BASH", width=64px] BASH
+:toc:
 
 ## paths
 

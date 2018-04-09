@@ -1,12 +1,11 @@
 # image:icon_ffmpeg.svg["FFMPEG", width=64px] FFMPEG
-
-.Basic
+:toc:
+ 
+## Basic
 ```
 ffmpeg -i <input_file> <output_file>
 ```
-link:https://www.ffmpeg.org/[Offcial website]
-
-:toc:
+https://www.ffmpeg.org/[Offcial website]
 
 ## Presets
 
