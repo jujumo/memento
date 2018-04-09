@@ -22,7 +22,7 @@ link:coding/cpp/snippets.adoc[snippets]
 - image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
 == MISC.
-- image:misc/icon_markdown.svg["Markdown"] link:misc/markdown.adoc[markdown]
+- image:misc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc.adoc[asciidoc]
 - image:misc/icon_openssl.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
 - image:misc/icon_rsync.svg["Rsync] link:misc/rsync.adoc[rsync]
 - image:misc/icon_synology.svg["Synology"] link:misc/synology.adoc[synology]
