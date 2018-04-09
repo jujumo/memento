@@ -1,22 +1,23 @@
-![](icon_cpp.svg "C++") [MÉMENTO](../../README.md)::CPP::QMAKE
-======================
+# image:icon_cpp.svg["QMAKE", width=64px] QMAKE
 
-Variables
-----------
-__Assign__: `VAR = foobar`
-Assinged when __qmake__ is run
+## Variables
 
-__retrieve__:
+.assign:
+`VAR = foobar` is assigned when __qmake__ is run
 
-| syntax  		|  scope 				|   time 		|
-|---------------|-----------------------|---------------|
-|`$$VAR` 		| QMake variable 		| qmake run 	|
-|`$${VAR}`		| QMake variable 		| qmake run 	|
-|`$(VAR)`		| Environment variable	| Makefile run 	|
-|`$$(VAR)`		| Environment variable 	| qmake run 	|
+.retrieve:
 
-Copy QtDlls
------------
+[options="header", cols=">m,2,2"]
+|====================================================
+| syntax     |  scope                | time
+| $$VAR      | QMake variable        | qmake run
+| $${VAR}    | QMake variable        | qmake run
+| $(VAR)     | Environment variable  | Makefile run
+| $$(VAR)    | Environment variable  | qmake run
+|====================================================
+
+## Copy QtDlls
+
 This is a trick to copy QtDll alongside the executable, allowing to execute it outside QtCreator.
 
 ```cpp
@@ -45,7 +46,7 @@ PRE_TARGETDEPS += $${Qt5Core.target}
 
 ```cpp
 win32{
-	# applys only for windows
+  # applys only for windows
     # needs :  $${libFullpath} and $${libFullname} and $${DESTDIR}
     # DLL copy rule
     DLL_COPY_RULE.name = $${libFullname}.dll
@@ -58,16 +59,19 @@ win32{
 ```
 
 
-##Activate C++11 compilation
+## Activate C++11 compilation
 ```cpp
 CONFIG += c++11
 ```
 
-##Manage build type
+## Manage build type
 In pro file, you can manage different configuration between debug and release.
 To active release mode you have to add "CONFIG+=release" in qmqke commande line.
 
-eg : qmake.exe C:\dev\flightManager\flightManager.pro -r -spec win32-g++ "CONFIG+=release"
+example:
+```dos
+qmake.exe C:\dev\flightManager\flightManager.pro -r -spec win32-g++ "CONFIG+=release"
+```
 
 ```cpp
 CONFIG(debug, debug|release){
@@ -81,8 +85,8 @@ CONFIG(debug, debug|release){
 }
 ```
 
-Output building directories
--------------------------
+## Output building directories
+
 ```cpp
 # define the build root dir
 BUILD_DIR   = $${PWD}/build/$${BUILD_TYPE}
@@ -94,7 +98,7 @@ RCC_DIR     = $${BUILD_DIR}/.rcc
 UI_DIR      = $${BUILD_DIR}/.ui
 ```
 
-##Handle version
+## Handle version
 You can easily manage version in pro file and retrieve this version string in cpp.
 
 ```cpp

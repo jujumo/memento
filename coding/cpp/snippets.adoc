@@ -1,10 +1,10 @@
-![](icon_cpp.svg "C++") [MÉMENTO](../../README.md)::CPP::Snippets
-==========
+# image:icon_cpp.svg["Snippets", width=64px] Snippets
 
-Map with default value
------------------------
+## Map with default value
 
-Rational: a maps thats returns a default value in case key is not found in the map.
+
+.Rational:
+a maps that's returns a default value in case key is not found in the map.
 
 ```cpp
 #ifndef MAPDEFAULT_HPP

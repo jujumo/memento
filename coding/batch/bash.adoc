@@ -1,0 +1,44 @@
+# image:icon_bash.svg["BASH", width=64px] BASH
+
+## paths
+
+### Script current dir
+
+[quote, stackoverflow]
+____
+Reliable way for a bash script to get the full path to itself.
+____
+
+
+```bash
+pushd `dirname $0` > /dev/null
+SCRIPTPATH=`pwd -P`
+popd > /dev/null
+```
+
+### get basename
+
+```bash
+$ s=/the/path/foo.txt
+$ echo ${s##*/}
+foo.txt
+$ s=${s##*/}
+$ echo ${s%.txt}
+foo
+$ echo ${s%.*}
+foo
+```
+
+## Arguments
+
+[options="header", cols=">m,10"]
+|=========================================================
+|    |                       description
+| $0 | script name as called.
+| $* | All parameters as single argument.
+| $@ | All arguments, one argument per parameter.
+| $# | Nummber of parameters passés.
+| $? | Return code of last command.
+| $$ | PID of shell running script.
+| $! | PID of last called processus in background.
+|=========================================================

@@ -1,5 +1,4 @@
-![](icon_python.svg "PYTHON") [MÉMENTO](../../README.md)::Python::argparse
-===================
+# image:icon_python.svg["PYTHON", width=64px] Python::argparse
 
 ```python
 #!/usr/bin/env python3
