@@ -1,4 +1,45 @@
-# image:icon_asciidoc.svg["Asciidoc", width=64px] Asciidoc
+# image:icon_asciidoc.svg["Asciidoc", width=64px] Asciidoc cheat sheet
 :toc:
 
+.see
+https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[quick-reference]
+https://asciidoctor.org/docs/user-manual/[user manual]
+
 ## Basics
+
+## Tables
+https://asciidoctor.org/docs/user-manual/#tables[doc]
+
+### cols
+https://asciidoctor.org/docs/user-manual/#cols[doc]
+```
+cols=[multiplier][align][width][style]
+```
+
+.align
+[cols="^1m,<2", width=50%]
+|=======================================================================
+| value | name
+
+| <     | Left
+| ^     | Centered
+| >     | Right
+| .<    | Top
+| .^    | Middle
+| .>    | Bottom
+|=======================================================================
+
+.style
+[cols="^1m,<2,7d"]
+|=======================================================================
+| value | name          | description
+
+| a     | **A**sciidoc  | The elements will be processed and converted.
+| e     | **E**mphasis  | Text is *__italicized__*
+| h     | **H**eader    | *Header* styles are applied to the column
+| l     | **L**iteral   | As if it were inside a *literal block*
+| m     | **M**onospaced| Text is rendered in *`monospaced`* font.
+| d     | **D**efault   | like a *normal* paragraph (Supports all markup).
+| s     | **S**trong    | Text is *bolded*
+| v     | **V**erse     | as if it were inside a *verse block*.
+|=======================================================================
