@@ -1,11 +1,13 @@
 # image:icon_ffmpeg.svg["FFMPEG", width=64px] FFMPEG
-:toc:
- 
+:toc: macro
+
 ## Basic
 ```
 ffmpeg -i <input_file> <output_file>
 ```
 https://www.ffmpeg.org/[Offcial website]
+
+toc::[]
 
 ## Presets
 
