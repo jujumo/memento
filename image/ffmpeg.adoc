@@ -18,7 +18,7 @@ toc::[]
 ffmpeg -i video.mov -preset veryslow video.mp4
 ```
 
-## Images wth/to
+## video <==> images
 
 ### video => images
 
@@ -39,7 +39,7 @@ ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg
 ```
 extracts a single image at frame 10:
 
-### images => video
+### video <= images
 
 .example
 ```bash
@@ -103,6 +103,20 @@ with possible values :
 - 1 = 90Clockwise
 - 2 = 90CounterClockwise
 - 3 = 90Clockwise and Vertical Flip
+
+## Stabilization
+* https://ffmpeg.org/ffmpeg-filters.html#vidstabdetect
+* https://ffmpeg.org/ffmpeg-filters.html#vidstabtransform-1
+
+.example of first pass
+```sh
+ffmpeg -i movie.mp4 -vf vidstabdetect=stepsize=6:shakiness=10:accuracy=15:result=motions.trf -f null -
+```
+
+.example of second pass
+```sh
+ffmpeg -i movie.mp4 -vf vidstabtransform=input=motions.trf:smoothing=60:relative=1,unsharp=5:5:0.8:3:3:0.4 -vcodec libx264 -preset veryslow -tune film -acodec copy -y smooth.mp4
+```
 
 ## stereo 3D
 https://trac.ffmpeg.org/wiki/Stereoscopic[source]
