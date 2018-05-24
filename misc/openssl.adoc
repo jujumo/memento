@@ -1,7 +1,7 @@
 # image:icon_openssl.svg["PYTHON", width=64px] OpenSSL
 for windows
 
-## Install
+## Install Windows
 1) download binaries from [here](http://downloads.sourceforge.net/gnuwin32/openssl-0.9.8h-1-bin.zip).
 
 2) set path of Openssl
