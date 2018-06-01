@@ -41,6 +41,13 @@ convert rose: -chop 20x0+10+0 rose.png
 ```
 remove a vertical band of 20 pixels wide at 10 pixels from the left border.
 
+### rotate
+```
+convert rose: -rotate 90 out.png
+```
+ * clockwise `-rotate 90`
+ * anticlockwise `-rotate 270` ( -90 may work )
+
 ## Alpha channel
 
 extract alpha
