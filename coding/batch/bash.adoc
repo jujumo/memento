@@ -30,6 +30,14 @@ $ echo ${s%.*}
 foo
 ```
 
+## loop over files
+```bash
+for f in *.jpg
+do
+  convert ./"$f" ./"${f%.jpg}.pdf"
+done
+```
+
 ## Arguments
 
 [options="header", cols=">m,10"]
