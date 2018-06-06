@@ -22,7 +22,7 @@ def main():
         if __debug__:
             logging.getLogger().setLevel(logging.DEBUG)
 
-		# place the main fnuction call
+		# place the main function call
 
     except Exception as e:
         logging.critical(e)
