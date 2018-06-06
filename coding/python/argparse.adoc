@@ -12,12 +12,12 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(description='Description of the program.')
-    only_one = parser.add_mutually_exclusive_group()                                  # <1>
-    only_one.add_argument('-q', '--quiet', action='store_true', help='quiet')         # <2>
-    only_one.add_argument('-v', '--verbose', action='count', help='verbose message')  # <3>
-    parser.add_argument('-i', '--input', required=False, help='input')              # <4>
-    parser.add_argument('-l', '--level', type=int, choices=[1, 2, 4], default=1, help='level')  # <5>
-    parser.add_argument('-n', '--number', type=int, help='number')                  # <6>
+    only_one = parser.add_mutually_exclusive_group()                                 # <1>
+    only_one.add_argument('-q', '--quiet', action='store_true', help='quiet')        # <2>
+    only_one.add_argument('-v', '--verbose', action='count', help='verbose message') # <3>
+    parser.add_argument('-i', '--input', required=False, help='input')               # <4>
+    parser.add_argument('-n', '--number', type=int, default=1, help='number')        # <5>
+    parser.add_argument('-l', '--level', type=int, choices=[1, 2, 4], help='level')  # <6>
 
     args = parser.parse_args()
 
