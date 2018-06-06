@@ -31,14 +31,13 @@ def main():
         '-i input -x',
         '-i input -x tar',
     ]
+    # log it to file argparse_out.adoc
     from os.path import basename, dirname, join
     with open(join(dirname(__file__), 'argparse_out.adoc'), 'w') as fout:
         for usage in usages:
-            fout.write('```bash\n')
-            fout.write('> python {} {}\n'.format(basename(__file__), usage))
-            try: fout.write(str(parser.parse_args(usage.split())))
-            except SystemExit: pass  # this is caused by help
-            finally: fout.write('\n```\n')
+            fout.write('```bash\n> python {} {}\n'.format(basename(__file__), usage))
+            fout.write(str(parser.parse_args(usage.split())))
+            fout.write('\n```\n')
     #################################
 
 
