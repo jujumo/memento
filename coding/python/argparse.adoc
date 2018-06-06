@@ -2,6 +2,7 @@
 
 ## snippet code
 
+.parse.py
 ```python
 #!/usr/bin/env python3
 __author__ = 'jumo'
@@ -10,26 +11,20 @@ import argparse
 
 
 def main():
-    try:
-        parser = argparse.ArgumentParser(description='Description of the program.')
-        only_one = parser.add_mutually_exclusive_group()                                  # <1>
-        only_one.add_argument('-q', '--quiet', action='store_true', help='quiet')         # <2>
-        only_one.add_argument('-v', '--verbose', action='count', help='verbose message')  # <3>
-        parser.add_argument('-i', '--input', required=True, help='input')                 # <4>
-        parser.add_argument('-n', '--number', type=int, help='number', default=1)         # <5>
-        parser.add_argument('-l', '--level', type=int, choices=[1, 2, 4], help='level')   # <6>
+    parser = argparse.ArgumentParser(description='Description of the program.')
+    only_one = parser.add_mutually_exclusive_group()                                  # <1>
+    only_one.add_argument('-q', '--quiet', action='store_true', help='quiet')         # <2>
+    only_one.add_argument('-v', '--verbose', action='count', help='verbose message')  # <3>
+    parser.add_argument('-i', '--input', required=False, help='input')              # <4>
+    parser.add_argument('-l', '--level', type=int, choices=[1, 2, 4], default=1, help='level')  # <5>
+    parser.add_argument('-n', '--number', type=int, help='number')                  # <6>
 
-        args = parser.parse_args()
+    args = parser.parse_args()
 
-        #################################
-        # place the main function call
-        print(args)
-        #################################
-
-    except Exception as e:
-        logging.critical(e)
-        if __debug__:
-            raise
+    #################################
+    # place the main function call
+    print(args)
+    #################################
 
 
 if __name__ == '__main__':
@@ -45,6 +40,6 @@ if __name__ == '__main__':
 
 ## Snippet exec examples
 ```bash
-> t.py -i input -vvv
+> python parse.py -i input -vvv
 Namespace(input='input', level=1, number=None, quiet=False, verbose=3)
 ```
