@@ -20,6 +20,7 @@ SCRIPT_PATH = os.path.realpath(__file__)
 ```
 
 ## List files
+anchor:list[]
 The folowing will list all files under `root` with filename ending with `.x`
 
 ```python
