@@ -1,16 +1,19 @@
-# image:icon_key.svg["KEY", width=64px] Keyboard
+= image:icon_key.svg["KEY", width=64px] Keyboard
+julien morat <julien.morat@gmail.com>
+:experimental:
 
-## US international with dead keys
+== US international with dead keys
 
 image:us-keyboard.svg[keyboard layout]
 
-## Symbols
+== Symbols
 
 [NOTE]
 ====
-* in windows, type `Alt` + digits of ASCII code,
-* in Inkscape, go into text mode and type `Ctrl` + `U` and the 4-digits unicode.
+* in Windows, type kbd:[Alt+XXX] where `XXX` are the digits of ASCII code,
+* in Ubuntu (and inkscape), go into text mode and type kbd:[Ctrl+Shift+U] and the 4-digits unicode.
 ====
+
 
 [options="header", cols=">3s,1,1m,1m"]
 |==========================================
