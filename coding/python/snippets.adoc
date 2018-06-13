@@ -36,25 +36,7 @@ if __name__ == '__main__':
 ```
 
 ## List files
-
-### Using glob module
-
-```python
-from glob import glob
-file_list = glob('./*.jpg')
-```
-
-### Using walk
-```python
-import os
-for root, dirs, files in os.walk(".", topdown=True):
-    print('------------------------------------------')
-    print('in :' + root + 'there are:')
-    for filename in files:
-        print('file:' + filename)
-    for dirname in dirs:
-        print('dir: ' + dirname)
-```
+see link:path.adoc#list[path]
 
 ## check a variable exists
 
