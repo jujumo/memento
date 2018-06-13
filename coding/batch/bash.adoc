@@ -51,3 +51,42 @@ done
 | $$ | PID of shell running script.
 | $! | PID of last called processus in background.
 |=========================================================
+
+## Arrays
+
+.simple array
+[source,bash]
+----
+#!/bin/bash
+array=( one two three ) # # <1>
+for i in "${array[@]}" # # <2>
+do
+	echo $i # # <3>
+done
+----
+<1> defiens the array values
+<2> loop over the values
+<3> access element
+
+----
+one
+two
+three
+----
+
+.multidimensional array
+[source,bash]
+----
+#!/bin/bash
+declare -A casting
+casting["the narator narrator"]="edward norton"
+casting["tyler durden"]="brad pit"
+for actor in "${casting[@]}" ; do # # <1>
+echo "with $actor"
+done
+for role in "${!casting[@]}" ; do # # <2>
+echo "${casting[$role]} is $role"
+done
+----
+<1> `${casting[@]}` loop over the values
+<2> `${!casting[@]}` loop over the keys
