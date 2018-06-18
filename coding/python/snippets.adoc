@@ -21,9 +21,9 @@ def main():
             if __debug__:
                 logging.getLogger().setLevel(logging.DEBUG)
 
-    #########################
-    # place your code here #
-    ########################
+        #########################
+        # place your code here #
+        ########################
 
     except Exception as e:
         logging.critical(e)
