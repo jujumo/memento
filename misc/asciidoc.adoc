@@ -1,16 +1,37 @@
-# image:icon_asciidoc.svg["Asciidoc", width=64px] Asciidoc cheat sheet
-:toc:
+= image:icon_asciidoc.svg["Asciidoc", width=64px] Asciidoc cheat sheet
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
 
 .see
 https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[quick-reference]
 https://asciidoctor.org/docs/user-manual/[user manual]
 
-## Basics
+== Snippet
 
-## Tables
+[source,adoc]
+----
+= Page Title: Subtitle
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc:
+:toclevels: 1
+:experimental:
+
+== Title 1
+----
+
+== Basics
+
+
+== Tables
 https://asciidoctor.org/docs/user-manual/#tables[doc]
 
-### cols
+=== cols
 https://asciidoctor.org/docs/user-manual/#cols[doc]
 ```
 cols=[multiplier][align][width][style]
