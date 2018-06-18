@@ -68,6 +68,7 @@ done
 <2> loop over the values
 <3> access element
 
+.outputs
 ----
 one
 two
@@ -90,3 +91,11 @@ done
 ----
 <1> `${casting[@]}` loop over the values
 <2> `${!casting[@]}` loop over the keys
+
+.outputs
+----
+with brad pit
+with edward norton
+brad pit is tyler durden
+edward norton is the narator narrator
+----
