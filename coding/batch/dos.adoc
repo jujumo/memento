@@ -1,21 +1,17 @@
 # image:icon_dos.svg["DOS", width=64px] DOS
 :toc:
 
-## Commands
 
+## Commands
 [options="header", cols=">m,10"]
 |================================================================================================
-|  command  |
+|  command  | description
 | `@`       | Does not echo back the text after the `@` symbol. often used as `@ECHO OFF` to prevent any of the commands in the batch file from being displayed.
 |`%*`       | for everything
 |`%0`       | the command used to call the batch file (could be foo, ..\foo, c:\bats\foo, etc.)
 |`%1`       | is the first command line parameter,
-|`%2`       | is the second command line parameter,
 |...        |
 |`%9`       | is the 9th command line.
-|`%~nx0`    | the actual name of the batch file, regardless of calling method (some-batch.bat)
-|`%~dp0`    | drive and path to the script (d:\scripts)
-|`%~dpnx0`  | is the fully qualified path name of the script (d:\scripts\some-batch.bat)
 | `::`      | One of two ways of adding remarks into the batch
 | `:LABEL`  | A label allows you to skip to certain sections of a batch file, see `GOTO`
 | `GOTO LB` | Used to go to a certain label (LB).
@@ -24,7 +20,23 @@
 | `ECHO`    | Will echo a message in the batch file.
 |================================================================================================
 
-## Pathes
+## Paths
+
+### from command line arguments
+[options="header", cols=">m,10"]
+|================================================================================================
+|  command  | description
+|`%~nx0`    | the actual name of the batch file, regardless of calling method (some-batch.bat)
+|`%~dp0`    | drive and path to the script (d:\scripts)
+|`%~dpnx0`  | is the fully qualified path name of the script (d:\scripts\some-batch.bat)
+|================================================================================================
+
+### filename without extension
+
+```dos
+  %var:~0,-4% // <1>
+```
+<1> the `-4` means that the last 4 digits (presumably .ext) will be truncated
 
 ### Execute the script in its actual path
 ```
@@ -32,26 +44,14 @@
 SET me=%~dp0
 pushd
 cd /d %me%
-echo %cd% -- %me%
+echo %cd% -- %me% // <1>
 popd
 ```
-
-Result in
-```
-> C:\Users\jmorat>C:\dev\repo\wiki\md\batch\tets.bat
-C:\dev\repo\wiki\md\batch -- C:\dev\repo\wiki\md\batch\
-```
-
-[cols=">m,10"]
-|================================================================================================
-|`%~nx0` | the actual name of the batch file, regardless of calling method (some-batch.bat)
-|`%~dp0` | drive and path to the script (d:\scripts)
-|`%~dpnx0`| is the fully qualified path name of the script (d:\scripts\some-batch.bat)
-|================================================================================================
+<1>  `%cd%` equals `%me%`
 
 ## Error handling
 
-```
+```dos
 if ERROR (
   ECHO this is the error.
   GOTO:error
