@@ -4,18 +4,17 @@
 ## paths
 
 ### Script current dir
-
-[quote, stackoverflow]
-____
-Reliable way for a bash script to get the full path to itself.
-____
+source: https://www.systutorials.com/137113/how-to-get-bash-scripts-own-path/
 
 
 ```bash
-pushd `dirname $0` > /dev/null
-SCRIPTPATH=`pwd -P`
-popd > /dev/null
+SCRIPTPATH=`dirname ${BASH_SOURCE[0]}`
 ```
+
+NOTE: In normal Bash script, `$0` is the path to the script.
+However, when a script is sourced, such as . a.sh`, a.sh‘s `$0`
+does not give a.sh while the caller’s name.
+
 
 ### get basename
 
