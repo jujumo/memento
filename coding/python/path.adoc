@@ -67,35 +67,36 @@ import file
 ```
 
 ## os.path functions
-[options="header", cols=">e,3m,2m,2m"]
+[options="header", cols=">e,3m,2m,2m,2m"]
 |====================================
-| str|	'C:/Temp/print_paths.py'|	'C:/Temp'|	'C:/Temp/..'
-| basename|	'print_paths.py'|	'Temp'|	'..'
-| dirname|	'C:/Temp'|	'C:/'|	'C:/Temp'
-| splitext|	('C:/Temp/print_paths', '.py')|	('C:/Temp', '')|	('C:/Temp/..', '')
-| abspath|	'C:/Temp/print_paths.py'|	'C:/Temp'|	'C:/'
-| isfile|	True|	False|	False
-| _isdir|	False|	True|	True
-| isabs|	True|	True|	True
+| str|	'C:/tmp/file.txt'|	'C:/tmp'|	'C:/tmp/'|	'C:/tmp/..'
+| basename|	'file.txt'|	'tmp'|	''|	'..'
+| dirname|	'C:/tmp'|	'C:/'|	'C:/tmp'|	'C:/tmp'
+| splitext|	('C:/tmp/file', '.txt')|	('C:/tmp', '')|	('C:/tmp/', '')|	('C:/tmp/..', '')
+| abspath|	'C:/tmp/file.txt'|	'C:/tmp'|	'C:/tmp'|	'C:/'
+| isfile|	True|	False|	False|	False
+| _isdir|	False|	True|	True|	True
+| isabs|	True|	True|	True|	True
 |====================================
 
 
-Code used to generate this table :
-```python
-#!/usr/bin/env python3
+.Code used to generate this table :
+[source,python]
+----
 from os.path import *
 funcs = [str, basename, dirname, splitext, abspath, isfile, isdir, isabs]
 samples = [
-realpath(__file__),
-dirname(realpath(__file__)),
-join(dirname(realpath(__file__)), '..')
+    'C:/tmp/file.txt',
+    'C:/tmp',
+    'C:/tmp/',
+    'C:/tmp/..'
 ]
 
 table = [[f(sample) for sample in samples] for f in funcs]
 # and print it in markdown format
-print('[options="header", cols=">e,3m,2m,2m"]')
+print('[options="header", cols=">e,3m,2m,2m,2m"]')
 print('|====================================')
 for i, l in enumerate(table):
     print('| ' + '|\t'.join([funcs[i].__name__] + [p.__repr__().replace(r'\\', r'/') for p in l]))
 print('|====================================')
-```
+----
