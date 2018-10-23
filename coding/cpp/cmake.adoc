@@ -1,0 +1,13 @@
+# image:icon_cpp.svg["Snippets", width=64px] cmake
+
+## print all variables
+
+[source,cpp]
+----
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName} ===> ${${_variableName}}")
+endforeach()
+----
+-- from https://stackoverflow.com/questions/9298278/cmake-print-out-all-accessible-variables-in-a-script
