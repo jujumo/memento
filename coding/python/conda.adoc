@@ -1,0 +1,59 @@
+# Conda
+
+## install & setup (mini)conda
+
+### 0/ download
+
+.Linux 64bits python 3.7
+[source,bash]
+----
+wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -P /tmp
+chmod +x /tmp/Miniconda3-latest-Linux-x86_64.sh
+----
+
+for other than `linux 64bits python 3.7`, go grab the link on https://conda.io/miniconda.html
+
+### 1/ install
+
+[source,bash]
+----
+/tmp/Miniconda3-latest-Linux-x86_64.sh
+----
+and follow the instructions. I choose all default options.
+
+### 2/ setup user environment
+
+Adding `conda` command to path: helping switching environments.
+Append the sourcing of this file at the end of your `~/.bashrc` :
+
+.append to `.bashrc`
+[source,bash]
+----
+cat <<EOT >> $HOME/.bashrc
+# enable conda for the current user (if installed in $HOME/miniconda3)
+if [ -d "$HOME/miniconda3" ]; then
+  . $HOME/miniconda3/etc/profile.d/conda.sh
+  # and activate the user env
+  conda activate $USER
+fi
+EOT
+# and apply changes
+source $HOME/.bashrc
+----
+
+### 3/ create conda envs
+
+[source,bash]
+----
+conda create --name $USER
+conda activate $USER
+# base science packages
+conda install numpy scipy matplotlib -y
+# web related
+conda install requests flask
+conda install flasgger -c conda-forge
+# ML related
+conda install scikit-learn -y
+conda install -c pytorch pytorch torchvision -y
+conda install libgcc -y
+----
