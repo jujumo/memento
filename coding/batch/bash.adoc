@@ -4,11 +4,12 @@
 ## paths
 
 ### Script current dir
-source: https://www.systutorials.com/137113/how-to-get-bash-scripts-own-path/
+inspired from : https://www.systutorials.com/137113/how-to-get-bash-scripts-own-path/
 
 
 ```bash
-SCRIPTPATH=`dirname ${BASH_SOURCE[0]}`
+SRCIPT_FILEPATH=$( realpath -P ${BASH_SOURCE[0]} )
+SRCIPT_DIRPATH=$( dirname "${SRCIPT_FILEPATH}" )
 ```
 
 NOTE: In normal Bash script, `$0` is the path to the script.
