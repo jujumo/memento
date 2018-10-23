@@ -57,3 +57,19 @@ conda install scikit-learn -y
 conda install -c pytorch pytorch torchvision -y
 conda install libgcc -y
 ----
+
+## conda cheat sheet
+
+### Creating an environment with custom commands
+
+see: https://conda.io/docs/user-guide/tasks/manage-environments.html#macos-and-linux
+
+.Creating commands
+[source,bash]
+----
+echo env=${CONDA_PREFIX}
+mkdir -p ${CONDA_PREFIX}/etc/conda/activate.d
+mkdir -p ${CONDA_PREFIX}/etc/conda/deactivate.d
+touch ${CONDA_PREFIX}/etc/conda/activate.d/env_vars.sh
+touch ${CONDA_PREFIX}/etc/conda/deactivate.d/env_vars.sh
+----
