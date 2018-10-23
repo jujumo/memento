@@ -10,6 +10,7 @@
 - image:coding/batch/icon_bash.svg["BASH",link="coding/batch/bash.adoc"] link:coding/batch/bash.adoc[BASH]
 - image:coding/python/icon_python.svg["PYTHON"] python :
 link:coding/python/argparse.adoc[argparse],
+link:coding/python/conda.adoc[conda],
 link:coding/python/datetime.adoc[datetime],
 link:coding/python/path.adoc[path],
 link:coding/python/re.adoc[coding],
@@ -18,6 +19,7 @@ link:coding/python/vcvarsall.adoc[vcvarsall],
 link:coding/python/xml.adoc[xml]
 - image:coding/cpp/icon_cpp.svg["c++"] Cpp : link:coding/cpp/rules.adoc[rules],
 link:coding/cpp/qmake.adoc[qmake],
+link:coding/cpp/cmake.adoc[cmake],
 link:coding/cpp/snippets.adoc[snippets]
 - image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
