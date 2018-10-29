@@ -6,8 +6,10 @@
 - image:image/icon_sensor.svg["SENSOR",link="image/sensors.adoc"] link:image/sensors.adoc[sensors]
 
 == CODING
-- image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] link:coding/batch/dos.adoc[DOS]
-- image:coding/batch/icon_bash.svg["BASH",link="coding/batch/bash.adoc"] link:coding/batch/bash.adoc[BASH]
+- image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting :
+link:coding/batch/dos.adoc[dos],
+link:coding/batch/bash.adoc[bash],
+link:coding/batch/chocolatey.adoc[chocolatey]
 - image:coding/python/icon_python.svg["PYTHON"] python :
 link:coding/python/argparse.adoc[argparse],
 link:coding/python/conda.adoc[conda],
