@@ -1,0 +1,26 @@
+# image:icon_python.svg["PYTHON", width=64px] Python::unittest
+==================
+
+## hello world
+
+.test_um_unittest.py
+[source,python]
+----
+import unittest
+from unnecessary_math import multiply
+
+class TestUM(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def test_numbers_3_4(self):
+        self.assertEqual( multiply(3,4), 12)
+
+    def test_strings_a_3(self):
+        self.assertEqual( multiply('a',3), 'aaa')
+
+if __name__ == '__main__':
+    unittest.main()
+----
+-- link:http://pythontesting.net/framework/unittest/unittest-introduction/[source]
