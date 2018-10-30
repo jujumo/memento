@@ -4,7 +4,18 @@
 
 ## Packages
 
+.install path
+[options="header"]
+|=============================================================
+| name      | `installargs`                           | `params`
 
+| 7zip      | `/D="{installpath}\{name}_"`            | ``
+| firefox   | `/D="{installpath}\{name}"`             | ` `
+| virtualbox| `INSTALLDIR="{installpath}\{name}`      | `/NoDesktopShortcut`
+|=============================================================
+
+
+# script
 [source,bat]
 ----
 REM done
