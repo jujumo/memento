@@ -42,7 +42,7 @@ packages = [
     Package('avidemux', installargs=MSI_IA_FORMAT_D),
     Package('inkscape', installargs=MSI_IA_FORMAT_INSTALLDIR),
     Package('virtualbox', params='/NoDesktopShortcut', installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('cmake', installargs='INSTALL_ROOT=${installpath}cmake'),
+    Package('cmake', installargs=MSI_IA_FORMAT_INSTALL_ROOT),
     Package('gitextensions', installargs=MSI_IA_FORMAT_INSTALLDIR),
     Package('imagemagick', installargs=MSI_IA_FORMAT_DIR),
     Package('mobaxterm', installargs=MSI_IA_FORMAT_INSTALLDIR),
