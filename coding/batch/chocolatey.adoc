@@ -2,38 +2,37 @@
 :toc:
 
 
-## Packages
-.install.bat
+.packages install path
 [options="header"]
 |=============================================================
-| name                | `installargs`                                | `params`
+| name                | `installargs`                                | `params`                                     
 
-| 7zip                | `/D="${installpath}\${name}_"`               | --
-| firefox             | `/D="${installpath}\${name}"`                | --
-| virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`
-| pycharm-community   | `/D="${installpath}\${name}"`                | --
-| mpc-hc              | `/DIR="${installpath}\${name}"`              | --
-| notepadplusplus     | `/D="${installpath}\${name}"`                | --
-| foobar2000          | `/D="${installpath}\${name}"`                | --
-| filezilla           | `/D="${installpath}\${name}"`                | --
-| git                 | `/DIR="${installpath}\${name}"`              | --
-| pandoc              | `APPLICATIONFOLDER="${installpath}\${name}"`, `ALLUSERS=1`| --
-| teracopy            | `/DIR="${installpath}\${name}"`              | --
-| python3             | --                                           | `/InstallDir:"${installpath}\${name}"`
+| 7zip                | `/D="${installpath}\${name}_"`               | --                                           
+| firefox             | `/D="${installpath}\${name}"`                | --                                           
+| virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`                         
+| pycharm-community   | `/D="${installpath}\${name}"`                | --                                           
+| mpc-hc              | `/DIR="${installpath}\${name}"`              | --                                           
+| notepadplusplus     | `/D="${installpath}\${name}"`                | --                                           
+| foobar2000          | `/D="${installpath}\${name}"`                | --                                           
+| filezilla           | `/D="${installpath}\${name}"`                | --                                           
+| git                 | `/DIR="${installpath}\${name}"`              | --                                           
+| pandoc              | `APPLICATIONFOLDER="${installpath}\${name}"`, `ALLUSERS=1`| --                                           
+| teracopy            | `/DIR="${installpath}\${name}"`              | --                                           
+| python3             | --                                           | `/InstallDir:"${installpath}\${name}"`       
 | miniconda3          | --                                           | `/InstallationType:AllUsers`, `/D:${installpath}/${name}`
-| handbrake           | `/D="${installpath}\${name}"`                | --
-| avidemux            | `/D="${installpath}\${name}"`                | --
-| inkscape            | `INSTALLDIR="${installpath}\${name}"`        | --
-| virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`
-| cmake               | `INSTALL_ROOT=${installpath}cmake`           | --
-| gitextensions       | `INSTALLDIR="${installpath}\${name}"`        | --
-| imagemagick         | `/DIR="${installpath}\${name}"`              | --
-| mobaxterm           | `INSTALLDIR="${installpath}\${name}"`        | --
-| windirstat          | `/D="${installpath}\${name}"`                | --
-| meld                | `TARGETDIR="${installpath}\${name}"`         | --
-| putty               | `INSTALLDIR="${installpath}\${name}"`        | --
-| atom                | `/D="${installpath}\${name}"`                | --
-| ffmpeg              | --                                           | --
+| handbrake           | `/D="${installpath}\${name}"`                | --                                           
+| avidemux            | `/D="${installpath}\${name}"`                | --                                           
+| inkscape            | `INSTALLDIR="${installpath}\${name}"`        | --                                           
+| virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`                         
+| cmake               | `INSTALL_ROOT=${installpath}cmake`           | --                                           
+| gitextensions       | `INSTALLDIR="${installpath}\${name}"`        | --                                           
+| imagemagick         | `/DIR="${installpath}\${name}"`              | --                                           
+| mobaxterm           | `INSTALLDIR="${installpath}\${name}"`        | --                                           
+| windirstat          | `/D="${installpath}\${name}"`                | --                                           
+| meld                | `TARGETDIR="${installpath}\${name}"`         | --                                           
+| putty               | `INSTALLDIR="${installpath}\${name}"`        | --                                           
+| atom                | `/D="${installpath}\${name}"`                | --                                           
+| ffmpeg              | --                                           | --                                           
 |=============================================================
 
 
@@ -67,4 +66,3 @@ choco install putty --installargs='INSTALLDIR="%bin%\putty"'
 choco install atom --installargs='/D="%bin%\atom"'
 choco install ffmpeg
 ----
-

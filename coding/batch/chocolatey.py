@@ -1,5 +1,5 @@
 import string
-
+import os.path as path
 
 class Package:
     arg_set = set()
@@ -53,35 +53,45 @@ packages = [
     Package('ffmpeg')
 ]
 
+""" BUILD PANODC """
+doc_src = list()
+doc_src.append('# image:icon_dos.svg["Chocolatey", width=64px] Chocolatey')
+doc_src.append(':toc:\n\n')
 
 """ INSTALL TABLE """
-print('.install.bat')
-print('[options="header"]')
-print('|=============================================================')
+doc_src.append('.packages install path')
+doc_src.append('[options="header"]')
+doc_src.append('|=============================================================')
 cell_format = '| {:45}'
 lab_format =  '| {:20}'
 header = lab_format.format('name')
 arg_names = sorted(Package.arg_set)
 for arg_name in arg_names:
     header += cell_format.format('`' + arg_name + '`')
-print(header + '\n')
+doc_src.append(header + '\n')
 for p in packages:
     line = lab_format.format(p.name)
     for arg_name in arg_names:
         cell_str = ', '.join('`' + c + '`' for c in p.args.get(arg_name)) if arg_name in p.args else '--'
         line += cell_format.format(cell_str)
-    print(line)
-print('|=============================================================')
+    doc_src.append(line)
+doc_src.append('|=============================================================')
 
 """ INSTALL BATCH """
 install_dirpath = r'C:\bin'
 
-print('\n\n.install.bat')
-print('[source,bat]')
-print('----')
+doc_src.append('\n\n.install.bat')
+doc_src.append('[source,bat]')
+doc_src.append('----')
 for p in packages:
     cmd = ['choco', 'install', p.name]
     cmd += [f'--{n}=\'{v}\'' for n, vs in p.args.items() for v in vs]
     cmd = [format_some(arg, installpath='%bin%', name=p.name) for arg in cmd]
-    print(' '.join(cmd))
-print('----')
+    doc_src.append(' '.join(cmd))
+doc_src.append('----')
+
+
+""" WRITE FILE """
+PANDOC_PATH = path.splitext(path.realpath(__file__))[0] + '.adoc'
+with open(PANDOC_PATH, 'w') as f:
+    f.write('\n'.join(doc_src))
