@@ -84,7 +84,7 @@ doc_src.append('\n\n.install.bat')
 doc_src.append('[source,bat]')
 doc_src.append('----')
 for p in packages:
-    cmd = ['choco', 'install', p.name]
+    cmd = ['choco', 'install', '-y', f'{p.name:20}']
     cmd += [f'--{n}=\'{v}\'' for n, vs in p.args.items() for v in vs]
     cmd = [format_some(arg, installpath='%bin%', name=p.name) for arg in cmd]
     doc_src.append(' '.join(cmd))
