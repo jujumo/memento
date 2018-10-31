@@ -24,7 +24,7 @@
 | avidemux            | `/D="${installpath}\${name}"`                | --                                           
 | inkscape            | `INSTALLDIR="${installpath}\${name}"`        | --                                           
 | virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`                         
-| cmake               | `INSTALL_ROOT=${installpath}cmake`           | --                                           
+| cmake               | `INSTALL_ROOT="${installpath}\${name}"`      | --                                           
 | gitextensions       | `INSTALLDIR="${installpath}\${name}"`        | --                                           
 | imagemagick         | `/DIR="${installpath}\${name}"`              | --                                           
 | mobaxterm           | `INSTALLDIR="${installpath}\${name}"`        | --                                           
@@ -56,7 +56,7 @@ choco install handbrake --installargs='/D="%bin%\handbrake"'
 choco install avidemux --installargs='/D="%bin%\avidemux"'
 choco install inkscape --installargs='INSTALLDIR="%bin%\inkscape"'
 choco install virtualbox --params='/NoDesktopShortcut' --installargs='INSTALLDIR="%bin%\virtualbox"'
-choco install cmake --installargs='INSTALL_ROOT=%bin%cmake'
+choco install cmake --installargs='INSTALL_ROOT="%bin%\cmake"'
 choco install gitextensions --installargs='INSTALLDIR="%bin%\gitextensions"'
 choco install imagemagick --installargs='/DIR="%bin%\imagemagick"'
 choco install mobaxterm --installargs='INSTALLDIR="%bin%\mobaxterm"'
