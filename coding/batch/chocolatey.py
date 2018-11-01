@@ -1,56 +1,124 @@
 import string
 import os.path as path
 
-class Package:
-    arg_set = set()
 
-    def __init__(self, name, **kwargs):
-        self.name = name
-        self.args = dict()
-        for k, v in kwargs.items():
-            self.args[k] = v if isinstance(v, list) else [v]
-        for k in self.args:
-            Package.arg_set.add(k)
-
-
-def format_some(template, **kwargs):
+def format_partial(template, **kwargs):
     return string.Template(template).safe_substitute(kwargs)
 
 
-MSI_IA_FORMAT_D = '/D="${installpath}\${name}"'
-MSI_IA_FORMAT_DIR = '/DIR="${installpath}\${name}"'
-MSI_IA_FORMAT_INSTALLDIR = 'INSTALLDIR="${installpath}\${name}"'
-MSI_IA_FORMAT_TARGETDIR = 'TARGETDIR="${installpath}\${name}"'
-MSI_IA_FORMAT_APPLICATIONFOLDER = 'APPLICATIONFOLDER="${installpath}\${name}"'
-MSI_IA_FORMAT_INSTALL_ROOT = 'INSTALL_ROOT="${installpath}\${name}"'
+class ChocoArg:
+    def __init__(self, name, syntax):
+        self.name = name
+        self._syntax = syntax
+
+    def formating(self, **kwargs):
+        formated = format_partial(self._syntax, **kwargs)
+        formated = formated.replace('"', "'")
+        return formated
+
+    def help(self):
+        return '--{name}="{value}"'.format(name=self.name,
+                                           value=self.formating(installpath='<PATH>'))
+
+
+class ChocoArgInstall(ChocoArg):
+    def __init__(self, syntax):
+        super().__init__('installargs', syntax)
+
+    def formating(self, installpath=None):
+        return super().formating(installpath=installpath)
+
+
+class ChocoArgPackage(ChocoArg):
+    def __init__(self, syntax):
+        super().__init__('params', syntax)
+
+    def formating(self, installpath=None):
+        return super().formating(installpath=installpath)
+
+
+class ChocoArgGroup:
+    def __init__(self, name):
+        self.name = name
+        self.args = list()
+
+    def update(self, choco_args):
+        self.args.extend(arg for arg in choco_args if arg.name == self.name)
+
+    def formating(self, **kwargs):
+        formated = ' '.join(arg.formating(**kwargs) for arg in self.args)
+        if formated:
+            formated = '--{name}="{content}"'.format(name=self.name, content=formated)
+        return formated
+
+
+class ChocoPackage:
+    def __init__(self, name, tags=[], installdir=[]):
+        self.name = name
+        self.tags = tags
+        self.installdir_args = installdir if isinstance(installdir, list) else [installdir]
+        # self.ia = ChocoArgGroup('installargs')
+        # self.pp = ChocoArgGroup('params')
+        # self.ia.update(self.installdir_args)
+        # self.pp.update(self.installdir_args)
+
+    def install_cmd(self, installdir=None, silent=True):
+        # get all args
+        installargs = ChocoArgGroup('installargs')
+        params = ChocoArgGroup('params')
+        if installdir:
+            installargs.update(self.installdir_args)
+            params.update(self.installdir_args)
+
+        cmd_line = ['choco', 'install']
+        if silent:
+            cmd_line += ['-y']
+
+        cmd_line.append(self.name)
+        cmd_line.append(installargs.formating(installpath='{installdir}\\{name}'.format(installdir=installdir, name=self.name)))
+        cmd_line.append(params.formating(installpath='{installdir}\\{name}'.format(installdir=installdir, name=self.name)))
+        return cmd_line
+
+
+ARG_D                    = ChocoArgInstall('/D="${installpath}"')
+ARG_DIR                  = ChocoArgInstall('/DIR="${installpath}"')
+ARG_INSTALLDIR           = ChocoArgInstall('INSTALLDIR="${installpath}"')
+ARG_TARGETDIR            = ChocoArgInstall('TARGETDIR="${installpath}"')
+ARG_APPLICATIONFOLDER    = ChocoArgInstall('APPLICATIONFOLDER="${installpath}"')
+ARG_INSTALL_ROOT         = ChocoArgInstall('INSTALL_ROOT="${installpath}"')
+ARG_INSTALLDIR_DEMI      = ChocoArgPackage('/InstallDir:"${installpath}"')
+ARG_D_SEMI               = ChocoArgPackage('/D:"${installpath}"')
+ARG_INSTALLPATH          = ChocoArgPackage('--installPath "${installpath}"')
+
 
 packages = [
-    Package('7zip', installargs=format_some(MSI_IA_FORMAT_D, name='${name}_')),
-    Package('firefox', installargs=MSI_IA_FORMAT_D),
-    Package('virtualbox', params="/NoDesktopShortcut", installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('pycharm-community', installargs=MSI_IA_FORMAT_D),
-    Package('mpc-hc', installargs=MSI_IA_FORMAT_DIR),
-    Package('notepadplusplus', installargs=MSI_IA_FORMAT_D),
-    Package('foobar2000', installargs=MSI_IA_FORMAT_D),
-    Package('filezilla', installargs=MSI_IA_FORMAT_D),
-    Package('git', installargs=MSI_IA_FORMAT_DIR),
-    Package('pandoc', installargs=[MSI_IA_FORMAT_APPLICATIONFOLDER, 'ALLUSERS=1']),
-    Package('teracopy', installargs=MSI_IA_FORMAT_DIR),
-    Package('python3', params='/InstallDir:"${installpath}\${name}"'),
-    Package('miniconda3', params=['/InstallationType:AllUsers', '/D:${installpath}/${name}']),
-    Package('handbrake', installargs=MSI_IA_FORMAT_D),
-    Package('avidemux', installargs=MSI_IA_FORMAT_D),
-    Package('inkscape', installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('virtualbox', params='/NoDesktopShortcut', installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('cmake', installargs=MSI_IA_FORMAT_INSTALL_ROOT),
-    Package('gitextensions', installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('imagemagick', installargs=MSI_IA_FORMAT_DIR),
-    Package('mobaxterm', installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('windirstat ', installargs=MSI_IA_FORMAT_D),
-    Package('meld', installargs=MSI_IA_FORMAT_TARGETDIR),
-    Package('putty', installargs=MSI_IA_FORMAT_INSTALLDIR),
-    Package('atom', installargs=MSI_IA_FORMAT_D),
-    Package('ffmpeg')
+    ChocoPackage('firefox', installdir=ARG_D),
+    ChocoPackage('7zip', installdir=ChocoArgInstall('/D="${installpath}_"')),
+    ChocoPackage('pycharm-community', installdir=ARG_D),
+    ChocoPackage('mpc-hc', installdir=ARG_DIR),
+    ChocoPackage('notepadplusplus', installdir=ARG_D),
+    ChocoPackage('foobar2000', installdir=ARG_D),
+    ChocoPackage('filezilla', installdir=ARG_D),
+    ChocoPackage('git', installdir=ARG_DIR),
+    ChocoPackage('pandoc', installdir=ARG_APPLICATIONFOLDER),
+    ChocoPackage('teracopy', installdir=ARG_DIR),
+    ChocoPackage('python3', installdir=ARG_INSTALLDIR_DEMI),
+    ChocoPackage('miniconda3', installdir=ARG_D_SEMI),
+    ChocoPackage('handbrake', installdir=ARG_D),
+    ChocoPackage('avidemux', installdir=ARG_D),
+    ChocoPackage('inkscape', installdir=ARG_INSTALLDIR),
+    ChocoPackage('virtualbox', installdir=ARG_INSTALLDIR),
+    ChocoPackage('cmake', installdir=ARG_INSTALL_ROOT),
+    ChocoPackage('gitextensions', installdir=ARG_INSTALL_ROOT),
+    ChocoPackage('imagemagick', installdir=ARG_DIR),
+    ChocoPackage('mobaxterm', installdir=ARG_INSTALLDIR),
+    ChocoPackage('windirstat', installdir=ARG_D),
+    ChocoPackage('meld', installdir=ARG_TARGETDIR),
+    ChocoPackage('putty', installdir=ARG_INSTALLDIR),
+    ChocoPackage('atom', installdir=ARG_D),
+    ChocoPackage('gimp', installdir=ARG_DIR),
+    ChocoPackage('visualstudio2017community', installdir=ARG_INSTALLPATH),
+    ChocoPackage('ffmpeg')
 ]
 
 """ BUILD PANODC """
@@ -62,18 +130,14 @@ doc_src.append(':toc:\n\n')
 doc_src.append('.packages install path')
 doc_src.append('[options="header"]')
 doc_src.append('|=============================================================')
-cell_format = '| {:45}'
-lab_format =  '| {:20}'
-header = lab_format.format('name')
-arg_names = sorted(Package.arg_set)
-for arg_name in arg_names:
-    header += cell_format.format('`' + arg_name + '`')
+name_format = '| {:20}'
+args_format = '| {:45}'
+header = name_format.format('name') + args_format.format('install path argument')
 doc_src.append(header + '\n')
 for p in packages:
-    line = lab_format.format(p.name)
-    for arg_name in arg_names:
-        cell_str = ', '.join('`' + c + '`' for c in p.args.get(arg_name)) if arg_name in p.args else '--'
-        line += cell_format.format(cell_str)
+    line = name_format.format(p.name)
+    cell_str = ', '.join('`' + c.help() + '`' for c in p.installdir_args) if p.installdir_args else 'NA.'
+    line += args_format.format(cell_str)
     doc_src.append(line)
 doc_src.append('|=============================================================')
 
@@ -84,9 +148,7 @@ doc_src.append('\n\n.install.bat')
 doc_src.append('[source,bat]')
 doc_src.append('----')
 for p in packages:
-    cmd = ['choco', 'install', '-y', f'{p.name:20}']
-    cmd += [f'--{n}=\'{v}\'' for n, vs in p.args.items() for v in vs]
-    cmd = [format_some(arg, installpath='%bin%', name=p.name) for arg in cmd]
+    cmd = p.install_cmd(install_dirpath)
     doc_src.append(' '.join(cmd))
 doc_src.append('----')
 

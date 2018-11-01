@@ -5,64 +5,66 @@
 .packages install path
 [options="header"]
 |=============================================================
-| name                | `installargs`                                | `params`                                     
+| name                | install path argument                        
 
-| 7zip                | `/D="${installpath}\${name}_"`               | --                                           
-| firefox             | `/D="${installpath}\${name}"`                | --                                           
-| virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`                         
-| pycharm-community   | `/D="${installpath}\${name}"`                | --                                           
-| mpc-hc              | `/DIR="${installpath}\${name}"`              | --                                           
-| notepadplusplus     | `/D="${installpath}\${name}"`                | --                                           
-| foobar2000          | `/D="${installpath}\${name}"`                | --                                           
-| filezilla           | `/D="${installpath}\${name}"`                | --                                           
-| git                 | `/DIR="${installpath}\${name}"`              | --                                           
-| pandoc              | `APPLICATIONFOLDER="${installpath}\${name}"`, `ALLUSERS=1`| --                                           
-| teracopy            | `/DIR="${installpath}\${name}"`              | --                                           
-| python3             | --                                           | `/InstallDir:"${installpath}\${name}"`       
-| miniconda3          | --                                           | `/InstallationType:AllUsers`, `/D:${installpath}/${name}`
-| handbrake           | `/D="${installpath}\${name}"`                | --                                           
-| avidemux            | `/D="${installpath}\${name}"`                | --                                           
-| inkscape            | `INSTALLDIR="${installpath}\${name}"`        | --                                           
-| virtualbox          | `INSTALLDIR="${installpath}\${name}"`        | `/NoDesktopShortcut`                         
-| cmake               | `INSTALL_ROOT="${installpath}\${name}"`      | --                                           
-| gitextensions       | `INSTALLDIR="${installpath}\${name}"`        | --                                           
-| imagemagick         | `/DIR="${installpath}\${name}"`              | --                                           
-| mobaxterm           | `INSTALLDIR="${installpath}\${name}"`        | --                                           
-| windirstat          | `/D="${installpath}\${name}"`                | --                                           
-| meld                | `TARGETDIR="${installpath}\${name}"`         | --                                           
-| putty               | `INSTALLDIR="${installpath}\${name}"`        | --                                           
-| atom                | `/D="${installpath}\${name}"`                | --                                           
-| ffmpeg              | --                                           | --                                           
+| firefox             | `--installargs="/D='<PATH>'"`                
+| 7zip                | `--installargs="/D='<PATH>_'"`               
+| pycharm-community   | `--installargs="/D='<PATH>'"`                
+| mpc-hc              | `--installargs="/DIR='<PATH>'"`              
+| notepadplusplus     | `--installargs="/D='<PATH>'"`                
+| foobar2000          | `--installargs="/D='<PATH>'"`                
+| filezilla           | `--installargs="/D='<PATH>'"`                
+| git                 | `--installargs="/DIR='<PATH>'"`              
+| pandoc              | `--installargs="APPLICATIONFOLDER='<PATH>'"` 
+| teracopy            | `--installargs="/DIR='<PATH>'"`              
+| python3             | `--params="/InstallDir:'<PATH>'"`            
+| miniconda3          | `--params="/D:'<PATH>'"`                     
+| handbrake           | `--installargs="/D='<PATH>'"`                
+| avidemux            | `--installargs="/D='<PATH>'"`                
+| inkscape            | `--installargs="INSTALLDIR='<PATH>'"`        
+| virtualbox          | `--installargs="INSTALLDIR='<PATH>'"`        
+| cmake               | `--installargs="INSTALL_ROOT='<PATH>'"`      
+| gitextensions       | `--installargs="INSTALL_ROOT='<PATH>'"`      
+| imagemagick         | `--installargs="/DIR='<PATH>'"`              
+| mobaxterm           | `--installargs="INSTALLDIR='<PATH>'"`        
+| windirstat          | `--installargs="/D='<PATH>'"`                
+| meld                | `--installargs="TARGETDIR='<PATH>'"`         
+| putty               | `--installargs="INSTALLDIR='<PATH>'"`        
+| atom                | `--installargs="/D='<PATH>'"`                
+| gimp                | `--installargs="/DIR='<PATH>'"`              
+| visualstudio2017community| `--params="--installPath '<PATH>'"`          
+| ffmpeg              | NA.                                          
 |=============================================================
 
 
 .install.bat
 [source,bat]
 ----
-choco install -y 7zip                 --installargs='/D="%bin%\7zip_"'
-choco install -y firefox              --installargs='/D="%bin%\firefox"'
-choco install -y virtualbox           --params='/NoDesktopShortcut' --installargs='INSTALLDIR="%bin%\virtualbox"'
-choco install -y pycharm-community    --installargs='/D="%bin%\pycharm-community"'
-choco install -y mpc-hc               --installargs='/DIR="%bin%\mpc-hc"'
-choco install -y notepadplusplus      --installargs='/D="%bin%\notepadplusplus"'
-choco install -y foobar2000           --installargs='/D="%bin%\foobar2000"'
-choco install -y filezilla            --installargs='/D="%bin%\filezilla"'
-choco install -y git                  --installargs='/DIR="%bin%\git"'
-choco install -y pandoc               --installargs='APPLICATIONFOLDER="%bin%\pandoc"' --installargs='ALLUSERS=1'
-choco install -y teracopy             --installargs='/DIR="%bin%\teracopy"'
-choco install -y python3              --params='/InstallDir:"%bin%\python3"'
-choco install -y miniconda3           --params='/InstallationType:AllUsers' --params='/D:%bin%/miniconda3'
-choco install -y handbrake            --installargs='/D="%bin%\handbrake"'
-choco install -y avidemux             --installargs='/D="%bin%\avidemux"'
-choco install -y inkscape             --installargs='INSTALLDIR="%bin%\inkscape"'
-choco install -y virtualbox           --params='/NoDesktopShortcut' --installargs='INSTALLDIR="%bin%\virtualbox"'
-choco install -y cmake                --installargs='INSTALL_ROOT="%bin%\cmake"'
-choco install -y gitextensions        --installargs='INSTALLDIR="%bin%\gitextensions"'
-choco install -y imagemagick          --installargs='/DIR="%bin%\imagemagick"'
-choco install -y mobaxterm            --installargs='INSTALLDIR="%bin%\mobaxterm"'
-choco install -y windirstat           --installargs='/D="%bin%\windirstat "'
-choco install -y meld                 --installargs='TARGETDIR="%bin%\meld"'
-choco install -y putty                --installargs='INSTALLDIR="%bin%\putty"'
-choco install -y atom                 --installargs='/D="%bin%\atom"'
-choco install -y ffmpeg              
+choco install -y firefox --installargs="/D='C:\bin\firefox'" 
+choco install -y 7zip --installargs="/D='C:\bin\7zip_'" 
+choco install -y pycharm-community --installargs="/D='C:\bin\pycharm-community'" 
+choco install -y mpc-hc --installargs="/DIR='C:\bin\mpc-hc'" 
+choco install -y notepadplusplus --installargs="/D='C:\bin\notepadplusplus'" 
+choco install -y foobar2000 --installargs="/D='C:\bin\foobar2000'" 
+choco install -y filezilla --installargs="/D='C:\bin\filezilla'" 
+choco install -y git --installargs="/DIR='C:\bin\git'" 
+choco install -y pandoc --installargs="APPLICATIONFOLDER='C:\bin\pandoc'" 
+choco install -y teracopy --installargs="/DIR='C:\bin\teracopy'" 
+choco install -y python3  --params="/InstallDir:'C:\bin\python3'"
+choco install -y miniconda3  --params="/D:'C:\bin\miniconda3'"
+choco install -y handbrake --installargs="/D='C:\bin\handbrake'" 
+choco install -y avidemux --installargs="/D='C:\bin\avidemux'" 
+choco install -y inkscape --installargs="INSTALLDIR='C:\bin\inkscape'" 
+choco install -y virtualbox --installargs="INSTALLDIR='C:\bin\virtualbox'" 
+choco install -y cmake --installargs="INSTALL_ROOT='C:\bin\cmake'" 
+choco install -y gitextensions --installargs="INSTALL_ROOT='C:\bin\gitextensions'" 
+choco install -y imagemagick --installargs="/DIR='C:\bin\imagemagick'" 
+choco install -y mobaxterm --installargs="INSTALLDIR='C:\bin\mobaxterm'" 
+choco install -y windirstat --installargs="/D='C:\bin\windirstat'" 
+choco install -y meld --installargs="TARGETDIR='C:\bin\meld'" 
+choco install -y putty --installargs="INSTALLDIR='C:\bin\putty'" 
+choco install -y atom --installargs="/D='C:\bin\atom'" 
+choco install -y gimp --installargs="/DIR='C:\bin\gimp'" 
+choco install -y visualstudio2017community  --params="--installPath 'C:\bin\visualstudio2017community'"
+choco install -y ffmpeg  
 ----
