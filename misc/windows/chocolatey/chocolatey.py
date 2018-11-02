@@ -152,7 +152,6 @@ install_dirpath = r'C:\bin'
 for p in packages:
     cmd = p.install_cmd(install_dirpath)
     doc_src.append(' '.join(cmd))
-doc_src.append('----')
 
 PANDOC_PATH = path.splitext(path.realpath(__file__))[0] + '_install.bat'
 with open(PANDOC_PATH, 'w') as f:
