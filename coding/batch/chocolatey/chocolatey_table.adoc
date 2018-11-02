@@ -1,0 +1,33 @@
+.packages install path
+[options="header"]
+|=============================================================
+| name                | install path argument                        
+
+| firefox             | `--installargs='/D="<PATH>"'`                
+| 7zip                | `--installargs='/D="<PATH>_"'`               
+| pycharm-community   | `--installargs='/D="<PATH>"'`                
+| mpc-hc              | `--installargs='/DIR="<PATH>"'`              
+| notepadplusplus     | `--installargs='/D="<PATH>"'`                
+| foobar2000          | `--installargs='/D="<PATH>"'`                
+| filezilla           | `--installargs='/D="<PATH>"'`                
+| git                 | `--installargs='/DIR="<PATH>"'`              
+| pandoc              | `--installargs='APPLICATIONFOLDER="<PATH>"'` 
+| teracopy            | `--installargs='/DIR="<PATH>"'`              
+| python3             | `--params='/InstallDir:"<PATH>"'`            
+| miniconda3          | `--params='/D:"<PATH>"'`                     
+| handbrake           | `--installargs='/D="<PATH>"'`                
+| avidemux            | `--installargs='/D="<PATH>"'`                
+| inkscape            | `--installargs='INSTALLDIR="<PATH>"'`        
+| virtualbox          | `--installargs='INSTALLDIR="<PATH>"'`        
+| cmake               | `--installargs='INSTALL_ROOT="<PATH>"'`      
+| gitextensions       | `--installargs='INSTALL_ROOT="<PATH>"'`      
+| imagemagick         | `--installargs='/DIR="<PATH>"'`              
+| mobaxterm           | `--installargs='INSTALLDIR="<PATH>"'`        
+| windirstat          | `--installargs='/D="<PATH>"'`                
+| meld                | `--installargs='TARGETDIR="<PATH>"'`         
+| putty               | `--installargs='INSTALLDIR="<PATH>"'`        
+| atom                | `--installargs='/D="<PATH>"'`                
+| gimp                | `--installargs='/DIR="<PATH>"'`              
+| visualstudio2017community| `--params='--installPath "<PATH>"'`          
+| kodi                | `--installargs='/D="<PATH>"'`                
+|=============================================================

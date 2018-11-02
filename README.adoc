@@ -9,7 +9,7 @@
 - image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting :
 link:coding/batch/dos.adoc[dos],
 link:coding/batch/bash.adoc[bash],
-link:coding/batch/chocolatey.adoc[chocolatey]
+link:coding/batch/chocolatey/chocolatey.adoc[chocolatey]
 - image:coding/python/icon_python.svg["PYTHON"] python :
 link:coding/python/argparse.adoc[argparse],
 link:coding/python/conda.adoc[conda],

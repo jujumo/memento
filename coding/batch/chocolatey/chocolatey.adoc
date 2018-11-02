@@ -1,0 +1,14 @@
+# image:icon_dos.svg["Chocolatey", width=64px] Chocolatey
+:toc:
+
+## table
+
+include::chocolatey_table.adoc[]
+
+## script
+
+.chocolatey_install.bat
+[source,bat]
+----
+include::chocolatey_install.bat[]
+----
