@@ -13,7 +13,7 @@ class ChocoArg:
 
     def formating(self, **kwargs):
         formated = format_partial(self._syntax, **kwargs)
-        formated = formated.replace("'", '"')
+        formated = formated.replace('"', '""')
         return formated
 
     def help(self):
@@ -48,7 +48,7 @@ class ChocoArgGroup:
     def formating(self, **kwargs):
         formated = ' '.join(arg.formating(**kwargs) for arg in self.args)
         if formated:
-            formated = '--{name}="{content}"'.format(name=self.name, content=formated)
+            formated = '--{name}=\'{content}\''.format(name=self.name, content=formated)
         return formated
 
 
@@ -57,10 +57,6 @@ class ChocoPackage:
         self.name = name
         self.tags = tags
         self.installdir_args = installdir if isinstance(installdir, list) else [installdir]
-        # self.ia = ChocoArgGroup('installargs')
-        # self.pp = ChocoArgGroup('params')
-        # self.ia.update(self.installdir_args)
-        # self.pp.update(self.installdir_args)
 
     def install_cmd(self, installdir=None, silent=True):
         # get all args
@@ -95,33 +91,32 @@ packages = [
     ChocoPackage('firefox', tags=['admin'], installdir=IA_ARG_D),
     ChocoPackage('7zip', tags=['admin'], installdir=ChocoArgInstall('/D="${installpath}_"')),
     ChocoPackage('pycharm-community', tags=['dev'], installdir=IA_ARG_D),
-    ChocoPackage('mpc-hc', installdir=ARG_DIR),
+    ChocoPackage('mpc-hc', tags=['media'], installdir=ARG_DIR),
     ChocoPackage('notepadplusplus', tags=['admin'], installdir=IA_ARG_D),
-    ChocoPackage('foobar2000', installdir=IA_ARG_D),
+    ChocoPackage('foobar2000', tags=['media'], installdir=IA_ARG_D),
     ChocoPackage('filezilla', tags=['admin'], installdir=IA_ARG_D),
     ChocoPackage('git', tags=['dev'], installdir=ARG_DIR),
     ChocoPackage('pandoc', tags=['admin'], installdir=ARG_APPLICATIONFOLDER),
     ChocoPackage('teracopy', tags=['admin'], installdir=ARG_DIR),
     ChocoPackage('python3', tags=['dev'], installdir=ARG_INSTALLDIR_DEMI),
     ChocoPackage('miniconda3', tags=['dev'], installdir=ARG_D_SEMI),
-    ChocoPackage('handbrake', installdir=IA_ARG_D),
-    ChocoPackage('avidemux', installdir=IA_ARG_D),
-    ChocoPackage('inkscape', installdir=ARG_INSTALLDIR),
+    ChocoPackage('handbrake', tags=['media'], installdir=IA_ARG_D),
+    ChocoPackage('avidemux', tags=['media'], installdir=IA_ARG_D),
+    ChocoPackage('inkscape', tags=['media'], installdir=ARG_INSTALLDIR),
     ChocoPackage('virtualbox', installdir=ARG_INSTALLDIR),
     ChocoPackage('cmake', tags=['dev'], installdir=ARG_INSTALL_ROOT),
     ChocoPackage('gitextensions', tags=['dev'], installdir=ARG_INSTALL_ROOT),
-    ChocoPackage('imagemagick', tags=['admin', 'dev'], installdir=ARG_DIR),
+    ChocoPackage('imagemagick', tags=['admin', 'dev', 'media'], installdir=ARG_DIR),
     ChocoPackage('mobaxterm', tags=['admin'], installdir=ARG_INSTALLDIR),
     ChocoPackage('windirstat', tags=['admin'], installdir=IA_ARG_D),
     ChocoPackage('meld', tags=['admin', 'dev'], installdir=ARG_TARGETDIR),
     ChocoPackage('putty', tags=['admin'], installdir=ARG_INSTALLDIR),
     ChocoPackage('atom', tags=['admin'], installdir=IA_ARG_D),
-    ChocoPackage('gimp', tags=['dev'], installdir=ARG_DIR),
+    ChocoPackage('gimp', tags=['dev', 'media'], installdir=ARG_DIR),
     ChocoPackage('visualstudio2017community', tags=['dev'], installdir=ARG_INSTALLPATH),
-    ChocoPackage('kodi', installdir=IA_ARG_D),
-
-    ChocoPackage('virtualclonedrive', tags=['admin']),
-    ChocoPackage('ffmpeg')
+    ChocoPackage('kodi', tags=['media'], installdir=IA_ARG_D),
+    ChocoPackage('virtualclonedrive', tags=['admin'], installdir=IA_ARG_D),
+    ChocoPackage('ffmpeg', tags=['media', 'dev'])
 ]
 
 doc_src = list()
