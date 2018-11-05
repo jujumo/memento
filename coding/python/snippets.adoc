@@ -11,15 +11,15 @@ import logging
 def main():
     try:
         parser = argparse.ArgumentParser(description='Description of the program.')
-        parser.add_argument('-v', '--verbose', action='store_true', help='verbose message')
+        parser.add_argument('-v', '--verbose', action='count', default=0, help='verbosity level')
         parser.add_argument('-i', '--input', nargs='+', required=True, help='input')
         parser.add_argument('-o', '--output', default='', help='input')
         args = parser.parse_args()
 
         if args.verbose:
             logging.getLogger().setLevel(logging.INFO)
-            if __debug__:
-                logging.getLogger().setLevel(logging.DEBUG)
+        if args.verbose > 1:
+            logging.getLogger().setLevel(logging.DEBUG)
 
         #########################
         # place your code here #
