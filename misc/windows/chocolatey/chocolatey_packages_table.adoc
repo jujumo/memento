@@ -31,4 +31,5 @@
 | visualstudio2017community| `--params='--installPath ""<PATH>""'`        
 | kodi                | `--installargs='/D=""<PATH>""'`              
 | virtualclonedrive   | `--installargs='/D=""<PATH>""'`              
+| deluge              | `--installargs='/D=""<PATH>""'`              
 |=============================================================
