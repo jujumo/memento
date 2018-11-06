@@ -4,7 +4,6 @@ import os
 import os.path as path
 import re
 
-import chocolatey_packages
 
 
 def preprocessor(root_path, input_filepath, output_filepath):
@@ -13,6 +12,7 @@ def preprocessor(root_path, input_filepath, output_filepath):
         input_lines = input_file.readlines()
 
     with open(path.join(root_path, output_filepath), 'w') as output_file:
+        output_file.write(f'// DO NOT EDIT: this file hqs been automatically generated from {input_filepath}\n')
         for input_line in input_lines:
             include_match = include_re.match(input_line)
             if not include_match:
@@ -26,5 +26,6 @@ def preprocessor(root_path, input_filepath, output_filepath):
                 output_file.write(included_lines)
 
 # process templates
+import chocolatey_packages
 SCRIPT_PATH = path.dirname(path.realpath(__file__))
 preprocessor(SCRIPT_PATH, 'chocolatey.template.adoc', 'chocolatey.adoc')
