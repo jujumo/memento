@@ -1,4 +1,4 @@
-# image:icon_dos.svg["C", width=64px] Chocolatey
+# image:icon_chocolatey.svg["C", width=64px] Chocolatey
 :toc:
 
 ## install chocolatey

@@ -1,4 +1,5 @@
-# image:icon_dos.svg["C", width=64px] Chocolatey
+// DO NOT EDIT: this file hqs been automatically generated from chocolatey.template.adoc
+# image:icon_chocolatey.svg["C", width=64px] Chocolatey
 :toc:
 
 ## install chocolatey
