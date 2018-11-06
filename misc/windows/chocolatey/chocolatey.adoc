@@ -11,12 +11,73 @@
 
 ## table
 
-include::chocolatey_table.adoc[]
+.packages install path
+[options="header"]
+|=============================================================
+| name                | install path argument                        
 
+| firefox             | `--installargs='/D=""<PATH>""'`              
+| 7zip                | `--installargs='/D=""<PATH>_""'`             
+| pycharm-community   | `--installargs='/D=""<PATH>""'`              
+| mpc-hc              | `--installargs='/DIR=""<PATH>""'`            
+| notepadplusplus     | `--installargs='/D=""<PATH>""'`              
+| foobar2000          | `--installargs='/D=""<PATH>""'`              
+| filezilla           | `--installargs='/D=""<PATH>""'`              
+| git                 | `--installargs='/DIR=""<PATH>""'`            
+| pandoc              | `--installargs='APPLICATIONFOLDER=""<PATH>""'`
+| teracopy            | `--installargs='/DIR=""<PATH>""'`            
+| python3             | `--params='/InstallDir:""<PATH>""'`          
+| miniconda3          | `--params='/D:""<PATH>""'`                   
+| handbrake           | `--installargs='/D=""<PATH>""'`              
+| avidemux            | `--installargs='/D=""<PATH>""'`              
+| inkscape            | `--installargs='INSTALLDIR=""<PATH>""'`      
+| virtualbox          | `--installargs='INSTALLDIR=""<PATH>""'`      
+| cmake               | `--installargs='INSTALL_ROOT=""<PATH>""'`    
+| gitextensions       | `--installargs='INSTALL_ROOT=""<PATH>""'`    
+| imagemagick         | `--installargs='/DIR=""<PATH>""'`            
+| mobaxterm           | `--installargs='INSTALLDIR=""<PATH>""'`      
+| windirstat          | `--installargs='/D=""<PATH>""'`              
+| meld                | `--installargs='TARGETDIR=""<PATH>""'`       
+| putty               | `--installargs='INSTALLDIR=""<PATH>""'`      
+| atom                | `--installargs='/D=""<PATH>""'`              
+| gimp                | `--installargs='/DIR=""<PATH>""'`            
+| visualstudio2017community| `--params='--installPath ""<PATH>""'`        
+| kodi                | `--installargs='/D=""<PATH>""'`              
+| virtualclonedrive   | `--installargs='/D=""<PATH>""'`              
+| deluge              | `--installargs='/D=""<PATH>""'`              
+|=============================================================
 ## script
 
 .chocolatey_install.bat
 [source,bat]
 ----
-include::chocolatey_install.bat[]
-----
+choco install -y firefox --installargs='/D=""C:\bin\firefox""' 
+choco install -y 7zip --installargs='/D=""C:\bin\7zip_""' 
+choco install -y pycharm-community --installargs='/D=""C:\bin\pycharm-community""' 
+choco install -y mpc-hc --installargs='/DIR=""C:\bin\mpc-hc""' 
+choco install -y notepadplusplus --installargs='/D=""C:\bin\notepadplusplus""' 
+choco install -y foobar2000 --installargs='/D=""C:\bin\foobar2000""' 
+choco install -y filezilla --installargs='/D=""C:\bin\filezilla""' 
+choco install -y git --installargs='/DIR=""C:\bin\git""' 
+choco install -y pandoc --installargs='APPLICATIONFOLDER=""C:\bin\pandoc""' 
+choco install -y teracopy --installargs='/DIR=""C:\bin\teracopy""' 
+choco install -y python3  --params='/InstallDir:""C:\bin\python3""'
+choco install -y miniconda3  --params='/D:""C:\bin\miniconda3""'
+choco install -y handbrake --installargs='/D=""C:\bin\handbrake""' 
+choco install -y avidemux --installargs='/D=""C:\bin\avidemux""' 
+choco install -y inkscape --installargs='INSTALLDIR=""C:\bin\inkscape""' 
+choco install -y virtualbox --installargs='INSTALLDIR=""C:\bin\virtualbox""' 
+choco install -y cmake --installargs='INSTALL_ROOT=""C:\bin\cmake""' 
+choco install -y gitextensions --installargs='INSTALL_ROOT=""C:\bin\gitextensions""' 
+choco install -y imagemagick --installargs='/DIR=""C:\bin\imagemagick""' 
+choco install -y mobaxterm --installargs='INSTALLDIR=""C:\bin\mobaxterm""' 
+choco install -y windirstat --installargs='/D=""C:\bin\windirstat""' 
+choco install -y meld --installargs='TARGETDIR=""C:\bin\meld""' 
+choco install -y putty --installargs='INSTALLDIR=""C:\bin\putty""' 
+choco install -y atom --installargs='/D=""C:\bin\atom""' 
+choco install -y gimp --installargs='/DIR=""C:\bin\gimp""' 
+choco install -y visualstudio2017community  --params='--installPath ""C:\bin\visualstudio2017community""'
+choco install -y kodi --installargs='/D=""C:\bin\kodi""' 
+choco install -y virtualclonedrive --installargs='/D=""C:\bin\virtualclonedrive""' 
+choco install -y deluge --installargs='/D=""C:\bin\deluge""' 
+choco install -y ffmpeg  ----
