@@ -1,0 +1,22 @@
+= image:icon_linux.svg["X", width=64px] Linux cheat code
+:toc:
+
+## Search within files
+
+-- source : https://www.everythingcli.org/find-exec-vs-find-xargs/
+
+[source,bash]
+----
+find . -name \*.txt -type f -print0 | xargs -0 grep -Hn '$USER'
+----
+
+ - `find .` find all files, folders, symlinks, etc in the current directory recursively
+ - `-name \*.txt` Its filename must end with .txt
+ - `-type f` Only search for files (not folders)
+ - `-print0` and `-0` use ASCII NULL character.
+ - `-H` Always print filename headers with output lines.
+ - `-n` Each output line is preceded by its relative line number in the file, starting at line 1.
+
+## Do for all files
+
+TODO
