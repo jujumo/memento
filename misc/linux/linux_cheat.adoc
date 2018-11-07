@@ -1,7 +1,14 @@
 = image:icon_linux.svg["X", width=64px] Linux cheat code
 :toc:
 
-## Search within files
+## Do for all files
+
+[source,bash]
+----
+find . -name \*.txt -type f -print0 | xargs -0 -n1 echo
+----
+
+### Search within files
 
 -- source : https://www.everythingcli.org/find-exec-vs-find-xargs/
 
@@ -17,6 +24,37 @@ find . -name \*.txt -type f -print0 | xargs -0 grep -Hn '$USER'
  - `-H` Always print filename headers with output lines.
  - `-n` Each output line is preceded by its relative line number in the file, starting at line 1.
 
-## Do for all files
 
-TODO
+## usefull commands
+
+### xargs
+
+ - `-p` : *print* & *prompt* the user to run it
+ - `-I %` : This replaces occurrences of the argument with the argument passed to xargs (`%` in that case).
+
+.example
+----
+cat /etc/passwd | xargs -I % echo "### % ###"
+----
+
+
+### awk
+
+### sed
+
+### expect
+command talks to other interactive programs
+
+.script.sh
+[source,expect]
+----
+#!/usr/bin/expect -f
+spawn ssh debian@192.168.7.2
+expect "debian@192.168.7.2's password:"
+send "temppwd\r"
+set prompt_re {\$ $}
+expect -re $prompt_re
+send "mkdir -p emma && cd emma\r"
+expect -re $prompt_re
+interact
+----
