@@ -7,15 +7,26 @@
 inspired from : https://www.systutorials.com/137113/how-to-get-bash-scripts-own-path/
 
 
-```bash
-SRCIPT_FILEPATH=$( realpath -P ${BASH_SOURCE[0]} )
-SRCIPT_DIRPATH=$( dirname "${SRCIPT_FILEPATH}" )
-```
+[source,bash]
+----
+SCRIPT_FILEPATH=$( realpath -P ${BASH_SOURCE[0]} )
+SCRIPT_DIRPATH=$( dirname "${SRCIPT_FILEPATH}" )
+----
 
 NOTE: In normal Bash script, `$0` is the path to the script.
 However, when a script is sourced, such as . a.sh`, a.sh‘s `$0`
 does not give a.sh while the caller’s name.
 
+or if you want to deal with `bash` and `zsh`:
+
+
+[source,bash]
+----
+if [ -z ${BASH_SOURCE+x} ]; then SCRIPT_FILEPATH=${(%):-%N};
+else SCRIPT_FILEPATH=${BASH_SOURCE[0]}; fi
+SCRIPT_FILEPATH=$( realpath -P ${SCRIPT_FILEPATH} )
+SCRIPT_DIRPATH=$( dirname "${SCRIPT_FILEPATH}" )
+----
 
 ### get basename
 
@@ -64,7 +75,7 @@ do
 	echo $i # # <3>
 done
 ----
-<1> defiens the array values
+<1> defines the array values
 <2> loop over the values
 <3> access element
 
