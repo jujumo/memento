@@ -32,4 +32,5 @@
 | kodi                | `--installargs='/D=""<PATH>""'`              
 | virtualclonedrive   | `--installargs='/D=""<PATH>""'`              
 | deluge              | `--installargs='/D=""<PATH>""'`              
+| fsviewer            | `--installargs='/D=""<PATH>""'`              
 |=============================================================

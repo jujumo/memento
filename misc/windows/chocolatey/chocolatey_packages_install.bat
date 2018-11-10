@@ -27,4 +27,5 @@ choco install -y visualstudio2017community  --params='--installPath ""C:\bin\vis
 choco install -y kodi --installargs='/D=""C:\bin\kodi""' 
 choco install -y virtualclonedrive --installargs='/D=""C:\bin\virtualclonedrive""' 
 choco install -y deluge --installargs='/D=""C:\bin\deluge""' 
+choco install -y fsviewer --installargs='/D=""C:\bin\fsviewer""' 
 choco install -y ffmpeg  

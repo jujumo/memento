@@ -117,6 +117,7 @@ packages = [
     ChocoPackage('kodi', tags=['media'], installdir=IA_ARG_D),
     ChocoPackage('virtualclonedrive', tags=['admin'], installdir=IA_ARG_D),
     ChocoPackage('deluge', tags=['admin'], installdir=IA_ARG_D),
+    ChocoPackage('fsviewer', tags=['media'], installdir=IA_ARG_D),
     ChocoPackage('ffmpeg', tags=['media', 'dev'])
 ]
 
