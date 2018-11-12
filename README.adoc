@@ -1,33 +1,38 @@
-= MÉMENTO
+# MÉMENTO
 
-== IMAGE // VIDEO
+## IMAGE // VIDEO
 - image:image/icon_ffmpeg.svg["ffmpeg",link="image/ffmpeg.adoc"] link:image/ffmpeg.adoc[ffmpeg]
-- image:image/icon_magick.svg["magick",link="image/convert.adoc"] link:image/convert.adoc[convert]
-- image:image/icon_sensor.svg["SENSOR",link="image/sensors.adoc"] link:image/sensors.adoc[sensors]
+, link:image/convert.adoc[convert]
+, link:image/sensors.adoc[sensors]
 
-== CODING
-- image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting :
-link:coding/batch/dos.adoc[dos],
-link:coding/batch/bash.adoc[bash],
-- image:coding/python/icon_python.svg["PYTHON"] python :
-link:coding/python/argparse.adoc[argparse],
-link:coding/python/conda.adoc[conda],
-link:coding/python/datetime.adoc[datetime],
-link:coding/python/path.adoc[path],
-link:coding/python/re.adoc[coding],
-link:coding/python/snippets.adoc[snippets],
-link:coding/python/vcvarsall.adoc[vcvarsall],
-link:coding/python/xml.adoc[xml]
-- image:coding/cpp/icon_cpp.svg["c++"] Cpp : link:coding/cpp/rules.adoc[rules],
-link:coding/cpp/qmake.adoc[qmake],
-link:coding/cpp/cmake.adoc[cmake],
-link:coding/cpp/snippets.adoc[snippets]
+## CODING
+- image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting
+: link:coding/batch/dos.adoc[dos]
+, link:coding/batch/bash.adoc[bash]
+- image:coding/windows/icon_windows.svg["windows"] link:coding/windows/windows.adoc[windows] : link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
+- image:coding/linux/icon_linux.svg["windows"] linux : link:coding/linux/linux_cheat.adoc[cheat]
+
+- image:coding/python/icon_python.svg["PYTHON"] python
+: link:coding/python/snippets.adoc[snippets]
+, link:coding/python/argparse.adoc[argparse]
+, link:coding/python/path.adoc[path]
+, link:coding/python/conda.adoc[conda]
+, link:coding/python/datetime.adoc[datetime]
+, link:coding/python/re.adoc[re]
+, link:coding/python/vcvarsall.adoc[vcvarsall]
+//, link:coding/python/xml.adoc[xml]
+
+- image:coding/cpp/icon_cpp.svg["c++"] Cpp
+: link:coding/cpp/rules.adoc[rules]
+, link:coding/cpp/qmake.adoc[qmake]
+, link:coding/cpp/cmake.adoc[cmake]
+, link:coding/cpp/snippets.adoc[snippets]
+//, link:coding/cpp/stl.adoc[STL]
 - image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
-== MISC.
+## MISC.
 - image:misc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc.adoc[asciidoc]
 - image:misc/icon_openssl.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
 - image:misc/icon_rsync.svg["Rsync] link:misc/rsync.adoc[rsync]
 - image:misc/icon_synology.svg["Synology"] link:misc/synology.adoc[synology]
 - image:misc/icon_key.svg["keyboard"] link:misc/us_keyboard.adoc[keyboard]
-- image:misc/windows/icon_windows.svg["windows"] link:windows/windows.adoc[windows] / link:misc/windows/chocolatey/chocolatey.adoc[chocolatey]
