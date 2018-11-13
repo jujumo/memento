@@ -1,4 +1,5 @@
 # image:icon_geometry.svg["PYTHON", width=64px] math::geometry
+:stem:
 
 ## trigonometry
 
@@ -6,8 +7,10 @@ image:trigo.svg["trigo circle"]
 
 
 ## Cross-product
- TODO: 
-$$
+image:Cross_product_formula.svg[formula]
+
+////
+ aboveis generated with http://latex.codecogs.com/eqneditor/editor.php
 \begin{vmatrix}
 \mathbf{a}_1 \\
 \mathbf{a}_2 \\
@@ -25,7 +28,7 @@ $$
 \mathbf{a}_3 \mathbf{b}_1 - \mathbf{a}_1 \mathbf{b}_3 \\
 \mathbf{a}_1 \mathbf{b}_2 - \mathbf{a}_2 \mathbf{b}_1
 \end{vmatrix}
-$$
+////
 
 NOTE: If two vectors are aligned or if either one has zero length, then their cross product is zero.
 
