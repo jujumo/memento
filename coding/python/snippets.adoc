@@ -1,4 +1,5 @@
 # image:icon_python.svg["PYTHON", width=64px] Python::snippets
+:toc:
 
 ## Main program structure
 
@@ -34,6 +35,28 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+## Find first element in a sequence that matches a predicate
+-- from: link:https://stackoverflow.com/questions/8534256/find-first-element-in-a-sequence-that-matches-a-predicate[stackoverflow]
+
+.finding first
+[source,python]
+----
+next((x for x in range(10) if x > 3), 'not found')
+4
+----
+
+will return the first number from 0 to 10 above 3, ie `4`.
+
+.not finding
+[source,python]
+----
+next((x for x in range(10) if x > 10), 'not found')
+'not found'
+----
+there is no number above `10` in `range(10)`, returns `"not found"` in that case.
+
+
 
 ## List files
 see link:path.adoc#list[path]
