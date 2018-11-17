@@ -36,3 +36,4 @@
 - image:misc/icon_rsync.svg["Rsync] link:misc/rsync.adoc[rsync]
 - image:misc/icon_synology.svg["Synology"] link:misc/synology.adoc[synology]
 - image:misc/icon_key.svg["keyboard"] link:misc/us_keyboard.adoc[keyboard]
+- image:misc/icon_erl3.svg["ERL3"] link:misc/erl3.adoc[ERL3]
