@@ -141,3 +141,19 @@ set openvpn-option "--comp-lzo"
 commit
 save
 ----
+
+### client setup
+
+[source,bash]
+----
+dev tun
+proto udp
+remote foo.bar.com 443
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+pkcs12 client.p12
+comp-lzo
+link-mtu 1542
+----
