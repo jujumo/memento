@@ -1,0 +1,143 @@
+# image:icon_erl3.svg["ERL3", width=64px] Edge Router Lite 3
+:toc:
+
+## OpenVPN
+
+### Certificates
+
+-- from link:https://medium.com/@nurblieh/openvpn-server-on-the-edgerouter-lite-61b0c59b6587[OpenVPN Server on the EdgeRouter Lite]
+
+[source,bash]
+----
+# Switch to root. You’ll need the permissions for writing to certain directories.
+sudo su
+cd /usr/lib/ssl/misc/
+----
+
+[source,bash]
+----
+# generate a Certificate Authority certificate.
+./CA.sh -newca
+----
+
+[source,bash]
+----
+# Create server keys and certificate.
+./CA.sh -newreq
+----
+
+[source,bash]
+----
+# Sign the server cert with our new CA cert.
+./CA.sh -sign
+----
+
+NOTE: Enter a different name for *Authority* and *Server* certificate.
+
+Let’s save `cacert.pem` and `newcert.pem` onto the config partition.
+
+[source,bash]
+----
+# Save the CA key and cert.
+cp demoCA/cacert.pem demoCA/private/cakey.pem /config/auth/
+
+# Save our server cert.
+mv newcert.pem /config/auth/server.pem
+----
+
+[source,bash]
+----
+# Strip the password and save to the config partition.
+openssl pkcs8 -in newkey.pem -out /config/auth/server-pem.key
+----
+
+Generating the Diffie-Hellman parameters can take 10 minutes on the ERL. Might I suggest a coffee break?
+
+[source,bash]
+----
+# Generate dhp params.
+openssl dhparam -out /config/auth/dhp.pem -2 1024
+cp dhp.pem /config/auth
+----
+
+[source,bash]
+----
+# Generate client key and cert.
+./CA.sh -newreq
+----
+
+[source,bash]
+----
+./CA.sh -sign
+----
+
+[source,bash]
+----
+mv newcert.pem client1-cert.pem
+mv newkey.pem client1-key.pem
+----
+
+replace `client1` with the name of your client.
+
+[source,bash]
+----
+# Combine the clients creds with the CA cert into a single p12 file.
+openssl pkcs12 -export -out client1.p12 -inkey client1-key.pem -in client1-cert.pem -certfile demoCA/cacert.pem
+----
+
+replace `client1` with the name of your client.
+
+### OpenVPN Server Setup
+
+ - port 1194/UDP
+ - IP range 172.30.255.0/24
+
+[source,bash]
+----
+configure
+edit interfaces openvpn vtun0
+set mode server
+set local-port 1194
+
+# This subnet must be unique within your network!
+# Do not use a previously configured subnet.
+set server subnet 172.30.255.0/24
+
+# Configure the SSL/TLS params.
+set tls ca-cert-file /config/auth/cacert.pem
+set tls cert-file /config/auth/server.pem
+set tls key-file /config/auth/server-pem.key
+set tls dh-file /config/auth/dhp.pem
+
+set protocol udp6
+----
+
+.Option #1 : Route all traffic across your VPN.
+[source,bash]
+----
+set openvpn-option "--push redirect-gateway"
+----
+
+.Option #2. Only route your local VLANs.
+[source,bash]
+----
+# Replace the below with the networks you want to access remotely.
+set server push-route 192.168.0.0/24
+set server push-route 192.168.1.0/24
+----
+
+.dns
+[source,bash]
+----
+# Instruct clients to use Google's Public DNS servers.
+set openvpn-option "--push dhcp-option DNS 1.1.1.1"
+# compression
+set openvpn-option "--comp-lzo"
+----
+
+.apply
+[source,bash]
+----
+commit
+save
+----
