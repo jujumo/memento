@@ -27,20 +27,35 @@ find . -name \*.txt -type f -print0 | xargs -0 grep -Hn '$USER'
 
 ## usefull commands
 
+### grep
+search into files of current working dir:
+
+[source,bash]
+grep -r PATTERN
+
+ - `-r` :
+
 ### xargs
 
  - `-p` : *print* & *prompt* the user to run it
  - `-I %` : This replaces occurrences of the argument with the argument passed to xargs (`%` in that case).
 
 .example
-----
+[source,bash]
 cat /etc/passwd | xargs -I % echo "### % ###"
-----
 
+### diff
+
+[source,bash]
+diff <(ls new_dir) <(old_dir)
 
 ### awk
 
+TODO
+
 ### sed
+
+TODO
 
 ### expect
 command talks to other interactive programs
