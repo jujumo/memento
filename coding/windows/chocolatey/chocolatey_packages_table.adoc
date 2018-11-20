@@ -14,7 +14,7 @@
 | pandoc              | `--installargs='APPLICATIONFOLDER=""<PATH>""'`
 | teracopy            | `--installargs='/DIR=""<PATH>""'`            
 | python3             | `--params='/InstallDir:""<PATH>""'`          
-| miniconda3          | `--params='/D:""<PATH>""'`                   
+| miniconda3          | `--installargs='/D=""<PATH>""'`              
 | handbrake           | `--installargs='/D=""<PATH>""'`              
 | avidemux            | `--installargs='/D=""<PATH>""'`              
 | inkscape            | `--installargs='INSTALLDIR=""<PATH>""'`      
@@ -33,4 +33,6 @@
 | virtualclonedrive   | `--installargs='/D=""<PATH>""'`              
 | deluge              | `--installargs='/D=""<PATH>""'`              
 | fsviewer            | `--installargs='/D=""<PATH>""'`              
+| retroarch           | `--installargs='/D=""<PATH>""'`              
+| openssl.light       | `--params='/InstallDir:""<PATH>""'`          
 |=============================================================
