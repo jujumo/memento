@@ -28,7 +28,7 @@
 | pandoc              | `--installargs='APPLICATIONFOLDER=""<PATH>""'`
 | teracopy            | `--installargs='/DIR=""<PATH>""'`            
 | python3             | `--params='/InstallDir:""<PATH>""'`          
-| miniconda3          | `--params='/D:""<PATH>""'`                   
+| miniconda3          | `--installargs='/D=""<PATH>""'`              
 | handbrake           | `--installargs='/D=""<PATH>""'`              
 | avidemux            | `--installargs='/D=""<PATH>""'`              
 | inkscape            | `--installargs='INSTALLDIR=""<PATH>""'`      
@@ -47,6 +47,8 @@
 | virtualclonedrive   | `--installargs='/D=""<PATH>""'`              
 | deluge              | `--installargs='/D=""<PATH>""'`              
 | fsviewer            | `--installargs='/D=""<PATH>""'`              
+| retroarch           | `--installargs='/D=""<PATH>""'`              
+| openssl.light       | `--params='/InstallDir:""<PATH>""'`          
 |=============================================================
 ## script
 
@@ -64,7 +66,7 @@ choco install -y git --installargs='/DIR=""C:\bin\git""'
 choco install -y pandoc --installargs='APPLICATIONFOLDER=""C:\bin\pandoc""' 
 choco install -y teracopy --installargs='/DIR=""C:\bin\teracopy""' 
 choco install -y python3  --params='/InstallDir:""C:\bin\python3""'
-choco install -y miniconda3  --params='/D:""C:\bin\miniconda3""'
+choco install -y miniconda3 --installargs='/D=""C:\bin\miniconda3""' 
 choco install -y handbrake --installargs='/D=""C:\bin\handbrake""' 
 choco install -y avidemux --installargs='/D=""C:\bin\avidemux""' 
 choco install -y inkscape --installargs='INSTALLDIR=""C:\bin\inkscape""' 
@@ -83,4 +85,6 @@ choco install -y kodi --installargs='/D=""C:\bin\kodi""'
 choco install -y virtualclonedrive --installargs='/D=""C:\bin\virtualclonedrive""' 
 choco install -y deluge --installargs='/D=""C:\bin\deluge""' 
 choco install -y fsviewer --installargs='/D=""C:\bin\fsviewer""' 
+choco install -y retroarch --installargs='/D=""C:\bin\retroarch""' 
+choco install -y openssl.light  --params='/InstallDir:""C:\bin\openssl.light""'
 choco install -y ffmpeg  ----
