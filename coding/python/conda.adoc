@@ -1,6 +1,7 @@
 # Conda
+:toc:
 
-## install & setup (mini)conda
+## install & setup (mini)conda on LINUX
 
 ### 0/ download
 
@@ -58,13 +59,35 @@ conda install -c pytorch pytorch torchvision -y
 conda install libgcc -y
 ----
 
+
+## install & setup (mini)conda on WIN10
+
+TO BE DONE
+
+
 ## conda cheat sheet
+
+## export / import
+
+Export a snapshot of a conda environment:
+
+.export
+[source,bash]
+conda env export | grep -v "^prefix: " > environment.yml
+
+-- from: link:https://stackoverflow.com/questions/41274007/anaconda-export-environment-file[stackoverflow]
+
+and then recreate an environment from it:
+
+.import
+[source,bash]
+conda env create -f environment.yml --name ny_env
+
+-- from link:https://conda.io/docs/user-guide/tasks/manage-environments.html[conda.io]
+
 
 ### Creating an environment with custom commands
 
-see: https://conda.io/docs/user-guide/tasks/manage-environments.html#macos-and-linux
-
-.Creating commands
 [source,bash]
 ----
 echo env=${CONDA_PREFIX}
@@ -73,3 +96,5 @@ mkdir -p ${CONDA_PREFIX}/etc/conda/deactivate.d
 touch ${CONDA_PREFIX}/etc/conda/activate.d/env_vars.sh
 touch ${CONDA_PREFIX}/etc/conda/deactivate.d/env_vars.sh
 ----
+
+-- see: link:https://conda.io/docs/user-guide/tasks/manage-environments.html#macos-and-linux[conda.io]
