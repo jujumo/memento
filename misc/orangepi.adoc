@@ -5,22 +5,13 @@
 
 == Install and setup System
 
-=== Raspbian_server_For_zero_H2+_V0_1
+=== Armbian_5.65_Orangepizero_Ubuntu_bionic_next_4.14.78
 
 ----
-Version       : 0.8.0
-Release date  : 2018-02-05
-Release notes : username(root/orangepi), password(orangepi)
+username: root
+password: 1234
 ----
 
-
-=== OrangePi_zero_UbuntuCore_1604_V0_0_1.rar
-
-----
-Version       : 0.8.0
-Release date  : 2018-02-05
-Release notes : username(root/orangepi), password(orangepi)
-----
 
 == setup
 
@@ -32,46 +23,13 @@ apt-get update
 /usr/local/bin/fs_resize
 ----
 
-=== add user
-
-.bash
-[source]
-----
-adduser USER                # add user
-# interactive
-usermod -aG sudo USER       # give sudo to user
-----
-
-=== hostname
-
-.bash
-[source]
-----
-nmtui  # set hostname
-----
-
-OR
-
-.bash
-[source]
-----
-echo "octoprint" > /etc/hostname
-nano /etc/hosts
-----
-
-./etc/hosts
-[source]
-----
-# 127.0.0.1       localhost
-127.0.0.1       localhost octoprint
-----
 
 === wifi
 
 .bash
 [source]
 ----
-nmtui  # acivte a connection
+sudo nmtui  # acivte a connection
 ----
 
 == Octoprint
@@ -82,7 +40,7 @@ nmtui  # acivte a connection
 .bash
 ----
 cd
-sudo apt-get install -y git virtualenv gcc
+sudo apt-get install -y git virtualenv gcc # python2.7
 sudo apt install python-pip python-dev python-setuptools python-virtualenv git libyaml-dev build-essential
 git clone https://github.com/foosel/OctoPrint.git
 cd OctoPrint
@@ -152,5 +110,31 @@ then copy config files to service
 sudo cp ~/OctoPrint/scripts/octoprint.init /etc/init.d/octoprint
 sudo cp ~/OctoPrint/scripts/octoprint.default /etc/default/octoprint
 sudo chmod +x /etc/init.d/octoprint
+sudo update-rc.d octoprint defaults
 sudo reboot
+# launch octoprint once
+octoprint
+----
+
+
+== deprecated
+
+No more needed on ubuntu 18.04
+
+=== add user
+
+.bash
+[source]
+----
+adduser USER                # add user
+# interactive
+usermod -aG sudo USER       # give sudo to user
+----
+
+=== hostname
+
+.bash
+[source]
+----
+nmtui  # set hostname
 ----
