@@ -57,6 +57,16 @@ TODO
 
 TODO
 
+### watch
+
+execute a command or program periodically
+
+[source,bash]
+watch -d ifconfig
+
+- `-d` highlights the changes in the command output.
+
+
 ### expect
 command talks to other interactive programs
 
