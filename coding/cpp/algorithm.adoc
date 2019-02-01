@@ -2,11 +2,8 @@
 
 :toc:
 
-## iota
+### iota
 
-see https://en.cppreference.com/w/cpp/algorithm/iota[cppreference]
-
-.example
 [source,c++]
 ----
 #include <algorithm>
@@ -26,12 +23,10 @@ int main() {
 4 5 6 7 8 9 10 11 12 13
 ----
 
+see https://en.cppreference.com/w/cpp/algorithm/iota[cppreference]
 
-## shuffle
+### shuffle
 
-see https://en.cppreference.com/w/cpp/algorithm/random_shuffle[cppreference]
-
-.example
 [source,c++]
 ----
 #include <algorithm>
@@ -39,10 +34,10 @@ see https://en.cppreference.com/w/cpp/algorithm/random_shuffle[cppreference]
 #include <iostream>
 using namespace std;
 int main() {
-    vector<int> v(10);                         // allocate memory
-    iota(v.begin(), v.end(), 0);          // incremental values
-    random_shuffle ( v.begin(), v.end() );// shuffle in place
-    for (const auto& i : v) cout << i << " ";  // print out
+    vector<int> v(10);                          // allocate memory
+    iota(v.begin(), v.end(), 0);                // incremental values
+    random_shuffle ( v.begin(), v.end() );      // shuffle in place
+    for (const auto& i : v) cout << i << " ";   // print out
     return 0;
 }
 ----
@@ -52,11 +47,11 @@ int main() {
 4 3 7 8 0 5 2 1 6 9
 ----
 
-## rotate
+see https://en.cppreference.com/w/cpp/algorithm/random_shuffle[cppreference]
 
-see https://en.cppreference.com/w/cpp/algorithm/rotate[cppreference]
 
-.example
+### rotate
+
 [source,c++]
 ----
 #include <algorithm>
@@ -76,6 +71,36 @@ int main() {
 ----
 2 3 4 5 6 7 8 9 0 1
 ----
+
+see https://en.cppreference.com/w/cpp/algorithm/rotate[cppreference]
+
+### partition
+
+[source,c++]
+----
+#include <algorithm>
+#include <array>
+#include <iostream>
+using namespace std;
+int main() {
+    static const int s = 10;
+    static const int p = 3;
+    array<int, s> v; iota(v.rbegin(), v.rend(), 0);
+    partial_sort( v.begin(), v.begin()+p, v.end() );// partition
+    vector<int> first(v.begin(), v.begin()+p), second(v.begin()+p, v.end());
+    for (const auto& i : first) cout << i << " ";// print 1st part
+    cout << " | " ;
+    for (const auto& i : second) cout << i << " ";// print 2nd part
+    return 0;
+}
+----
+
+.output
+----
+0 1 2  | 9 8 7 6 5 4 3
+----
+
+see https://en.cppreference.com/w/cpp/algorithm/rotate[cppreference]
 
 
 ## test
