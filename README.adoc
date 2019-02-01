@@ -27,7 +27,8 @@
 , link:coding/cpp/qmake.adoc[qmake]
 , link:coding/cpp/cmake.adoc[cmake]
 , link:coding/cpp/snippets.adoc[snippets]
-//, link:coding/cpp/stl.adoc[STL]
+, link:coding/cpp/algoithm.adoc[algoithms]
+
 - image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
 ## MISC.
