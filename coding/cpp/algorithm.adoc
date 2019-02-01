@@ -1,0 +1,81 @@
+# image:icon_cpp.svg["Snippets", width=64px] std::algorithms
+
+
+## iota
+
+see https://en.cppreference.com/w/cpp/algorithm/iota[cppreference]
+
+.example
+[source,c++]
+----
+#include <algorithm>
+#include <list>
+#include <iostream>
+using namespace std;
+int main() {
+    list<int> values(10);                           // allocate memory
+    iota(values.begin(), values.end(), 4);          // incremental values, starting from 4
+    for (const auto& i : values) cout << i << " ";  // print out
+    return 0;
+}
+----
+
+.output
+----
+4 5 6 7 8 9 10 11 12 13
+----
+
+
+## shuffle
+
+see https://en.cppreference.com/w/cpp/algorithm/random_shuffle[cppreference]
+
+.example
+[source,c++]
+----
+#include <algorithm>
+#include <vector>
+#include <iostream>
+using namespace std;
+int main() {
+    vector<int> v(10);                         // allocate memory
+    iota(v.begin(), v.end(), 0);          // incremental values
+    random_shuffle ( v.begin(), v.end() );// shuffle in place
+    for (const auto& i : v) cout << i << " ";  // print out
+    return 0;
+}
+----
+
+.output
+----
+4 3 7 8 0 5 2 1 6 9
+----
+
+## rotate
+
+see https://en.cppreference.com/w/cpp/algorithm/rotate[cppreference]
+
+.example
+[source,c++]
+----
+#include <algorithm>
+#include <vector>
+#include <iostream>
+using namespace std;
+int main() {
+    vector<int> v(10);                         // allocate memory
+    iota(v.begin(), v.end(), 0);          // incremental values
+    rotate(v.begin(), v.begin() + 2, v.end() );// put the 2 first at the end
+    for (const auto& i : v) cout << i << " ";  // print out
+    return 0;
+}
+----
+
+.output
+----
+2 3 4 5 6 7 8 9 0 1
+----
+
+
+## test
+
