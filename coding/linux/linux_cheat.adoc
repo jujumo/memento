@@ -3,6 +3,7 @@
 
 == Do for all files
 
+.#!/bin/bash
 [source,bash]
 ----
 find . -name \*.txt -type f -print0 | xargs -0 -n1 echo
@@ -12,6 +13,7 @@ find . -name \*.txt -type f -print0 | xargs -0 -n1 echo
 
 -- source : https://www.everythingcli.org/find-exec-vs-find-xargs/
 
+.#!/bin/bash
 [source,bash]
 ----
 find . -name \*.txt -type f -print0 | xargs -0 grep -Hn '$USER'
@@ -30,6 +32,7 @@ find . -name \*.txt -type f -print0 | xargs -0 grep -Hn '$USER'
 === grep
 search into files of current working dir:
 
+.#!/bin/bash
 [source,bash]
 grep -r PATTERN
 
@@ -40,12 +43,13 @@ grep -r PATTERN
  - `-p` : *print* & *prompt* the user to run it
  - `-I %` : This replaces occurrences of the argument with the argument passed to xargs (`%` in that case).
 
-.example
+.#!/bin/bash
 [source,bash]
 cat /etc/passwd | xargs -I % echo "### % ###"
 
 === diff
 
+.#!/bin/bash
 [source,bash]
 diff <(ls new_dir) <(old_dir)
 
@@ -61,6 +65,7 @@ TODO
 
 execute a command or program periodically
 
+.#!/bin/bash
 [source,bash]
 watch -d ifconfig
 
@@ -83,3 +88,16 @@ send "mkdir -p emma && cd emma\r"
 expect -re $prompt_re
 interact
 ----
+
+=== disk usage
+
+.#!/bin/bash
+[source,expect]
+----
+du -h . | sort -h -r | head -n 10
+----
+
+- `du -h` :for human readable format,
+- add `du -s` to display only a total for each argument,
+- `sort -h` : tells sort it is human readable format,
+- `sort -r` : tells reverse sort.
