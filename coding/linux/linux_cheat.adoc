@@ -1,14 +1,14 @@
 = image:icon_linux.svg["X", width=64px] Linux cheat code
 :toc:
 
-## Do for all files
+== Do for all files
 
 [source,bash]
 ----
 find . -name \*.txt -type f -print0 | xargs -0 -n1 echo
 ----
 
-### Search within files
+=== Search within files
 
 -- source : https://www.everythingcli.org/find-exec-vs-find-xargs/
 
@@ -25,9 +25,9 @@ find . -name \*.txt -type f -print0 | xargs -0 grep -Hn '$USER'
  - `-n` Each output line is preceded by its relative line number in the file, starting at line 1.
 
 
-## usefull commands
+== usefull commands
 
-### grep
+=== grep
 search into files of current working dir:
 
 [source,bash]
@@ -35,7 +35,7 @@ grep -r PATTERN
 
  - `-r` :
 
-### xargs
+=== xargs
 
  - `-p` : *print* & *prompt* the user to run it
  - `-I %` : This replaces occurrences of the argument with the argument passed to xargs (`%` in that case).
@@ -44,20 +44,20 @@ grep -r PATTERN
 [source,bash]
 cat /etc/passwd | xargs -I % echo "### % ###"
 
-### diff
+=== diff
 
 [source,bash]
 diff <(ls new_dir) <(old_dir)
 
-### awk
+=== awk
 
 TODO
 
-### sed
+=== sed
 
 TODO
 
-### watch
+=== watch
 
 execute a command or program periodically
 
@@ -67,7 +67,7 @@ watch -d ifconfig
 - `-d` highlights the changes in the command output.
 
 
-### expect
+=== expect
 command talks to other interactive programs
 
 .script.sh
