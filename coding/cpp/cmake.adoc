@@ -1,6 +1,30 @@
-# image:icon_cpp.svg["Snippets", width=64px] cmake
+= image:icon_cpp.svg["Snippets", width=64px] cmake
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc:
+:toclevels: 1
+:experimental:
 
-## print all variables
+
+== Variables
+
+=== reference
+
+Use variable with the form:
+
+- `${variable_name}`: cmake variable
+- `$ENV{variable_name}`: environment variable
+
+It works:
+
+- in or outside quotes.
+- returns empty string if the variable is not set.
+- Nested are evaluated from the inside out.
+
+=== setting
+
+=== print all variables
 
 [source,cpp]
 ----
