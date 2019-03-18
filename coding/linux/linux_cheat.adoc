@@ -6,8 +6,19 @@
 .#!/bin/bash
 [source,bash]
 ----
-find . -name \*.txt -type f -print0 | xargs -0 -n1 echo
+find . -name \*.txt -type f -print0 | xargs -0 -n1 -I {} echo "{}"
 ----
+
+.find:
+ - `-name \*.txt` Its filename must end with .txt
+ - `-type f` Only search for files (not folders)
+ - `-print0` separate found file names with ASCII NULL character.
+
+.xargs
+ - `-0` receive ASCII NULL character.
+ - `-n1` process received arguments one at a time
+ - `-I {}` will replace occurrences of `{}` in command by the actual argument.
+
 
 === Search within files
 
