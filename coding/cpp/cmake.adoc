@@ -7,6 +7,36 @@
 :experimental:
 
 
+== commands
+
+
+.Top 10 most usefull commands
+[cols="2m,4e,1d",options="header"]
+|===
+| command | comment | doc
+
+| cmake_minimum_required
+| cmake version required check
+|
+
+| set(VAR VALUE)
+| assign `VALUE` to variable `VAR`
+| https://cmake.org/cmake/help/latest/command/set.html[cmake.org]
+
+| include(PATH)
+| assign `VALUE` to variable `VAR`
+| https://cmake.org/cmake/help/latest/command/set.html[cmake.org]
+
+| add_subdirectory(PATH)
+| parse `CMakeLists.txt` in `PATH`
+| https://cmake.org/cmake/help/latest/command/add_subdirectory.html[cmake.org]
+
+| configure_file(FILE_IN, FILE_OUT)
+| take `FILE_IN` as template and replace `@VAR@` with cmake variable.
+| https://cmake.org/cmake/help/latest/command/configure_file.html[cmake.org]
+|===
+
+
 == Variables
 
 === reference
