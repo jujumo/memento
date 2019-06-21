@@ -66,11 +66,86 @@ diff <(ls new_dir) <(old_dir)
 
 === awk
 
-TODO
+
+
+.basics 1
+[cols="1m,4e"]
+|===
+|Command |
+
+| $1
+| Reference first column
+
+| awk '/pattern/ {action}' file
+| Execute action for matched pattern `pattern` on file `file`
+
+| ;
+| Char to separate two actions
+
+| print
+| Print current record line
+
+| $0
+| Reference current record line
+
+| FS
+| Field separator of input file (default whitespace)
+
+| NF
+| Number of fields in current record
+
+| NR
+| Line number of the current record
+
+
+| ^
+| Match beginning of field
+
+| ~
+| Match opterator
+
+| !~
+| Do not match operator
+
+| -F
+| Command line option to specify input field delimiter
+
+| BEGIN
+| Denotes block executed once at start
+
+| END
+| Denotes block executed once at end
+
+| str1 str2
+| Concat str1 and str2
+|===
+
+
+
 
 === sed
 
-TODO
+
+.usage
+[source,bash]
+----
+Usage: sed [OPTION]... {script-only-if-no-other-script} [input-file]...
+...
+----
+
+
+=== rename bunch of files
+
+requires : rename, parallel, find
+
+
+rename all files with `.match` extension to `.matches`.
+
+.example
+[source,bash]
+----
+find ./ -iname "*.match" -print0 | parallel -j8 rename -v 's/.match/.matches/' {}
+----
 
 === watch
 
