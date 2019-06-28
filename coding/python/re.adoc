@@ -32,7 +32,28 @@
 |================================================================================================
 
 ## Matching
-NOTE: `re.match()` checks for a match **only at the beginning** of the string.
+
+
+[options="header", cols=">e,5"]
+|===
+| method | purpose
+
+
+| match()
+| Determine if the RE matches at the beginning of the string.
+
+
+| search()
+| Scan through a string, looking for any location where this RE matches.
+
+| findall()
+| Find all substrings where the RE matches, and returns them as a list.
+
+| finditer()
+| Find all substrings where the RE matches, and returns them as an iterator.
+|===
+
+
 
 `match.groupdict(default=None)`` returns a dictionary containing all the named subgroups.
 
