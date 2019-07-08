@@ -175,6 +175,29 @@ expect -re $prompt_re
 interact
 ----
 
+
+=== CSV
+
+[source,bash]
+cat data.csv | column -t -s, | less -S
+
+make it robust ot empty cells :
+
+[source,bash]
+cat data.csv | perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' | column -t -s, | less -S
+
+
+.bashrc
+[source,bash]
+----
+function pretty_csv {
+    column -t -s, -n "$@" | less -F -S -X -K
+}
+----
+
+-- source: https://www.stefaanlippens.net/pretty-csv.html[stefaanlippens]
+
+
 === disk usage
 
 .#!/bin/bash
