@@ -147,6 +147,14 @@ rename all files with `.match` extension to `.matches`.
 find ./ -iname "*.match" -print0 | parallel -j8 rename -v 's/.match/.matches/' {}
 ----
 
+
+=== parallel
+do parallel tasks
+
+.Convert all *.wav to *.mp3
+[source,bash]
+parallel lame {} -o {.}.mp3 ::: *.wav
+
 === watch
 
 execute a command or program periodically
