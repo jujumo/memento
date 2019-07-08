@@ -178,16 +178,14 @@ interact
 
 === CSV
 
-[source,bash]
-cat data.csv | column -t -s, | less -S
-
-make it robust ot empty cells :
+Nicely display a CSV file, with columns aligned.
 
 [source,bash]
 cat data.csv | perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' | column -t -s, | less -S
 
+Make an alias into `.bashrc`.
 
-.bashrc
+.ubuntu alias
 [source,bash]
 ----
 function pretty_csv {
@@ -195,7 +193,7 @@ function pretty_csv {
 }
 ----
 
--- source: https://www.stefaanlippens.net/pretty-csv.html[stefaanlippens]
+-- see source for more details : https://www.stefaanlippens.net/pretty-csv.html[stefaanlippens]
 
 
 === disk usage
