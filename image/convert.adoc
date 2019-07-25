@@ -1,80 +1,115 @@
-# image:icon_magick.svg["MAGICK", width=64px] Convert (magick)
+= image:icon_magick.svg["MAGICK", width=64px] Convert (magick)
 :toc:
 
-## Basic
+== Basic
 
-
-```
+[source,bash]
 convert <input_file> [<input_file> ...] <output_file>
-```
+
+
 :toc:
 
-## Geometry
+== Geometry
 
-### rescale
+=== rescale
 simple rescale:
-```
+
+[source,bash]
 convert rose: -resize 50% rose.png
-```
 
 rescale with proper value interpolation (convert sRGB to RGB):
-```
+
+[source,bash]
 convert rose: -colorspace RGB -resize 50% -colorspace sRGB rose.png
-```
 
-### crop
-```
+=== crop
+
+[source,bash]
 convert rose: -crop 10x10+20+20 output_file.png
-```
 
-### shave
+=== shave
 To specify the amount to be removed, use -shave instead:
-```
+
+[source,bash]
 convert rose: -shave 10% rose.png
-```
+
 Remove 10% pixels from the image edges.
 
-### chop
+=== chop
 Remove pixels from the interior of an image.
-```
+
+[source,bash]
 convert rose: -chop 20x0+10+0 rose.png
-```
+
 remove a vertical band of 20 pixels wide at 10 pixels from the left border.
 
-### rotate
-```
+=== rotate
+
+[source,bash]
 convert rose: -rotate 90 out.png
-```
+
  * clockwise `-rotate 90`
  * anticlockwise `-rotate 270` ( -90 may work )
 
-## Alpha channel
+== montage
+
+see full documentation : http://www.imagemagick.org/Usage/montage/[imagemagick]
+
+[source,bash]
+montage rose: rose: rose: \( pattern:gray50 -set label gray \) -background chartreuse -geometry +0+0 convert_montage.png
+
+ * `-background chartreuse` set background to Chartreuse color (the only liqueur so good they named a color after it.)
+ * `-set label` associate a label to an image.
+ * `-geometry +0+0` has the extra effect of putting montage in a 'concatenation' mode (no rescale).
+
+=== Details about geometry descriptor
+
+used by `crop`, `extend`, ....
+
+[options="header",cols=">1m,<9"]
+|===
+| Format                        | Comment
+| <scale>``%``                  | Height and width both scaled by specified percentage.
+| <scale_x>``%x``<scale_y>``%`` | Height and width individually scaled by specified percentages. (Only one % symbol needed.)
+| <width>                       | Width given, height automagically selected to preserve aspect ratio.
+| ``x``<height>                 | Height given, width automagically selected to preserve aspect ratio.
+| <width>``x``<height>          | Maximum values of height and width given, aspect ratio preserved.
+| <width>``x``<height>``^``     | Minimum values of width and height given, aspect ratio preserved.
+| <width>``x``<height>``!``     | Width and height emphatically given, original aspect ratio ignored.
+| <width>``x``<height>          | Shrinks an image with dimension(s) larger than the corresponding width and/or height argument(s).
+| <width>``x``<height>``<``     | Enlarges an image with dimension(s) smaller than the corresponding width and/or height argument(s). >
+| <area>``@``                   | Resize image to have specified area in pixels. Aspect ratio is preserved.
+| ``{``<size>``}{``<offset>``}``| Specifying the offset (default is +0+0). Below, {size} refers to any of the forms above.
+| ``{``<size>``}{+-}``x``{+-}``y| Horizontal and vertical offsets x and y, specified in pixels. Signs are required for both. Offsets are affected by ‑gravity setting. Offsets are not affected by % or other size operators.
+|===
+
+== Alpha channel
 
 extract alpha
-```
+
+[source,bash]
 convert image.png -alpha extract alpha.png
-```
 
 extract RGB
-```
+
+[source,bash]
 convert image.png -flatten rgb.png
-```
 
 extract RGB with default RGB value
-```
+
+[source,bash]
 convert image.png -background black -alpha remove rgb.png
-```
 
 merge RGB and alpha
-```
+
+[source,bash]
 convert rgb.png alpha.png -alpha off -compose CopyOpacity -composite result.png
-```
 
-## Color-spaces
+== Color-spaces
 
-```
+----
 convert gamma_dalai_lama_gray.jpg -set colorspace sRGB -depth 16 -colorspace RGB -resize 50% -colorspace sRGB -depth 8  gamma_dalai_lama_gray.50pc.png
-```
+----
 
 with steps:
 
@@ -87,45 +122,29 @@ with steps:
 
 
 
-## Animate
+== Animate
 
-```
+[source,bash]
 convert -delay 10 frame1 frame2 out.gif
-```
 
-Patrol cycle (back and forth) just add ```-coalesce   -duplicate 1,-2-1```
-```
+Patrol cycle (back and forth) just add -----coalesce   -duplicate 1,-2-1----
+
+[source,bash]
 convert -delay 10 frame frame2 -coalesce -duplicate 1,-2-1 -loop 0 out.gif
-```
 
+== Syntethise
 
-## Syntethise
-
-[options="header",cols="^s,<"]
-|=============================
+[options="header",cols="^1,<9m"]
+|===
 |  sample  | command
-| image:convert_rainbow.jpg ["rainbow"] | `convert xc:black xc:red xc:yellow xc:green1 xc:cyan xc:blue xc:black +append -filter Cubic -resize 50x30\! rainbow.jpg`
-| image:convert_grey.png ["grey"] | `convert pattern:gray50 grey.png`
-| image:convert_rose.png ["rose"] | `convert rose: rose.png`
-|=============================
 
-### Details about geometry descriptor
+| image:convert_rainbow.jpg["rainbow"]
+| convert xc:black xc:red xc:yellow xc:green1 xc:cyan xc:blue xc:black +append -filter Cubic -resize 50x30\! rainbow.jpg
 
-used by `crop`, `extend`, ....
+| image:convert_grey.png["grey"]
+| convert pattern:gray50 grey.png
 
-[options="header",cols="^,<m"]
-|============================================================================
-| Format                |  Comment
-| `<scale>%`				    | Height and width both scaled by specified percentage.
-| `<scale_x>%x<scale_y>%` | Height and width individually scaled by specified percentages. (Only one % symbol needed.)
-| `<width>`			 		    | Width given, height automagically selected to preserve aspect ratio.
-| `x<height>`			 	    | Height given, width automagically selected to preserve aspect ratio.
-| `<width>x<height>`		| Maximum values of height and width given, aspect ratio preserved.
-| `<width>x<height>^`		| Minimum values of width and height given, aspect ratio preserved.
-| `<width>x<height>!`		| Width and height emphatically given, original aspect ratio ignored.
-| `<width>x<height>` 		| Shrinks an image with dimension(s) larger than the corresponding width and/or height argument(s).
-| `<width>x<height><`	| Enlarges an image with dimension(s) smaller than the corresponding width and/or height argument(s). >
-| `<area>@` 				    | Resize image to have specified area in pixels. Aspect ratio is preserved.
-| `{<size>}{<offset>}` 	| Specifying the offset (default is +0+0). Below, {size} refers to any of the forms above.
-| `{<size>}{+-}x{+-}y` 	|	Horizontal and vertical offsets x and y, specified in pixels. Signs are required for both. Offsets are affected by ‑gravity setting. Offsets are not affected by % or other size operators.
-|=============================
+| image:convert_rose.png["rose"]
+| convert rose: rose.png
+
+|===
