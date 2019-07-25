@@ -56,17 +56,26 @@ convert rose: -rotate 90 out.png
 see full documentation : http://www.imagemagick.org/Usage/montage/[imagemagick]
 
 [source,bash]
-montage rose: rose: rose: \( pattern:gray50 -set label gray \) -background chartreuse -geometry +0+0 convert_montage.png
+
+
+[options="header",cols=">1m,<3"]
+|===
+| |
+
+| image:convert_montage.png[montage] | montage rose: rose: rose: \( pattern:gray50 -set label gray \) -background chartreuse -geometry +0+0 convert_montage.png
+|===
 
  * `-background chartreuse` set background to Chartreuse color (the only liqueur so good they named a color after it.)
  * `-set label` associate a label to an image.
  * `-geometry +0+0` has the extra effect of putting montage in a 'concatenation' mode (no rescale).
 
+
+
 === Details about geometry descriptor
 
 used by `crop`, `extend`, ....
 
-[options="header",cols=">1m,<9"]
+[options="header",cols=">1m,<3"]
 |===
 | Format                        | Comment
 | <scale>``%``                  | Height and width both scaled by specified percentage.
@@ -134,7 +143,7 @@ convert -delay 10 frame frame2 -coalesce -duplicate 1,-2-1 -loop 0 out.gif
 
 == Syntethise
 
-[options="header",cols="^1,<9m"]
+[options="header",cols="^1,<3m"]
 |===
 |  sample  | command
 
