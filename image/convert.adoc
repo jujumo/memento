@@ -61,8 +61,8 @@ see full documentation : http://www.imagemagick.org/Usage/montage/[imagemagick]
 [options="header",cols=">1m,<3"]
 |===
 | |
-
-| image:convert_montage.png[montage] | montage rose: rose: rose: \( pattern:gray50 -set label gray \) -background chartreuse -geometry +0+0 convert_montage.png
+| image:convert_montage.png[montage]
+| `montage rose: rose: rose: \( pattern:gray50 -set label gray \) -background chartreuse -geometry +0+0 convert_montage.png`
 |===
 
  * `-background chartreuse` set background to Chartreuse color (the only liqueur so good they named a color after it.)
@@ -148,12 +148,12 @@ convert -delay 10 frame frame2 -coalesce -duplicate 1,-2-1 -loop 0 out.gif
 |  sample  | command
 
 | image:convert_rainbow.jpg["rainbow"]
-| convert xc:black xc:red xc:yellow xc:green1 xc:cyan xc:blue xc:black +append -filter Cubic -resize 50x30\! rainbow.jpg
+| `convert xc:black xc:red xc:yellow xc:green1 xc:cyan xc:blue xc:black +append -filter Cubic -resize 50x30\! rainbow.jpg`
 
 | image:convert_grey.png["grey"]
-| convert pattern:gray50 grey.png
+| `convert pattern:gray50 grey.png`
 
 | image:convert_rose.png["rose"]
-| convert rose: rose.png
+| `convert rose: rose.png`
 
 |===
