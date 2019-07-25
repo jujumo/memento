@@ -1,0 +1,24 @@
+= ZSH
+:experimental:
+
+== shortcuts
+
+
+[options="header",cols="1,6"]
+|===
+| keys              | action
+
+| kbd:[ESC+.]       | inserts the last argument of the previous history line, repeat to go back in history. (Same in Bash.)
+| kbd:[ESC+']       | quotes the whole line. (Useful for su -c or ssh).
+| kbd:[ESC+q]       | clears the line and inserts it again on the next prompt, allowing you to issue an interim command.
+| kbd:[ESC+RETURN]  | inserts a literal newline, so you can edit longer commands easily.
+| `<(command)`      | returns the filename (in /dev/fd if supported or as a FIFO) of the pipe given by command for reading. (For example, use diff <(ruby foo.rb) <(ruby-1.9 foo.rb) to compare two program outputs).
+| `cd old new`      | substitutes old with new once in the pwd and chdirs there.
+| `!$`              | expands to the previous history line’s last argument, `!^` expands to the first argument, `!:n` to the n-th argument.
+| `=foo`            | expands to the full path of foo in the PATH (like which foo).
+| `for src (*.c) { ... }` | abbreviates  `for src in *.c do ... done` (which is actually memorizable). You can even drop the curly braces if you don’t have `;` in the command.
+| `<42-69>`         | globs numbers between 42 and 69. Drop the number(s) to make it open-valued. `{42..69}` expands to the numbers between 42 and 69.
+| `\***`            | expands recursively like `**`, but follows symbolic links.
+|===
+
+source: https://leahneukirchen.org/blog/archive/2008/02/10-zsh-tricks-you-may-not-know.html[leahneukirchen]
