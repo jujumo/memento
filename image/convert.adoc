@@ -25,7 +25,9 @@ convert rose: -colorspace RGB -resize 50% -colorspace sRGB rose.png
 === crop
 
 [source,bash]
-convert rose: -crop 10x10+20+20 output_file.png
+convert rose: -gravity center -crop 10x10+0+0 output_file.png
+
+`-gravity center` prevent to make tiles.
 
 === shave
 To specify the amount to be removed, use -shave instead:
