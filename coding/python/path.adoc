@@ -5,44 +5,49 @@ some of most used path functions
 
 ## Current working directory
 
-```python
+[source,python]
+----
 import os
 os.getcwd()      # Return 'C:\\Python26'
 os.chdir('/server/accesslogs')   # Change current working directory
 os.system('mkdir today')   # Run the command mkdir in the system shell
-```
+----
 
 ## Constant paths
 
 Path of the current script:
-```python
+[source,python]
 SCRIPT_PATH = os.path.realpath(__file__)
-```
+
 
 ## List files
 anchor:list[]
-The folowing will list all files under `root` with filename ending with `.x`
+The following will list all files under `root` with filename ending with `.xxx`
 
-```python
+[source,python]
+----
 import os
 root = "./"
 for dirpath, dnames, fnames in os.walk(root):
     for f in fnames:
-        if f.endswith(".x"):
+        if f.endswith(".xxx"):
             x(os.path.join(dirpath, f))
-```
+----
 
 a shorter form would be:
-```python
+[source,python]
+----
 import os
-from os.path import join
-root = "./"
-file_list = [join(p, n) for p, sd, fs in os.walk(root) for n in fs if n.endswith(".x")]
-```
+import os.path as path
+root = './'
+file_list = (path.join(dp, fn) for dp, _, fs in os.walk(root) for fn in fs)
+file_list = (fp for fp in file_list if fp.endswith('.xxx'))
+----
 
 ## Temporary file
 
-```python
+[source,python]
+----
 import os
 from tempfile import mkstemp
 temp_file, temp_path = mkstemp()
@@ -55,16 +60,16 @@ finally:
 	# clean the mess
 	os.close(temp_file)
     os.remove(temp_path)
-```
+----
 
 ## Import path
 
-```python
+[source,python]
+----
 import sys
 sys.path.insert(0, '/path/to/application/app/folder')
-
 import file
-```
+----
 
 ## os.path functions
 [options="header", cols=">e,3m,2m,2m,2m"]
