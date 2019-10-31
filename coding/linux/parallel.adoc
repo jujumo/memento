@@ -4,8 +4,10 @@
 
 == inputs
 
+- `:::` : feed the given list, space separated.
+- `::::` : read inside file, line separated.
+
 === list of files
-.>bash
 [source,bash]
 ----
 parallel echo ::: /*
@@ -13,7 +15,6 @@ parallel echo ::: /*
 Will echo  `/bin`, `/boot`, `/cdrom`, `/dev`, `/etc` ...
 
 === values
-.>bash
 [source,bash]
 ----
 parallel echo ::: 1 2 3
@@ -21,17 +22,145 @@ parallel echo ::: 1 2 3
 Will echo `1`, `3`, `2`.
 
 === value combinations
-.>bash
 [source,bash]
 ----
 parallel echo ::: 1 2 3 ::: a b
 ----
 Will echo  `1 a`, `1 b`, `2 a`, `2 b`, `3 b`, `3 a`.
 
-=== value pairs
-.>bash
+=== value pairs (`--link`, `:::+`)
 [source,bash]
 ----
 parallel --link echo ::: 1 2 3 ::: a b
 ----
-Will echo  `1 a`, `2 b`, `3 a`,
+Will echo  `1 a`, `2 b`, `3 a`.
+
+[source,bash]
+----
+parallel --link echo ::: 1 2 3 :::+ a b
+----
+Will echo  `1 a`, `2 b`.
+
+[source,bash]
+----
+parallel echo ::: 1 2 3 :::+ a b ::: 10 11 12
+----
+Will echo `1 a 10`, `1 a 11`, `1 a 12`, `2 b 10`, `2 b 11`, `2 b 12`.
+
+=== No command means arguments are commands
+see <<script>>
+
+== replacement strings
+
+[cols="1m,2"]
+|===
+| pattern | comment
+
+| {}
+| mydir/mysubdir/myfile.myext
+
+| {.}
+| mydir/mysubdir/myfile
+
+
+| {/}
+| myfile.myext
+
+| {//}
+| mydir/mysubdir
+
+| {/.}
+| myfile
+
+| {#}
+| the sequence number of the job
+
+| {%}
+| the job slot number
+
+| {_N_}, {_N_.}, {_N_/}, ...
+| Nth parameter (can be -_N_ from the end)
+
+2+^| following available with `--plus` options
+
+| {..}, {\...}
+| remove 2 or 3 file extensions
+
+| {##}
+| total number of jobs:
+
+| {\+.}, {+/}, {+/.}, {+..}, {+\...}
+| opposite of `{.}`, `{/}`, `{/.}`, `{..}`, `{\...}`.
+
+| {:-string}
+| Default value is string if the argument is empty.
+
+| {#string}, {%string}
+| If the argument starts/ends with string, remove it.
+
+| {:N}, {:N:L}
+| Substring from N (and length L).
+
+|===
+
+
+.examples
+[source,bash]
+----
+sss
+----
+
+== execution
+
+[cols="1m,4"]
+|===
+| option | meaning
+
+| --jobs
+| Number of simultaneous jobs. `0` means as many as possible.
+
+| --shuf
+| Shuffle job order
+
+| --interactive
+| ask the user if a command should be run using
+
+| --eta, --progress, --bar,
+| Progress information
+
+| --timeout _X_
+| stopping jobs taking more than _X_ seconds (can also be `1d3.5h16.6m4s` or `200%` of the media range)
+
+| --delay _X_
+| will make sure there is at least _X_ seconds between each
+
+| --tmux
+| A terminal for every job
+
+| --resume --joblog _X_
+| With a log file _X_, jobs can be stopped and later pickup where it left off.
+
+| --halt soon,fail=1,  --halt now,fail=1
+| Stop  pruning (or kill) jobs if one of the jobs fails
+
+| --nice _X_
+| run the jobs with a nice value _X_.
+|===
+
+=== a bash script
+[source,bash]
+----
+export -f my_func
+parallel my_func ::: 1 2 3
+----
+
+== misc. options
+[source,bash]
+----
+parallel --arg-sep ,, echo ,, A B C :::: def-file # change ::: to ,,
+parallel --arg-file-sep // echo ::: A B C // def-file # change :::: to //
+parallel -d _ echo :::: abc_-file # parse '_' separated instead lines
+----
+
+== remote exec
+TODO
