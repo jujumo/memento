@@ -95,7 +95,7 @@ see <<a-bash-script>>
 .examples
 [source,bash]
 ----
-sss
+TODO
 ----
 
 == execution
