@@ -155,6 +155,8 @@ do parallel tasks
 [source,bash]
 parallel lame {} -o {.}.mp3 ::: *.wav
 
+see link:parallel.adoc[parallel]
+
 === watch
 
 execute a command or program periodically
