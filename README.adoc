@@ -11,7 +11,7 @@
 , link:coding/batch/bash.adoc[bash]
 , link:coding/batch/zsh.adoc[zsh]
 - image:coding/windows/icon_windows.svg["windows"] link:coding/windows/windows.adoc[windows] : link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
-- image:coding/linux/icon_linux.svg["windows"] linux : link:coding/linux/linux_cheat.adoc[cheat] link:coding/linux/parallel.adoc[parallel]
+- image:coding/linux/icon_linux.svg["windows"] linux : link:coding/linux/linux_cheat.adoc[cheat], link:coding/linux/parallel.adoc[parallel]
 
 - image:coding/python/icon_python.svg["PYTHON"] python
 : link:coding/python/snippets.adoc[snippets]
