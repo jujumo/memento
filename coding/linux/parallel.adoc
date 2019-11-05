@@ -77,8 +77,8 @@ see <<a-bash-script>>
 | {##}
 | total number of jobs:
 
-| {\+.}, {+/}, {+/.}, {+..}, {+\...}
-| opposite of `{.}`, `{/}`, `{/.}`, `{..}`, `{\...}`.
+| {\+.}, {+/}, {\+..}, {+\...}
+| opposite of `{.}`, `{/}`, `{..}`, `{\...}`.
 
 | {:-string}
 | Default value is string if the argument is empty.
