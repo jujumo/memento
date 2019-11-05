@@ -45,26 +45,25 @@ see <<a-bash-script>>
 | pattern | comment
 
 | {}
-| mydir/mysubdir/myfile.myext
+| *full* path : __mydir/mysubdir/myfile.myext__
 
 | {.}
-| mydir/mysubdir/myfile
-
+| *remove* extension : __mydir/mysubdir/myfile__
 
 | {/}
-| myfile.myext
+| *filename*: __myfile.myext__
 
 | {//}
-| mydir/mysubdir
+| *dirname*: __mydir/mysubdir__
 
 | {/.}
-| myfile
+| *basename*: __myfile__
 
 | {#}
-| the sequence number of the job
+| *job number* in the sequence
 
 | {%}
-| the job slot number
+| *job slot number* (thread id)
 
 | {_N_}, {_N_.}, {_N_/}, ...
 | Nth parameter (can be -_N_ from the end)
@@ -72,22 +71,22 @@ see <<a-bash-script>>
 2+^| following available with `--plus` options
 
 | {..}, {\...}
-| remove 2 or 3 file extensions
+| remove 2 or 3 file *extensions*
 
 | {##}
-| total number of jobs:
+| *total* number of jobs:
 
 | {\+.}, {+/}, {\+..}, {+\...}
-| opposite of `{.}`, `{/}`, `{..}`, `{\...}`.
+| *opposite* of `{.}`, `{/}`, `{..}`, `{\...}`.
 
 | {:-string}
-| Default value is string if the argument is empty.
+| *Default* value is string if the argument is empty.
 
 | {#string}, {%string}
-| If the argument starts/ends with string, remove it.
+| If the argument starts/ends with string, *remove* it.
 
 | {:N}, {:N:L}
-| Substring from N (and length L).
+| *Substring* from N (and length L).
 
 |===
 
