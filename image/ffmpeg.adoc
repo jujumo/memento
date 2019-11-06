@@ -4,47 +4,46 @@
 Official: https://www.ffmpeg.org/[www.ffmpeg.org]
 
 ## Basic
-```
+
+[source,bash]
 ffmpeg -i <input_file> <output_file>
-```
 
 toc::[]
 
 ## Presets
 `ultrafast`, `superfast`, `veryfast`, `faster`, `fast`, `medium`, `slow`, `slower`, `veryslow`
 
-.example
-```
+[source,bash]
 ffmpeg -i video.mov -preset veryslow video.mp4
-```
+
 
 ## video <==> images
 
 ### video => images
 
-.example
-```bash
-ffmpeg -i video.mov -q:v 1 %05d.jpg
-```
 
-[cols=">1m,<8", frame=topbot, grid=none]
+[source,bash]
+----
+ffmpeg -i video.mov -q:v 1 %05d.jpg                           # <1>
+ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg  # <2>
+----
+<1> convert video to a sequence of jpeg files.
+<2> extracts a *single* image at time 10s.
+
+[cols="<1m,<5", frame=topbot, grid=none]
 |=====================================
-|`-q:v 1` | Set the __quality__ of the video encoder, where the -q means quality and the :v means video.
+| `-q:v 1` | Set the __quality__ of the video encoder, where the -q means quality and the :v means video.
 Values range from 1 to 31, where lower means better.
+| `%05d.jpg` | save to jpeg files, numbered in order `00000.jpg`, `00001.jpg`, ...
+| `-vframes 1` | a single frame
+| `-ss 00:10:00` | starting at 10 min from the beginning.
 |=====================================
 
-.example
-```bash
-ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg
-```
-extracts a single image at frame 10:
 
 ### video <= images
 
-.example
-```bash
+[source,bash]
 ffmpeg -framerate 1/5 -i img%03d.png -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
-```
 
 NOTE: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
 
@@ -55,22 +54,19 @@ NOTE: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00
 You can use the -ss option to specify a start timestamp, and the -t option to specify the encoding duration. The timestamps need to be in HH:MM:SS.xxx format or in seconds.
 
 
-.example
-```bash
-ffmpeg -i input.wmv -ss 00:00:30.0 -c copy -t 00:00:10.0 output.wmv
-ffmpeg -i input.wmv -ss 30 -c copy -t 10 output.wmv
-```
+[source,bash]
+----
+ffmpeg -i input.mp4    -ss 00:00:30.0 -c copy -t 00:00:10.0    output.mp4
+ffmpeg -i input.mp4    -ss 30 -c copy -t 10                    output.mp4
+----
 
 ### framerate
 
-.example
-```bash
+[source,bash]
 ffmpeg -i input.wmv -framerate 1 output.wmv
-```
 
 ### Patrol Cycle (back and forth)
 
-.example
 ```bash
 ffmpeg -i input.mp4 -filter_complex "[0]reverse[r];[0][r]concat,setpts=N/25/TB" output.mp4
 ```
@@ -79,25 +75,28 @@ The ```setpts``` is applied to avoid frame drops, and the value ```25``` should 
 ## Geometry
 
 ### crop
-```
--filter:v "crop=100:100:12:34"
-```
 
-```
--filter:v "crop=200:ih:12:34"
-```
+[source,bash]
+----
+ffmpeg -i input.mp4    -filter:v "crop=100:100:12:34"   output.mp4
+ffmpeg -i input.mp4    -filter:v "crop=200:ih:12:34"    output.mp4
+----
 
 ### scale
 
-```
--filter:v scale=iw*2:-1"
-```
+[source,bash]
+----
+ffmpeg -i input.mp4    -filter:v "scale=640:-1"      output.mp4 # <1>
+ffmpeg -i input.mp4    -filter:v "scale=iw/2:-1"     output.mp4 # <2>
+----
+<1> rescale the video 640 pixel width, and height keeps aspect ratio.
+<2> downscale the video by 4 (2 in each dimension).
 
 ### rotation
 
-```
+[source,bash]
 -filter:v "transpose=1"
-```
+
 with possible values :
 - 0 = 90CounterCLockwise and Vertical Flip (default)
 - 1 = 90Clockwise
@@ -108,15 +107,15 @@ with possible values :
 * https://ffmpeg.org/ffmpeg-filters.html#vidstabdetect
 * https://ffmpeg.org/ffmpeg-filters.html#vidstabtransform-1
 
-.example of first pass
-```sh
+.first pass
+[source,bash]
+----
+# first pass
 ffmpeg -i movie.mp4 -vf vidstabdetect=stepsize=6:shakiness=10:accuracy=15:result=motions.trf -f null -
-```
-
-.example of second pass
-```sh
-ffmpeg -i movie.mp4 -vf vidstabtransform=input=motions.trf:smoothing=60:relative=1,unsharp=5:5:0.8:3:3:0.4 -vcodec libx264 -preset veryslow -tune film -acodec copy -y smooth.mp4
-```
+# second pass
+ffmpeg -i movie.mp4 -vf vidstabtransform=input=motions.trf:smoothing=60:relative=1,unsharp=5:5:0.8:3:3:0.4 \
+-vcodec libx264 -preset veryslow -tune film -acodec copy -y smooth.mp4
+----
 
 ## stereo 3D
 https://trac.ffmpeg.org/wiki/Stereoscopic[source]
@@ -125,10 +124,9 @@ NOTE: to use filter `stereo3d`, you may have a recent version of ffmpeg.
 
 side by side half width left first to Red cyan gray/monochrome
 
-.example
-```bash
+[source,bash]
 ffmpeg -i SbS.mp4 -vf stereo3d=sbs2l:arbg -y anaglyph.mp4
-```
+
 with :
 [cols=">1m,<8", frame=topbot, grid=none]
 |=====================================
@@ -141,7 +139,6 @@ with :
 
 If the output video is still squeezed, use :
 
-.example
 ```bash
 ffmpeg -i SbS.mp4 -vf "stereo3d=sbsl:arcg,scale=iw*2:ih" -y anaglyph.mp4
 ```
@@ -154,8 +151,8 @@ with :
 |=====================================
 
 ## Audio
-.example
-```bash
+
+[source,bash]
 ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
-```
+
 0 is better
