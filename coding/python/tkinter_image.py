@@ -59,7 +59,8 @@ class CanvasImageDisplay(tk.Canvas):
             magnification = 1 + MAG_INCREMENT
         else:
             magnification = 1.
-        self.scale(magnification)
+        center = event.x, event.y
+        self.scale(magnification, center)
 
     def _on_drag(self, event):
         if tk.EventType.ButtonPress == event.type:
@@ -73,10 +74,13 @@ class CanvasImageDisplay(tk.Canvas):
     def on_resize(self, event):
         pass
 
-    def scale(self, magnification):
+    def scale(self, magnification, pivot=(0, 0)):
         new_scale = magnification * self._image.scale
         self._image.scale = new_scale
         super().scale('all', 0, 0, magnification, magnification)
+        pivot_scaled = [int(x * magnification) for x in pivot]
+        self.scan_mark(*pivot_scaled)
+        self.scan_dragto(*pivot, gain=1)
         self._redraw()
 
     def set_image_numpy(self, image_np):
@@ -103,7 +107,7 @@ class CanvasImageDisplay(tk.Canvas):
 
         pos = [x / 2 for x in self._image.size]
         self._image_id = self.create_image(*pos, image=self._image._image_tk)
-        self.tag_lower(self._image_id)
+        self.tag_lower(self._image_id)  # ensure image is always the lowest layer
 
 
 class MainApplication(tk.Frame):
@@ -119,14 +123,22 @@ class MainApplication(tk.Frame):
         frame.pack(fill=tk.BOTH, expand=tk.TRUE)
         self._canvas_image = CanvasImageDisplay(frame, background='black')
         self._canvas_image.pack(fill=tk.BOTH, expand=tk.TRUE)
+        button_bar = tk.Frame(frame, bd=1, relief=tk.SUNKEN)
+        button_bar.pack(fill=tk.BOTH, expand=tk.FALSE, side=tk.LEFT)
+        tk.Label(button_bar, text='video frame: ').pack(side=tk.LEFT)
+        tk.Button(button_bar, text="-100", command=self.point_origin).pack(side=tk.LEFT)
 
     def load_image(self, image_path):
         img = Image.open(image_path)
         self._canvas_image.set_image_pil(img)
         width, height = self._canvas_image._image.size
-        for y in np.linspace(0, height, 50):
-            for x in np.linspace(0, width, 50):
+        for y in np.linspace(0, height, 10):
+            for x in np.linspace(0, width, 30):
                 self._canvas_image.create_oval(x - 2, y - 2, x + 2, y + 2, fill='chartreuse')
+
+    def point_origin(self):
+        radius = 5
+        self._canvas_image.create_oval(-5, -5, 5, 5, fill='red')
 
 
 def main():
