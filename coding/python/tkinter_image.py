@@ -57,6 +57,11 @@ class TkImage(TkDrawable):
         self._image_tk = None
 
     @property
+    def resolution(self):
+        image_size = [int(j) for j in self._image_pil.size]
+        return image_size
+
+    @property
     def apparent_size(self):
         if self._image_pil is None:
             return None
@@ -96,13 +101,13 @@ class TkImage(TkDrawable):
 
 
 class TkScatter(TkDrawable):
-    def __init__(self, scale=1.0, position=[0, 0]):
+    def __init__(self, radius=5, scale=1.0, position=[0, 0]):
         super().__init__(scale, position)
+        self._radius = radius
         self._data = None
-        self._radius = 5
 
     def from_numpy(self, data_np):
-        self._data = data_np
+        self._data = data_np.astype(np.float)
         return self
 
     def draw(self):
@@ -207,7 +212,7 @@ class MainApplication(tk.Frame):
         button_bar = tk.Frame(frame, bd=1, relief=tk.SUNKEN)
         button_bar.pack(fill=tk.BOTH, expand=tk.FALSE, side=tk.LEFT)
         tk.Label(button_bar, text='video frame: ').pack(side=tk.LEFT)
-        tk.Button(button_bar, text="shift", command=self.shift).pack(side=tk.LEFT)
+        tk.Button(button_bar, text="grid", command=self.grid).pack(side=tk.LEFT)
         tk.Button(button_bar, text="redraw", command=self.redraw).pack(side=tk.LEFT)
 
     def imshow(self, image_path):
@@ -222,9 +227,11 @@ class MainApplication(tk.Frame):
     def redraw(self):
         self._canvas_image.redraw()
 
-    def shift(self):
-        ax = np.eye(2)*100
-        plot = TkScatter().from_numpy(ax)
+    def grid(self):
+        width, height = self._canvas_image._drawables[self._image_id].resolution
+        points = np.meshgrid(np.arange(0, width, 60), np.arange(0, height, 50))
+        points = np.vstack([x.flatten() for x in points])
+        plot = TkScatter(radius=2).from_numpy(points)
         self._canvas_image.add_drawable(plot)
 
 
@@ -236,7 +243,7 @@ def main():
         parser.add_argument('-d', '--debug', action='store_true', default=False,
                             help='raise exceptions')
         parser.add_argument('-i', '--input',
-                            help='input video file')
+                            help='input image file')
 
         args = parser.parse_args()
 
