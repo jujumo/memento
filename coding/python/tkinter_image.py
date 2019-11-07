@@ -13,9 +13,13 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 class TkDrawable:
     def __init__(self, scaling_factor=1.0, position=[0, 0]):
         self._canvas = None
-        self._canvas_id = None
+        self._canvas_id = []
         self._scaling_factor = scaling_factor
         self._position = position
+
+    def bind_canvas(self, canvas):
+        self._canvas = canvas
+        self.scaling_factor = canvas.scaling_factor
 
     @property
     def scaling_factor(self):
@@ -23,15 +27,20 @@ class TkDrawable:
 
     @scaling_factor.setter
     def scaling_factor(self, scaling_factor):
-        self.set_scaling_factor(scaling_factor)
-
-    def set_scaling_factor(self, scaling_factor):
         self._scaling_factor = scaling_factor
 
+    @property
+    def position(self):
+        return self._position
+
+    @position.setter
+    def position(self, position):
+        self._position = position
+
     def clear(self):
-        if self._canvas_id is not None:
-            self._canvas.delete(self._canvas_id)
-        self._canvas_id = None
+        for cid in self._canvas_id:
+            self._canvas.delete(cid)
+        self._canvas_id = []
 
     def draw(self):
         raise NotImplementedError()
@@ -67,10 +76,6 @@ class TkImage(TkDrawable):
         image = Image.fromarray(image)
         self.from_pil(image)
 
-    def set_scaling_factor(self, scaling_factor):
-        super().set_scaling_factor(scaling_factor)
-        self.redraw()
-
     def draw(self):
         """ rasterize _image_tk at the given scale """
         try:
@@ -79,15 +84,42 @@ class TkImage(TkDrawable):
             if self._image_pil is None:
                 raise ValueError
             assert self._canvas is not None
-            assert self._canvas_id is None  # must be cleared beforehand
             apparent_size = self.apparent_size
             scaled_image = self._image_pil.resize(apparent_size)
             self._image_tk = ImageTk.PhotoImage(scaled_image)
-            center_position = [x // 2 for x in apparent_size]
-            self._canvas_id = self._canvas.create_image(*center_position, image=self._image_tk)
+            image_id = self._canvas.create_image(*self.position, image=self._image_tk, anchor='nw')
+            self._canvas_id.append(image_id)
 
         except ValueError:
             self._image_tk = None
+            self.clear()
+
+
+class TkScatter(TkDrawable):
+    def __init__(self, scale=1.0, position=[0, 0]):
+        super().__init__(scale, position)
+        self._data = None
+        self._radius = 5
+
+    def from_numpy(self, data_np):
+        self._data = data_np
+        return self
+
+    def draw(self):
+        try:
+            if self._canvas is None:
+                raise ValueError
+            coords = self._data.transpose()
+            bb = np.hstack([coords-self._radius, coords+self._radius])
+            bb *= self.scaling_factor
+            color = 'chartreuse'
+            for coord in bb:
+                c = coord.astype(int).tolist()
+                point_id = self._canvas.create_oval(*c, outline=color, fill=color)
+                self._canvas_id.append(point_id)
+
+        except ValueError:
+            self.clear()
 
 
 class CanvasImageDisplay(tk.Canvas):
@@ -103,11 +135,12 @@ class CanvasImageDisplay(tk.Canvas):
         self._drawables = {}  # list of TkDrawable
 
     def _on_wheel(self, event):
+        factor = 1.0
         if self.scaling_factor > 0.2 and (event.num == 5 or event.delta == -120):
-            self.scaling_factor /= self.MAGNIFICATION_WHEEL
+            factor = 1. / self.MAGNIFICATION_WHEEL
         elif self._scaling_factor < 8.0 and (event.num == 4 or event.delta == 120):
-            self.scaling_factor *= self.MAGNIFICATION_WHEEL
-        center = event.x, event.y
+            factor = self.MAGNIFICATION_WHEEL
+        self.zoom(factor)
 
     def _on_drag(self, event):
         if tk.EventType.ButtonPress == event.type:
@@ -131,24 +164,23 @@ class CanvasImageDisplay(tk.Canvas):
     def scaling_factor(self):
         return self._scaling_factor
 
-    @scaling_factor.setter
-    def scaling_factor(self, scaling_factor):
-        magnification = scaling_factor / self._scaling_factor
-        self._scaling_factor = scaling_factor
+    def zoom(self, magnification):
+        # magnification = scaling_factor / self._scaling_factor
+        self._scaling_factor *= magnification
         super().scale('all', 0, 0, magnification, magnification)
         for drawable in self._drawables.values():
-            drawable.scaling_factor = scaling_factor
-        # self._redraw()
+            drawable.scaling_factor = self.scaling_factor
+        self.redraw()
 
     def add_drawable(self, drawable):
-        drawable._canvas = self
+        drawable.bind_canvas(self)
         item_id = self.item_count
         self._drawables[item_id] = drawable
         self.item_count += 1
-        self._redraw(item_id)
+        self.redraw(item_id)
         return item_id
 
-    def _redraw(self, item_id='all'):
+    def redraw(self, item_id='all'):
         # draw image
         logger.debug('redraw all')
         if item_id == 'all':
@@ -156,9 +188,6 @@ class CanvasImageDisplay(tk.Canvas):
                 drawable.redraw()
         elif item_id in self._drawables:
             self._drawables[item_id].redraw()
-        # pos = [x / 2 for x in self._image.size]
-        # self._image_id = self.create_image(*pos, image=self._image._image_tk)
-        # self.tag_lower(self._image_id)  # ensure image is always the lowest layer
 
 
 class MainApplication(tk.Frame):
@@ -178,7 +207,8 @@ class MainApplication(tk.Frame):
         button_bar = tk.Frame(frame, bd=1, relief=tk.SUNKEN)
         button_bar.pack(fill=tk.BOTH, expand=tk.FALSE, side=tk.LEFT)
         tk.Label(button_bar, text='video frame: ').pack(side=tk.LEFT)
-        tk.Button(button_bar, text="-100", command=self.point_origin).pack(side=tk.LEFT)
+        tk.Button(button_bar, text="shift", command=self.shift).pack(side=tk.LEFT)
+        tk.Button(button_bar, text="redraw", command=self.redraw).pack(side=tk.LEFT)
 
     def imshow(self, image_path):
         pil_img = Image.open(image_path)
@@ -189,15 +219,13 @@ class MainApplication(tk.Frame):
             tk_image = self._canvas_image._drawables[self._image_id]
         tk_image.from_pil(pil_img)
 
-    def point_origin(self):
-        radius = 5
-        width, height = self._canvas_image._image.size
-        for y in np.linspace(0, height, 10):
-            for x in np.linspace(0, width, 30):
-                self._canvas_image.create_oval(x - radius, y - radius, x + radius, y + radius, fill='chartreuse')
-        self._canvas_image.create_oval(-5, -5, 5, 5, fill='red')
-        self._canvas_image.create_oval(95, -5, 105, 5, fill='blue')
-        self._canvas_image.create_oval(-5, 95, 5, 105, fill='green')
+    def redraw(self):
+        self._canvas_image.redraw()
+
+    def shift(self):
+        ax = np.eye(2)*100
+        plot = TkScatter().from_numpy(ax)
+        self._canvas_image.add_drawable(plot)
 
 
 def main():
@@ -220,8 +248,6 @@ def main():
         root = tk.Tk()
         app = MainApplication(root)
         app.imshow(args.input)
-        # for i in range(100):
-        #     app.imshow(args.input)
         root.mainloop()
 
     except Exception as e:
