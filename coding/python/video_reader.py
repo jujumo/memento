@@ -21,11 +21,14 @@ class VideoIterator:
 class VideoReader:
     def __init__(self, video_path):
         self._path = video_path
-        self._capture = cv2.VideoCapture(video_path)
+
+    def __enter__(self):
+        self._capture = cv2.VideoCapture(self._path)
         if not self._capture.isOpened():
             raise ValueError(f'unable to open video {video_path}')
+        return self
 
-    def __del__(self):
+    def __exit__(self, type, value, traceback):
         self._capture.release()
 
     def __len__(self):
@@ -40,7 +43,7 @@ class VideoReader:
 from tqdm import tqdm
 if __name__ == '__main__':
     video_path = '/tmp/frames/%05d.jpg'
-    reader = VideoReader(video_path)
-    for timestamp, frame in tqdm(reader):
-        cv2.imshow('frame', frame)
-        cv2.waitKey(10)
+    with VideoReader(video_path) as reader:
+        for timestamp, frame in tqdm(reader):
+            cv2.imshow('frame', frame)
+            cv2.waitKey(10)
