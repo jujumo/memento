@@ -30,13 +30,16 @@ ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg  # <2>
 <1> convert video to a sequence of jpeg files.
 <2> extracts a *single* image at time 10s.
 
-[cols="<1m,<5", frame=topbot, grid=none]
+[cols="<2m,<5", frame=topbot, grid=none]
 |=====================================
-| `-q:v 1` | Set the __quality__ of the video encoder, where the -q means quality and the :v means video.
-Values range from 1 to 31, where lower means better.
-| `%05d.jpg` | save to jpeg files, numbered in order `00000.jpg`, `00001.jpg`, ...
-| `-vframes 1` | a single frame
-| `-ss 00:10:00` | starting at 10 min from the beginning.
+| option example        | comment
+
+| `-q:v 1`              | Set the *quality* of the video encoder. Values range from 1 to 31, where lower means better.
+| `%05d.jpg`            | *save to jpeg* files, numbered in order `00000.jpg`, `00001.jpg`, ...
+| `-vframes 1`          | Set the *number of frames* to output.
+| `-ss 00:10:00`        | starting at 10 min from the beginning.
+| `-r 4 -i input.mp4`   | As an input option, set FPS. ie. regenerate timestamp with given FPS.
+| `-i input.mp4 -r 4`   | As an output option, duplicate or drop input frames to achieve constant output frame rate fps.
 |=====================================
 
 
