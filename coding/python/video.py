@@ -123,7 +123,15 @@ class Video:
 # test
 from tqdm import tqdm
 if __name__ == '__main__':
-    video_path_in = '/tmp/frames/%05d.jpg'
+    import urllib.request
+    import os.path as path
+    video_path_in = '/tmp/video_sample.mp4'
+    if not path.exists(video_path_in):
+        url_sample = 'https://www.sample-videos.com/video123/mp4/360/big_buck_bunny_360p_1mb.mp4'
+        print(f'downloading samples ... \n\tfrom {url_sample}')
+        urllib.request.urlretrieve(url_sample, video_path_in)
+        print(f'done.')
+
     with Video.read(video_path_in) as video_stream:
         for timestamp, frame in tqdm(video_stream):
             cv2.imshow('frame', frame)
