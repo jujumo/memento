@@ -47,8 +47,17 @@ class VideoInputStream:
 
     def __len__(self):
         assert self._capture
+        nb_frames = int(self._capture.get(cv2.CAP_PROP_FRAME_COUNT))
         # WARNING: inaccurate (based on duration and FPS)
-        return int(self._capture.get(cv2.CAP_PROP_FRAME_COUNT))
+        # so, try to see if its real
+        current_position = int(self._capture.get(cv2.CAP_PROP_POS_FRAMES))
+        self._capture.set(cv2.CAP_PROP_POS_FRAMES, nb_frames+1)
+        nb_frames_actual = int(self._capture.get(cv2.CAP_PROP_POS_FRAMES))
+        if not nb_frames_actual == nb_frames:
+            nb_frames = nb_frames_actual
+        # dont forget to seek back at initial position
+        self._capture.set(cv2.CAP_PROP_POS_FRAMES, current_position)
+        return nb_frames
 
     def __iter__(self):
         assert self._capture
@@ -133,35 +142,55 @@ if __name__ == '__main__':
         print(f'done.')
 
     with Video.read(video_path_in) as video_stream:
+        nb_read = 0
+        nb_frames = len(video_stream)
         for timestamp, frame in tqdm(video_stream):
             cv2.imshow('frame', frame)
             cv2.waitKey(10)
+            nb_read += 1
+    assert nb_frames == nb_read
 
     video_stream = Video.read(video_path_in)
+    nb_frames = len(video_stream)
+    nb_read = 0
     for timestamp, frame in tqdm(video_stream):
         cv2.imshow('frame', frame)
         cv2.waitKey(10)
+        nb_read += 1
     video_stream.close()
+    assert nb_frames == nb_read
 
     video_stream = VideoInputStream()
     video_stream.open(video_path_in)
+    nb_frames = len(video_stream)
+    nb_read = 0
     for timestamp, frame in tqdm(video_stream):
         cv2.imshow('frame', frame)
         cv2.waitKey(10)
+        nb_read += 1
     video_stream.close()
+    assert nb_frames == nb_read
 
     video_stream = VideoInputStream()
     video_stream.open(video_path_in)
+    nb_frames = len(video_stream)
+    nb_read = 0
     for idx in tqdm(range(len(video_stream))):
         timestamp, frame = video_stream.grab_frame()
         cv2.imshow('frame', frame)
         cv2.waitKey(10)
+        nb_read += 1
+    assert nb_frames == nb_read
 
     video_path_out = '/tmp/frame.mp4'
     with Video.read(video_path_in) as video_in, Video.write(video_path_out, fps=30) as video_out:
+        nb_frames = len(video_stream)
+        nb_read = 0
         for timestamp, frame in tqdm(video_in):
             video_out.push_frame(frame)
             cv2.imshow('frame', frame)
             cv2.waitKey(10)
+            nb_read += 1
+    assert nb_frames == nb_read
 
     video_stream.close()
