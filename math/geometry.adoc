@@ -36,4 +36,13 @@ image:Cross_product_parallelogram.svg[Cross product vector]
 
 ## Dot-product
 
-Takes two equal-length sequences of numbers and returns a single number.
+Takes two equal-length sequences of numbers and returns a single number (scalar).
+
+
+## Determinant
+
+How much volumes (or areas inm case of 2D) are affected by the transformations.
+`Determinant = 0` squishes space, by throwing a dimension to a single point or line or flat plane.
+Change of sign, means change of chirality (i.e. mirroring).
+
+Intuition from : https://www.youtube.com/watch?v=Ip3X9LOh2dk[3Blue1Brown]
