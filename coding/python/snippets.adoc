@@ -3,7 +3,8 @@
 
 ## Main program structure
 
-```python
+[source,python]
+----
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
@@ -40,7 +41,7 @@ def main():
 
 if __name__ == '__main__':
     main()
-```
+----
 
 ## Find first element in a sequence that matches a predicate
 -- from: link:https://stackoverflow.com/questions/8534256/find-first-element-in-a-sequence-that-matches-a-predicate[stackoverflow]
@@ -71,6 +72,6 @@ see link:path.adoc#list[path]
 ## check a variable exists
 
 |================================================================================
-| local                  | global                  | attribute
+| local                  | global                  | attribute of an object
 | `'myVar' in locals()`  | `'myVar' in globals()`  | `hasattr(obj, 'attr_name')`
 |================================================================================
