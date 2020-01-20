@@ -1,20 +1,75 @@
-# image:icon_rsync.svg["rsync", width=64px] rsync
+= image:icon_rsync.svg["rsync", width=64px] rsync
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc:
+:toclevels: 1
+:experimental:
 
-- https://blog.interlinked.org/tutorials/rsync_time_machine.html[use Rsync as a time machine]
-- http://zarino.co.uk/post/synology-rsync-backup
-
-```bash
+== snippet
+[source,bash]
 rsync -avRCxn --out-format="FILE: %n" --progress --compare-dest=../save1 orig save2/
-```
+
+
+== Display
+
+[options="header", cols=">1m,3m,10"]
+|===
+| short | long              | description
+| -q    | --quiet           |
+| -v    | --verbose         |
+|       | --stats           |
+| -h    | --human-readable  |
+|       | --progress        |
+| -P    | --partial --progress  |
+|===
+
+== Backup
+
+
+[options="header", cols=">1m,3m,10"]
+.backup directories
+|===
+| short | long              | description
+| -b    | --backup          | backup with suffix
+|       | --suffix=SUFFIX   | Override backup suffix. Default `~` without `--backup-dir`.
+|       | --backup-dir=DIR  | backups changes into this directory.
+|===
+
+[options="header", cols=">1m,3m,10"]
+.sync
+|===
+| -u    | --update          | skip files newer on dest
+|       | --delete          | Delete extra files
+| -c    | --checksum        | skip based on checksum, not mod-time & size
+| -r    | --recursive       |
+| -l    | --links           |  copy symlinks as links
+| -p    | --perms           |  preserve permissions
+| -t    | --times           |  preserve times
+| -g    | --group           |  preserve group
+| -o    | --owner           |  preserve owner
+| -D    | --devices --specials |
+
+|===
+
+== Transfer
+
+[options="header", cols=">1m,3m,10"]
+|===
+| short | long              | description
+| -z    | --compress        |
+| -n    | --dry-run         |
+|       | --partial         | allows resuming of aborted syncs
+|       | --bwlimit=RATE    | limit socket I/O bandwidth
+|===
 
 ## most useful options
 
-[options="header", cols=">1e,2e,10"]
+[options="header", cols=">1m,3m,10"]
 |=============================================================================
 | short | long            | description
 | `-a`  | `--archive`     | Archive and includes a bunch of parameters to recurse directories, copy symlinks as symlinks, preserve permissions, preserve modification times, preserve group, preserve owner, and preserve device files. You usually want that option for all your backups.
 | `-b`  | `--backup`      | Make backups (see --suffix & --backup-dir)
-| `-C`  | `--cvs-exclude` | Auto ignore files in the same way CVS does.
 |       | `--exclude=PATTERN` | Excludes files matching PATTERN.
 | `-i`  | `--itemize-changes` | Print info about each change.
 |       | `--no-owner`    | It does not try to set the owner to match.
@@ -41,3 +96,11 @@ rsync -avRCxn --out-format="FILE: %n" --progress --compare-dest=../save1 orig sa
 | `-C`  | `--cvs-exclude` | Auto ignore files in the same way CVS does.
 | `-z`  | `--compress`    | Compress file data during the transfer.
 |=============================================================================
+
+== references
+
+some inspiration from:
+
+ - https://blog.interlinked.org/tutorials/rsync_time_machine.html[use Rsync as a time machine]
+ - http://zarino.co.uk/post/synology-rsync-backup
+ - https://devhints.io/rsync
