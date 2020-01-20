@@ -11,7 +11,7 @@
 , link:coding/batch/bash.adoc[bash]
 , link:coding/batch/zsh.adoc[zsh]
 - image:coding/windows/icon_windows.svg["windows"] link:coding/windows/windows.adoc[windows] : link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
-- image:coding/linux/icon_linux.svg["windows"] linux : link:coding/linux/linux_cheat.adoc[cheat], link:coding/linux/parallel.adoc[parallel]
+- image:coding/linux/icon_linux.svg["linux"] linux : link:coding/linux/linux_cheat.adoc[cheat], link:coding/linux/parallel.adoc[parallel]
 
 - image:coding/python/icon_python.svg["PYTHON"] python
 : link:coding/python/snippets.adoc[snippets]
@@ -21,7 +21,6 @@
 , link:coding/python/datetime.adoc[datetime]
 , link:coding/python/re.adoc[re]
 , link:coding/python/vcvarsall.adoc[vcvarsall]
-//, link:coding/python/xml.adoc[xml]
 
 - image:coding/cpp/icon_cpp.svg["c++"] Cpp
 : link:coding/cpp/rules.adoc[rules]
@@ -33,7 +32,7 @@
 - image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
 ## MISC.
-- image:misc/sciidoc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc/README.adoc[asciidoc]
+- image:misc/asciidoc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc/README.adoc[asciidoc]
 - image:misc/icon_openssl.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
 - image:misc/icon_rsync.svg["Rsync] link:misc/rsync.adoc[rsync]
 - image:misc/icon_synology.svg["Synology"] link:misc/synology.adoc[synology]
