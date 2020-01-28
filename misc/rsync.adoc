@@ -10,23 +10,31 @@
 [source,bash]
 rsync -avRCxn --out-format="FILE: %n" --progress --compare-dest=../save1 orig save2/
 
+[source,bash]
+.push
+rsync -a ~/local_source_dir username@remote_host:/home/username/destination_dir
+
+[source,bash]
+.pull
+rsync -a username@remote_host:/home/username/destination_dir local_source_dir
+
 
 == Display
 
-[frame=none, grid=none,  cols=">1m,3m,10"]
+[frame=none, grid=none, cols=">1m,3m,6"]
 |===
 | -i    | --itemize-changes | Print info about each change.
 | -q    | --quiet           |
 | -v    | --verbose         |
-|       | --stats           |
+|       | --stats           | Will output a summary of what was sent.
 | -h    | --human-readable  |
-|       | --progress        | Show progress during transfer.
-| -P    | --partial --progress  |
+|       | --progress        | Show progress during transfer on stdout.
+//| -P    | --partial --progress  |
 |===
 
 == Backup
 
-[frame=none, grid=none, cols=">1m,3m,10"]
+[frame=none, grid=none, cols=">1m,3m,6"]
 .backup directories
 |===
 | -b    | --backup          | backup with suffix
@@ -35,60 +43,35 @@ rsync -avRCxn --out-format="FILE: %n" --progress --compare-dest=../save1 orig sa
 |       | --link-dest       | this is a neat way to make full backups of your computers without losing much space. rsync links unchanged files to the previous backup (using hard-links, see below if you don’t know hard-links) and only claims space for changed files. This only works if you have a backup at hand, otherwise you have to make at least one backup beforehand.
 |===
 
-[frame=none, grid=none, cols=">1m,3m,10"]
-.sync
+[frame=none, grid=none, cols=">1m,3m,6"]
+.strategy
 |===
 | -u    | --update          | skip files newer on dest
 |       | --delete          | Delete extra files
 |       | --exclude=PATTERN | Excludes files matching PATTERN.
 | -c    | --checksum        | skip based on checksum, not mod-time & size
 | -r    | --recursive       |
-| -l    | --links           |  copy symlinks as links
-| -p    | --perms           |  preserve permissions
-| -t    | --times           |  preserve times
-| -g    | --group           |  preserve group
-| -o    | --owner           |  preserve owner
-|       | --no-owner        | It does not try to set the owner to match.
-|       | --no-group        | It does not try to set the group to match.
-| -D    | --devices --specials |
-
+| -l    | --links           | Copy symlinks as links
+| -p,-t | --perms,--times   | Preserves permissions, times
+| -g,-o | --group, --owner  | Preserves group, owner
+|       | --no-group, --no-owner | It does not try to set the group, owner to match.
+| -D    | --devices --specials | transfer special files/devices such as. Special files may be symbolic links.
+| -x    | --one-file-system | avoid crossing filesystem boundary when recursing.
+| -a    | --archive         | `-rlptgoD`
 |===
 
-== Transfer
+== Transfer/connection
 
-[frame=none, grid=none, options="header", cols=">1m,3m,10"]
+[frame=none, grid=none, cols=">1m,3m,6"]
 |===
-| short | long              | description
 | -z    | --compress        | Compress file data during the transfer.
 | -n    | --dry-run         |
 |       | --partial         | allows resuming of aborted syncs
-|       | --bwlimit=RATE    | limit socket I/O bandwidth
+|       | --bwlimit=RATE    | Limit I/O bandwidth RATE kB/s on average.
 |       | --rsync-path=PATH | Specify path to rsync on the remote machine.
-
+| -e "CMD" |                | Tells rsync which command to use for ssh.
 |===
 
-## most useful options
-
-[frame=none, grid=none, cols=">1m,3m,10"]
-|=============================================================================
-| `-a`  | `--archive`     | Archive and includes a bunch of parameters to recurse directories, copy symlinks as symlinks, preserve permissions, preserve modification times, preserve group, preserve owner, and preserve device files. You usually want that option for all your backups.
-| `-x`  | `--one-file-system`   | avoid crossing a filesystem boundary when recursing.
-| `-t`  | `--times`       | Preserves file timestamps.
-| `-x`  |                 |  this one is important because it prohibits rsync to go beyond the local filesystem. For example if you backup you Linux-root partition, you should not include the /proc directory because rsync will get stuck in it. -x excludes all mounted filesystems from the backup which is probably what you want in most cases.
-
-|=============================================================================
-
-### Destination
-
-[frame=none, grid=none, cols=">1e,2e,10"]
-|=============================================================================
-| `-a`  | `--archive`     | Archive mode: includes a bunch of parameters to recurse directories, copy symlinks as symlinks, preserve permissions, preserve modification times, preserve group, preserve owner, and preserve device files. You usually want that option for all your backups.
-| `-b`  | `--backup`      | Make backups (see `--suffix` & `--backup-dir`).
-|       | `--backup-dir=DIR`|  Make backups into this directory.
-|       | `--suffix=SUFFIX` | Override backup suffix.
-| `-C`  | `--cvs-exclude` | Auto ignore files in the same way CVS does.
-| `-z`  | `--compress`    | Compress file data during the transfer.
-|=============================================================================
 
 == references
 
