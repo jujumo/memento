@@ -64,9 +64,39 @@ cat /etc/passwd | xargs -I % echo "### % ###"
 [source,bash]
 diff <(ls new_dir) <(old_dir)
 
+
+=== sed
+
+`sed` works with *streams* of characters on a per-line basis
+use sed where there are patterns in the text.
+
+
+.usage
+[source,bash]
+----
+Usage: sed [OPTION]... {script-only-if-no-other-script} [input-file]...
+...
+----
+
+.examples:
+[source,bash]
+----
+# "-231.45" -> "(231.45)"
+sed 's/-\([0-9.]\+\)/(\1)/g' inputfile
+
+# apply PATTERN1-> PATTERN2 except the first line
+sed '2,$s/PATTERN1/PATTERN2/' filename
+----
+
+source:
+https://stackoverflow.com/questions/1632113/what-is-the-difference-between-sed-and-awk
+
+
+
 === awk
 
-
+awk for delimited fields on a per-line basis.
+Use awk when the text looks more like rows and columns.
 
 .basics 1
 [cols="1m,4e"]
@@ -121,17 +151,6 @@ diff <(ls new_dir) <(old_dir)
 |===
 
 
-
-
-=== sed
-
-
-.usage
-[source,bash]
-----
-Usage: sed [OPTION]... {script-only-if-no-other-script} [input-file]...
-...
-----
 
 
 === rename bunch of files
