@@ -57,23 +57,27 @@ convert rose: -rotate 90 out.png
 
 see full documentation : http://www.imagemagick.org/Usage/montage/[imagemagick]
 
-[source,bash]
-
-
 [options="header",cols=">1m,<3"]
 |===
 | |
+
 | image:convert_montage.png[montage]
 | `montage rose: rose: rose: \( pattern:gray50 -set label gray \) -background chartreuse -geometry +0+0 convert_montage.png`
+
+| another example
+| montage -label '%f' *.jpg -geometry 300x200+0+0 -background grey mosaic.jpg
+
+
 |===
 
  * `-background chartreuse` set background to Chartreuse color (the only liqueur so good they named a color after it.)
- * `-set label` associate a label to an image.
+ * `-set label` associate a label to an image. Must appear before input files.
  * `-geometry +0+0` has the extra effect of putting montage in a 'concatenation' mode (no rescale).
 
 
 
-=== Details about geometry descriptor
+
+== Details about geometry descriptor
 
 used by `crop`, `extend`, ....
 
