@@ -20,6 +20,7 @@
 , link:coding/python/conda.adoc[conda]
 , link:coding/python/datetime.adoc[datetime]
 , link:coding/python/re.adoc[re]
+, link:coding/python/matplotlib.adoc[matplotlib]
 , link:coding/python/vcvarsall.adoc[vcvarsall]
 
 - image:coding/cpp/icon_cpp.svg["c++"] Cpp
