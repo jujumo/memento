@@ -1,0 +1,66 @@
+= image:icon_python.svg["PYTHON", width=64px] python::matplotlib
+:stem:
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc:
+:toclevels: 1
+:experimental:
+
+
+== brief
+
+[source,python]
+.simple example
+----
+import matplotlib as plt
+import numpy as np
+
+x = np.arange(10)
+y = np.sin(x)
+
+plt.plot(y)
+plt.scatter(x, y)
+plt.show()
+----
+
+== arrangement
+
+
+[source,python]
+.regular grid
+----
+import matplotlib as plt
+fig, axes = plt.subplots(5, 3)
+----
+
+
+[source,python]
+.irregular grid
+----
+import matplotlib.pyplot as plt
+from matplotlib import gridspec
+#
+fig = plt.figure(figsize=(8, 6))
+# make a grid 4 rows, 3 cols
+grid = gridspec.GridSpec(4, 3)
+# first axe takes 3 rows, 3 cols
+ax1 = fig.add_subplot(grid[0:3, :])
+# second axe takes bottom left corner
+ax2 = fig.add_subplot(grid[3, 0])
+# some plots
+ax1.plot([x*x for x in range(1, 100)])
+ax2.plot([1./x for x in range(1, 100)])
+plt.show()
+----
+
+
+== decorations
+
+
+
+
+== animation
+
+[source,python]
+plt.sleep(0.1)  # let the opportunity to draw
