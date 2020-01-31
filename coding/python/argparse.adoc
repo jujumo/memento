@@ -6,12 +6,6 @@
 [source,python]
 .argparse_pgr.py
 ----
-#!/usr/bin/env python3
-__author__ = 'jumo'
-
-import argparse
-
-
 def main():
     parser = argparse.ArgumentParser(description='Description of the program.')
     only_one = parser.add_mutually_exclusive_group()                                 # <1>
@@ -21,6 +15,14 @@ def main():
     parser.add_argument('-n', '--number', type=int, default=1, help='number')        # <5>
     parser.add_argument('-l', '--level', type=int, choices=[1, 2, 4], help='level')  # <6>
     parser.add_argument('-x', default=None, const='zip', nargs='?', help='format')   # <7>
+    subparsers = parser.add_subparsers(help='sub-command help')
+    # create the parser for the "a" command
+    parser_a = subparsers.add_parser('aaa', help='a help')
+    parser_a.add_argument('foo', help='bar help')
+    # create the parser for the "b" command
+    parser_b = subparsers.add_parser('bbb', help='b help')
+    parser_b.add_argument('--baz', choices='321', help='baz help')
+
     #################################
     # some possible usages
     usages = [
@@ -30,20 +32,11 @@ def main():
         '-i input -l 2',
         '-i input -x',
         '-i input -x tar',
+        'aaa bar',
+        'bbb --baz 1'
     ]
-    # log it to file argparse_out.adoc
-    from os.path import basename, dirname, join
-    with open(join(dirname(__file__), 'argparse_out.adoc'), 'w') as fout:
-        for usage in usages:
-            fout.write('```bash\n> python {} {}\n'.format(basename(__file__), usage))
-            fout.write(str(parser.parse_args(usage.split())))
-            fout.write('\n```\n')
-    #################################
-
-
-if __name__ == '__main__':
-    main()
-
+    # see argparse_pgr.py and  argparse_out.adoc
+    ...
 ----
 
 <1> tells `-q` and `-v` cant be called together
@@ -55,27 +48,52 @@ if __name__ == '__main__':
 <7> an optional argument, with an optional value. eg. `-x` is equivalent to `-x zip`
 
 ### OUTPUT
-```bash
+
+[source,bash]
+----
 > python argparse_pgr.py -i input
 Namespace(input='input', level=None, number=1, quiet=False, verbose=None, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -vvv
 Namespace(input='input', level=None, number=1, quiet=False, verbose=3, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -n 10
 Namespace(input='input', level=None, number=10, quiet=False, verbose=None, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -l 2
 Namespace(input='input', level=2, number=1, quiet=False, verbose=None, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -x
 Namespace(input='input', level=None, number=1, quiet=False, verbose=None, x='zip')
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -x tar
 Namespace(input='input', level=None, number=1, quiet=False, verbose=None, x='tar')
-```
+----
+
+[source,bash]
+----
+> python argparse_pgr.py aaa bar
+Namespace(foo='bar', input=None, level=None, number=1, quiet=False, verbose=None, x=None)
+----
+
+[source,bash]
+----
+> python argparse_pgr.py bbb --baz 1
+Namespace(baz='1', input=None, level=None, number=1, quiet=False, verbose=None, x=None)
+----
+

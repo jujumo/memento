@@ -1,24 +1,48 @@
-```bash
+[source,bash]
+----
 > python argparse_pgr.py -i input
 Namespace(input='input', level=None, number=1, quiet=False, verbose=None, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -vvv
 Namespace(input='input', level=None, number=1, quiet=False, verbose=3, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -n 10
 Namespace(input='input', level=None, number=10, quiet=False, verbose=None, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -l 2
 Namespace(input='input', level=2, number=1, quiet=False, verbose=None, x=None)
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -x
 Namespace(input='input', level=None, number=1, quiet=False, verbose=None, x='zip')
-```
-```bash
+----
+
+[source,bash]
+----
 > python argparse_pgr.py -i input -x tar
 Namespace(input='input', level=None, number=1, quiet=False, verbose=None, x='tar')
-```
+----
+
+[source,bash]
+----
+> python argparse_pgr.py aaa bar
+Namespace(foo='bar', input=None, level=None, number=1, quiet=False, verbose=None, x=None)
+----
+
+[source,bash]
+----
+> python argparse_pgr.py bbb --baz 1
+Namespace(baz='1', input=None, level=None, number=1, quiet=False, verbose=None, x=None)
+----
+
