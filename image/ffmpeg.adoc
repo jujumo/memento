@@ -159,3 +159,22 @@ with :
 ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
 
 0 is better
+
+## Metadata
+
+.definition
+[source,bash]
+----
+ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 input.mp4
+1280x720
+----
+
+.number of frames
+[source,bash]
+----
+# query the video stream
+ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of default=nokey=1:noprint_wrappers=1 input.mp4
+
+# query the container
+ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 input.mp4
+----
