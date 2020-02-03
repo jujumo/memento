@@ -1,25 +1,32 @@
-# image:icon_ffmpeg.svg["FFMPEG", width=64px] FFMPEG
-:toc: macro
+= image:icon_ffmpeg.svg["FFMPEG", width=64px] FFMPEG
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc:
+:toclevels: 1
+:experimental:
 
 Official: https://www.ffmpeg.org/[www.ffmpeg.org]
 
-## Basic
+== Basic
 
 [source,bash]
+----
 ffmpeg -i <input_file> <output_file>
+----
 
-toc::[]
+== Presets
 
-## Presets
 `ultrafast`, `superfast`, `veryfast`, `faster`, `fast`, `medium`, `slow`, `slower`, `veryslow`
 
 [source,bash]
+----
 ffmpeg -i video.mov -preset veryslow video.mp4
+----
 
+== video <==> images
 
-## video <==> images
-
-### video => images
+=== video => images
 
 
 [source,bash]
@@ -43,17 +50,19 @@ ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg  # <2>
 |=====================================
 
 
-### video <= images
+=== video <= images
 
 [source,bash]
+----
 ffmpeg -framerate 1/5 -i img%03d.png -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
+----
 
 NOTE: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
 
-## Timing
+== Timing
 
 
-### trim
+=== trim
 You can use the -ss option to specify a start timestamp, and the -t option to specify the encoding duration. The timestamps need to be in HH:MM:SS.xxx format or in seconds.
 
 
@@ -63,21 +72,25 @@ ffmpeg -i input.mp4    -ss 00:00:30.0 -c copy -t 00:00:10.0    output.mp4
 ffmpeg -i input.mp4    -ss 30 -c copy -t 10                    output.mp4
 ----
 
-### framerate
+=== framerate
 
 [source,bash]
+----
 ffmpeg -i input.wmv -framerate 1 output.wmv
+----
 
-### Patrol Cycle (back and forth)
+=== Patrol Cycle (back and forth)
 
-```bash
+[source,bash]
+----
 ffmpeg -i input.mp4 -filter_complex "[0]reverse[r];[0][r]concat,setpts=N/25/TB" output.mp4
-```
-The ```setpts``` is applied to avoid frame drops, and the value ```25``` should be replaced with the framerate of the clip.
+----
 
-## Geometry
+The `setpts` is applied to avoid frame drops, and the value `25` should be replaced with the framerate of the clip.
 
-### crop
+== Geometry
+
+=== crop
 
 [source,bash]
 ----
@@ -85,20 +98,23 @@ ffmpeg -i input.mp4    -filter:v "crop=100:100:12:34"   output.mp4
 ffmpeg -i input.mp4    -filter:v "crop=200:ih:12:34"    output.mp4
 ----
 
-### scale
+=== scale
 
 [source,bash]
 ----
 ffmpeg -i input.mp4    -filter:v "scale=640:-1"      output.mp4 # <1>
 ffmpeg -i input.mp4    -filter:v "scale=iw/2:-1"     output.mp4 # <2>
 ----
+
 <1> rescale the video 640 pixel width, and height keeps aspect ratio.
 <2> downscale the video by 4 (2 in each dimension).
 
-### rotation
+=== rotation
 
 [source,bash]
+----
 -filter:v "transpose=1"
+----
 
 with possible values :
 - 0 = 90CounterCLockwise and Vertical Flip (default)
@@ -106,11 +122,10 @@ with possible values :
 - 2 = 90CounterClockwise
 - 3 = 90Clockwise and Vertical Flip
 
-## Stabilization
+== Stabilization
 * https://ffmpeg.org/ffmpeg-filters.html#vidstabdetect
 * https://ffmpeg.org/ffmpeg-filters.html#vidstabtransform-1
 
-.first pass
 [source,bash]
 ----
 # first pass
@@ -120,7 +135,7 @@ ffmpeg -i movie.mp4 -vf vidstabtransform=input=motions.trf:smoothing=60:relative
 -vcodec libx264 -preset veryslow -tune film -acodec copy -y smooth.mp4
 ----
 
-## stereo 3D
+== stereo 3D
 https://trac.ffmpeg.org/wiki/Stereoscopic[source]
 
 NOTE: to use filter `stereo3d`, you may have a recent version of ffmpeg.
@@ -128,7 +143,9 @@ NOTE: to use filter `stereo3d`, you may have a recent version of ffmpeg.
 side by side half width left first to Red cyan gray/monochrome
 
 [source,bash]
+----
 ffmpeg -i SbS.mp4 -vf stereo3d=sbs2l:arbg -y anaglyph.mp4
+----
 
 with :
 [cols=">1m,<8", frame=topbot, grid=none]
@@ -142,9 +159,11 @@ with :
 
 If the output video is still squeezed, use :
 
-```bash
+[source,bash]
+----
 ffmpeg -i SbS.mp4 -vf "stereo3d=sbsl:arcg,scale=iw*2:ih" -y anaglyph.mp4
-```
+----
+
 with :
 [cols=">1m,<8", frame=topbot, grid=none]
 |=====================================
@@ -153,14 +172,16 @@ with :
 | scale=iw*2:ih | squeeze horizontally
 |=====================================
 
-## Audio
+== Audio
 
 [source,bash]
+----
 ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
+----
 
 0 is better
 
-## Metadata
+== Metadata
 
 .definition
 [source,bash]
