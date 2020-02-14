@@ -6,6 +6,8 @@
 :toclevels: 1
 :experimental:
 
+Normally, rsync **skips** files when the files have **identical sizes and times** on the source and destination sides.
+
 == snippet
 [source,bash]
 rsync -avRCxn --out-format="FILE: %n" --progress --compare-dest=../save1 orig save2/
@@ -46,6 +48,8 @@ rsync -a username@remote_host:/home/username/destination_dir local_source_dir
 [frame=none, grid=none, cols=">1m,3m,6"]
 .strategy
 |===
+| -I    | --ignore-times    | turn off the file-times-and-sizes heuristic. If no other heuristic, transfert **ALL**.
+| -c    | --checksum        | replace the file-times-and-sizes heuristic with file-sizes-and-md5 one.
 | -u    | --update          | skip files newer on dest
 |       | --delete          | Delete extra files
 |       | --exclude=PATTERN | Excludes files matching PATTERN.
