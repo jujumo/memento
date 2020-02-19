@@ -31,8 +31,8 @@ ffmpeg -i video.mov -preset veryslow video.mp4
 
 [source,bash]
 ----
-ffmpeg -i video.mov -q:v 1 %05d.jpg                           # <1>
-ffmpeg -i video.mov -q:v 1 -vframes 1 -ss 00:10:00 image.jpg  # <2>
+ffmpeg -i video.mov   -q:v 1                           %05d.jpg   # <1>
+ffmpeg -i video.mov   -q:v 1 -vframes 1 -ss 00:10:00   image.jpg  # <2>
 ----
 <1> convert video to a sequence of jpeg files.
 <2> extracts a *single* image at time 10s.
@@ -77,22 +77,19 @@ ffmpeg -i input.mp4    -ss 30 -c copy -t 10                    output.mp4
 [cols="2,2,8"]
 |===
 | option       ^| placement | description
-| `-framerate` ^| input     | per-file option.
 .2+| `-r`      ^| input     | retimes input frames at that rate.
                ^| output    | will duplicate or drop frames to achieve the given rate.
 |===
 
 [source,bash]
 ----
-ffmpeg -i input.mp4 -r 2 output.gif  # <1>
-ffmpeg -i input.mp4 -filter:v "fps=2" output.gif  # <1>
-ffmpeg -r 2 -i input.mp4 output.gif  # <2>
-ffmpeg -i input.mp4 -framerate 1 output.mp4 # <3>
+ffmpeg         -i input.mp4   -r 2                output.gif  # <1>
+ffmpeg         -i input.mp4   -filter:v "fps=2"   output.gif  # <1>
+ffmpeg -r 2    -i input.mp4                       output.gif  # <2>
 ----
 
 <1> retime: drop frames to meet 2 fps.
 <2> reinterpret: slow down framerate to meet 2 fps.
-<3> ineffective
 
 
 === Patrol Cycle (back and forth)
@@ -129,10 +126,11 @@ ffmpeg -i input.mp4    -filter:v "scale=iw/2:-1"     output.mp4 # <2>
 
 [source,bash]
 ----
--filter:v "transpose=1"
+fmpeg -i input.mp4    -filter:v "transpose=1"     output.mp4
 ----
 
 with possible values :
+
 - 0 = 90CounterCLockwise and Vertical Flip (default)
 - 1 = 90Clockwise
 - 2 = 90CounterClockwise
