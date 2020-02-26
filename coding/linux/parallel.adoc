@@ -144,9 +144,10 @@ parallel my_func ::: 1 2 3
 == misc. options
 [source,bash]
 ----
-parallel --arg-sep ,, echo ,, A B C :::: def-file # change ::: to ,,
-parallel --arg-file-sep // echo ::: A B C // def-file # change :::: to //
-parallel -d _ echo :::: abc_-file # parse '_' separated instead lines
+parallel --arg-sep ,, echo ,, A B C :::: def-file       # change ::: to ,,
+parallel --arg-file-sep // echo ::: A B C // def-file   # change :::: to //
+parallel -d _ echo :::: abc_-file                       # parse '_' separated instead lines
+parallel -q echo "\"{}\"" ::: a b c                     # "a" "b" "c"
 ----
 
 == remote exec
