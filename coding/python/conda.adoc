@@ -81,7 +81,10 @@ and then recreate an environment from it:
 
 .import
 [source,bash]
-conda env create -f environment.yml --name ny_env
+----
+conda env create -f environment.yml                 # <1> if name in environment.yml
+conda env create -f environment.yml --name ny_env   # <2> if name not in environment.yml
+----
 
 -- from link:https://conda.io/docs/user-guide/tasks/manage-environments.html[conda.io]
 
