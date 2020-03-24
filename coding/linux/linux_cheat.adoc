@@ -75,7 +75,6 @@ use sed where there are patterns in the text.
 [source,bash]
 ----
 Usage: sed [OPTION]... {script-only-if-no-other-script} [input-file]...
-...
 ----
 
 .examples:

@@ -53,8 +53,7 @@ class VideoInputStream:
         current_position = int(self._capture.get(cv2.CAP_PROP_POS_FRAMES))
         self._capture.set(cv2.CAP_PROP_POS_FRAMES, nb_frames+1)
         nb_frames_actual = int(self._capture.get(cv2.CAP_PROP_POS_FRAMES))
-        if not nb_frames_actual == nb_frames:
-            nb_frames = nb_frames_actual
+        nb_frames = nb_frames_actual
         # dont forget to seek back at initial position
         self._capture.set(cv2.CAP_PROP_POS_FRAMES, current_position)
         return nb_frames

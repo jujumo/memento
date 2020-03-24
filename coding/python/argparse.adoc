@@ -1,10 +1,10 @@
-# image:icon_python.svg["PYTHON", width=64px] Python::argparse
+= image:icon_python.svg["PYTHON", width=64px] Python::argparse
 
-## Par l'exemple
+== Par l'exemple
 
-### CODE
-[source,python]
+=== CODE
 .argparse_pgr.py
+[source,python]
 ----
 def main():
     parser = argparse.ArgumentParser(description='Description of the program.')
@@ -47,7 +47,7 @@ def main():
 <6> choose among a list eg. `-l 4` is allowed.
 <7> an optional argument, with an optional value. eg. `-x` is equivalent to `-x zip`
 
-### OUTPUT
+=== OUTPUT
 
 [source,bash]
 ----

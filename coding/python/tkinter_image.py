@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler(sys.stdout))
 
 
-
 class MainApplication(tk.Frame):
     def __init__(self, root):
         # gui
