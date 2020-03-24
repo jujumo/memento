@@ -12,22 +12,34 @@ import argparse
 import logging
 import sys
 logger = logging.getLogger(__name__)
-logger.addHandler(logging.StreamHandler(sys.stdout))
+logging.basicConfig(format='%(levelname)-8s::%(name)s: %(message)s')
+
+
+class VerbosityParsor(argparse.Action):
+    """ accept debug, info, ... or theirs corresponding integer value formatted as string."""
+    def __call__(self, parser, namespace, values, option_string=None):
+        assert isinstance(values, str)
+        try:  # in case it represent an int, directly get it
+            values = int(values)
+        except ValueError:  # else ask logging to sort it out
+            values = logging.getLevelName(values.upper())
+        setattr(namespace, self.dest, values)
 
 
 def main():
     try:
         parser = argparse.ArgumentParser(description='Description of the program.')
-        parser.add_argument('-v', '--verbose', action='count', default=0, help='verbosity level')
-        parser.add_argument('-d', '--debug', action='store_true', default=False, help='raise exceptions')
+        parser_verosity = parser.add_mutually_exclusive_group()
+        parser_verosity.add_argument(
+            '-v', '--verbose', nargs='?', default='warning', const='info', action=VerbosityParsor,
+            help='verbosity level (debug, info, warning, critical, ... or int value) [warning]')
+        parser_verosity.add_argument(
+            '-q', '--silent', '--quiet', action='store_const', dest='verbose', const='critical')
         parser.add_argument('-i', '--input', nargs='+', required=True, help='input')
         parser.add_argument('-o', '--output', default='', help='input')
         args = parser.parse_args()
 
-        if args.verbose:
-            logger.setLevel(logging.INFO)
-        if args.verbose > 1:
-            logger.setLevel(logging.DEBUG)
+        logger.setLevel(args.verbose)
 
         #########################
         # place your code here #
@@ -35,7 +47,7 @@ def main():
 
     except Exception as e:
         logger.critical(e)
-        if args.debug:
+        if args.verbose <= logging.DEBUG:
             raise
 
 
