@@ -1,0 +1,14 @@
+= image:icon_python.svg["PYTHON", width=64px] Python::logging
+
+Some cheat about python `logging` module.
+
+== snippet
+
+[source,python]
+----
+import logging, sys
+logger = logging.getLogger(__name__)  # __name__ is the name of the current module ('__main__'for a program)
+
+
+----
+
