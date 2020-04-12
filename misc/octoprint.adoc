@@ -2,15 +2,23 @@
 
 WARNING: only tested on **Raspberry Pi Zero** and **Orange Pi Zero**.
 
-== install
+== install (from source)
 
-Install as regular user, using:
+Install the prerequisites:
 
 .bash
+[source,bash]
 ----
 cd
 sudo apt-get install -y git virtualenv gcc build-essential libyaml-dev
 sudo apt-get install -y python-pip python-dev python-setuptools python-virtualenv
+----
+
+Then you can install __octoprint__ from source, as regular user, using:
+
+.bash
+[source,bash]
+----
 git clone https://github.com/foosel/OctoPrint.git
 cd OctoPrint
 virtualenv venv
@@ -23,6 +31,7 @@ You may need to add the user to the `dialout` and `tty` groups,
 so that the user can access the serial ports. To do so, do:
 
 .bash
+[source,bash]
 ----
 sudo usermod -a -G tty $USER
 sudo usermod -a -G dialout $USER
@@ -31,6 +40,7 @@ sudo usermod -a -G dialout $USER
 Test octoprint is working fine:
 
 .bash
+[source,bash]
 ----
 ~/OctoPrint/venv/bin/octoprint serve
 ----
