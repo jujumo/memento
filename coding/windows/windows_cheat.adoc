@@ -1,12 +1,18 @@
-= image:icon_windows.svg["Asciidoc", width=64px] Windows tips
+= image:icon_windows.svg["X", width=64px] Windows cheat code
+:toc:
 
-## install
+== Prevent sleep
 
-see. link:chocolatey/chocolatey.adoc[chocolatey]
+Find out what program is interrupting Windows Sleep mode.
+Launch command line terminal as administrator and execute:
 
-## TIPs
+[source,dos]
+----
+powercfg -requests
+----
 
-### autologon
+
+== autologon
 
 autologon at startup
 
@@ -29,7 +35,7 @@ REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hi
 REG ADD "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v ShowSuperHidden /t REG_DWORD /d 1 /f
 ----
 
-### Deactivate recent files tracking
+== Deactivate recent files tracking
 
 .Disable recent files
 [source,bat]
