@@ -2,13 +2,52 @@
 
 Some cheat about python `logging` module.
 
+== basics
+
+[source,python]
+----
+import logging
+logger = logging.getLogger(__name__)  # <1>
+...
+logger.setLevel(logging.INFO)  # <2>
+----
+
+<1> `\\__name__` is the name of the current module (`'\\__main__'` for a program)
+<2> `logging.INFO` is an integer value.
+
+
 == snippet
 
 [source,python]
 ----
-import logging, sys
-logger = logging.getLogger(__name__)  # __name__ is the name of the current module ('__main__'for a program)
+import argparse
+import logging
+logger = logging.getLogger('colmap')
+logging.basicConfig(format='%(levelname)-8s:%(name)s: %(message)s')
 
+class VerbosityParser(argparse.Action):
+    """ accept debug, info, ... or theirs corresponding integer value formatted as string."""
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        assert isinstance(values, str)
+        try:  # in case it represent an int, directly get it
+            values = int(values)
+        except ValueError:  # else ask logging to sort it out
+            values = logging.getLevelName(values.upper())
+        setattr(namespace, self.dest, values)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='')
+    parser_verbosity = parser.add_mutually_exclusive_group()
+    parser_verbosity.add_argument(
+        '-v', '--verbose', nargs='?', default=logging.WARNING, const=logging.INFO, action=VerbosityParser,
+        help='verbosity level (debug, info, warning, critical, ... or int value) [warning]')
+    parser_verbosity.add_argument(
+        '-q', '--silent', '--quiet', action='store_const', dest='verbose', const=logging.CRITICAL)
+
+    args = parser.parse_args()
+    logger.setLevel(args.verbose)
 
 ----
 
