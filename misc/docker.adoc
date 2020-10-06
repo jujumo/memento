@@ -1,0 +1,48 @@
+= image:icon_docker.svg["docker", width=64px] Docker cheat sheet
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
+
+== Cheat
+
+=== build
+
+Some examples
+
+[source,bash]
+----
+#             PATH                                  Options       ==> IMAGE   repository    , tag
+docker build  .                                    -t hello-world:1.0.1     # hello-world   , 1.0.1
+docker build  git://github.com/naver/kapture                                # <none>        , <none>
+docker build  git://github.com/naver/kapture#1.0.9 -t naver/kapture:1.0.9   # naver/kapture , 1.0.9
+----
+
+=== run
+
+----
+docker run hello-world
+----
+
+=== clean
+[source,bash]
+----
+docker system prune    # stopped containers, dangling images, dangling build cache
+docker system prune -a # unused images not just dangling ones
+----
+
+
+== Terminology
+
+. `image` is a saved and archived machine state (like an .img of an SD card).
+. `IMAGE ID` uniquely identified an image. It is 64 digit hex code truncated to 12 digits (e.g. 91c95931e552).
+. `repository` is a collection of images. 'ubuntu' is a repository.
+. `repository:tag` (I 'll call it `image alias`) is human-friendly alias to an `IMAGE ID`.
+   The `tag` part usually refer to a version name, as such as 'hello-world:latest'
+. `registry` is a server that stores and lets you distribute images.
+. `container` is a running instance based (and possibly modified) on an image.
+. `CONTAINER ID` uniquely identified a container.
+. `NAME` is an alias to `CONTAINER ID`.
+
