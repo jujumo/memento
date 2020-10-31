@@ -1,4 +1,4 @@
-= ZSH
+= image:icon_bash.svg["BASH", width=64px] (Oh My) ZSH
 :experimental:
 :toc:
 
@@ -8,7 +8,7 @@
 [options="header",cols="1,6"]
 |===
 | keys              | action
-
+| kbd:[ESC]kbd:[ESC]| inserts the last command with sudo prefix (requires sudo plugin).
 | kbd:[ESC+.]       | inserts the last argument of the previous history line, repeat to go back in history. (Same in Bash.)
 | kbd:[ESC+']       | quotes the whole line. (Useful for su -c or ssh).
 | kbd:[ESC+q]       | clears the line and inserts it again on the next prompt, allowing you to issue an interim command.
@@ -31,4 +31,37 @@ source: https://leahneukirchen.org/blog/archive/2008/02/10-zsh-tricks-you-may-no
 ----
 sudo apt-get install zsh curl git
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+----
+
+== configure plugins
+
+The list of plugin I like:
+
+..zshrc
+[source,bash]
+----
+...
+plugins=(
+        cp
+        git
+        common-aliases
+        per-directory-history
+        rsync
+        debian
+        sudo
+)
+...
+----
+
+== configure kbd:[HOME] and kbd:[END] keys.
+
+In some cases, through ssh, kbd:[HOME] and kbd:[END] does not work as expected.
+Adding the following to `.zshrc` usually restore the their behavior.
+
+..zshrc
+[source,bash]
+----
+...
+bindkey "\033[1~" beginning-of-line
+bindkey "\033[4~" end-of-line
 ----
