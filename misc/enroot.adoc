@@ -1,0 +1,47 @@
+= image:icon_docker.svg["enroot", width=64px] enroot cheat sheet
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
+
+
+== import
+
+.$> bash
+[source,bash]
+----
+enroot import docker://xxx   # import from docker hub
+enroot import dockerd://xxx   # import from local docker
+# example
+enroot import docker://nvidia/cuda:10.0-base
+# create nvidia+cuda+10.0-base.sqsh in $ENROOT_DATA_PATH
+----
+
+== create
+
+.$> bash
+[source,bash]
+----
+enroot create --name cuda nvidia+cuda+10.0-base.sqsh
+# add some capabilities
+enroot start --root --rw cuda sh -c 'apt update && apt install -y mesa-utils'
+----
+
+== run
+
+.$> bash
+[source,bash]
+----
+# Run nbody leveraging the X server from the host
+export ENROOT_MOUNT_HOME=y NVIDIA_DRIVER_CAPABILITIES=all
+enroot start --env DISPLAY --env NVIDIA_DRIVER_CAPABILITIES --mount /tmp/.X11-unix:/tmp/.X11-unix cuda glxgears
+
+# Remove the container
+enroot remove cuda
+----
+
+-- from: https://github.com/NVIDIA/enroot/blob/master/doc/usage.md
+
+
