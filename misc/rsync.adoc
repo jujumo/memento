@@ -61,7 +61,7 @@ rsync -a username@remote_host:/home/username/destination_dir local_source_dir
 |       | --no-group, --no-owner | It does not try to set the group, owner to match.
 | -D    | --devices --specials | transfer special files/devices such as. Special files may be symbolic links.
 | -x    | --one-file-system | avoid crossing filesystem boundary when recursing.
-| -a    | --archive         | `-rlptgoD`
+| -a    | --archive         | `-rlptgoD`, recursive, links, preserve permissions times ownership and group, transfert such as.
 |===
 
 == Transfer/connection
