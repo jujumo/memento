@@ -1,0 +1,16 @@
+#EXTM3U
+
+#EXTINF:-1 tvg-id="" tvg-name="radio-meuh" group-title="FRANCE" tvg-logo="https://www.radiomeuh.com/img/logo-header.png", radio-meuh
+http://radiomeuh.ice.infomaniak.ch:8000/radiomeuh-128.mp3
+
+#EXTINF:-1 tvg-id="" tvg-name="campus grenoble" group-title="FRANCE" tvg-logo="https://upload.wikimedia.org/wikipedia/fr/b/b4/RCG_long_coul1-945x473.png", campus grenoble
+https://live.campusgrenoble.org/rcg112
+
+#EXTINF:-1 tvg-id="" tvg-name="couleur3" group-title="FRANCE" tvg-logo="https://emphase.ch/wp/wp-content/uploads/2016/09/04-COULEUR3.jpg", couleur3
+http://stream.srg-ssr.ch/m/couleur3/mp3_128
+
+#EXTINF:-1 tvg-id="" tvg-name="france-inter" group-title="FRANCE" tvg-logo="https://upload.wikimedia.org/wikipedia/fr/thumb/3/39/France_Inter_logo.svg/langfr-130px-France_Inter_logo.svg.png", france-inter
+http://direct.franceinter.fr/live/franceinter-midfi.mp3
+
+#EXTINF:-1 tvg-id="" tvg-name="france-info" group-title="FRANCE" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Franceinfo.svg/langfr-220px-Franceinfo.svg.png", france-info
+http://direct.franceinfo.fr/live/franceinfo-midfi.mp3
