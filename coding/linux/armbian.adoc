@@ -3,7 +3,7 @@
 :email: julien.morat@gmail.com
 :sectnums: 2
 :toc:
-:toclevels: 2
+:toclevels: 1
 :experimental:
 
 == Install Raspbian
