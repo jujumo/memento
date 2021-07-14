@@ -4,6 +4,7 @@
 - image:image/icon_ffmpeg.svg["ffmpeg",link="image/ffmpeg.adoc"] link:image/ffmpeg.adoc[ffmpeg]
 , image:image/icon_magick.svg["convert",link="image/convert.adoc"] link:image/convert.adoc[convert]
 , image:image/icon_sensor.svg["sensors",link="image/sensors.adoc"] link:image/sensors.adoc[sensors]
+, image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
 ## CODING
 - image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting
@@ -11,7 +12,10 @@
 , link:coding/batch/bash.adoc[bash]
 , link:coding/batch/zsh.adoc[zsh]
 - image:coding/windows/icon_windows.svg["windows"] windows : link:coding/windows/windows_cheat.adoc[cheat], link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
-- image:coding/linux/icon_linux.svg["linux"] linux : link:coding/linux/linux_cheat.adoc[cheat], link:coding/linux/parallel.adoc[parallel]
+- image:coding/linux/icon_linux.svg["linux"] linux
+: link:coding/linux/linux_cheat.adoc[cheat]
+, link:coding/linux/parallel.adoc[parallel]
+, link:coding/linux/armbian.adoc[armbian].
 
 - image:coding/python/icon_python.svg["PYTHON"] python
 : link:coding/python/snippets.adoc[snippets]
@@ -29,9 +33,9 @@
 , link:coding/cpp/qmake.adoc[qmake]
 , link:coding/cpp/cmake.adoc[cmake]
 , link:coding/cpp/snippets.adoc[snippets]
-, link:coding/cpp/algoithm.adoc[algoithms]
+, link:coding/cpp/algorithm.adoc[algorithms]
 
-- image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
+-
 
 ## MISC.
 - image:misc/asciidoc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc/README.adoc[asciidoc]

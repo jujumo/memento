@@ -1,0 +1,94 @@
+= image:icon_armbian.svg["armbian", width=64px] Raspberry Pi / Armbian
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums: 2
+:toc:
+:toclevels: 2
+:experimental:
+
+== Install Raspbian
+
+
+.create the SD card
+
+. download and burn image from https://www.raspberrypi.org/downloads/raspberry-pi-desktop/[raspberrypi.org],
+. create a file named `ssh` at root directory (allow ssh connection),
+. create a file named `wpa_supplicant.conf` at root directory
+
+.wpa_supplicant.conf
+[source,ini]
+----
+country=FR
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="MY_SSID"
+    psk="NETWORK-PASSWORD"
+}
+----
+
+replace
+
+ - `MY_SSID` with the name of your wifi network,
+ - `NETWORK-PASSWORD` with the actual password of the wifi network.
+
+== Setup Raspbian
+
+=== initial setup and update
+
+- username : pi
+- passwd : raspberry
+
+make sure everything is up to date:
+
+[source,bash]
+----
+sudo raspi-config # change passwd and hostname update
+sudo apt-get update && sudo apt-get upgrade -y
+----
+
+=== replace __pi__ user:
+
+[source,bash]
+----
+sudo adduser CUSTOM_USER
+sudo usermod CUSTOM_USER -a -G pi,adm,dialout,cdrom,sudo,audio,video,plugdev,games,users,input,netdev,spi,i2c,gpio
+----
+
+replace
+
+ - `CUSTOM_USER` with the name of your user,
+
+logout re-login as CUSTOM_USER
+
+[source,bash]
+sudo raspi-config # change boot
+
+[source,bash]
+sudo deluser --remove-home pi
+
+
+== Setup config
+
+=== install oh my zsh (optional)
+
+[source,bash]
+----
+# Install zsh
+sudo apt install -y git zsh wget
+# Install oh-my-zsh
+sh -c "$(wget https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+# change theme
+nano ~/.zshrc
+----
+
+.~/.zshrc
+----
+# theme to "wedisagree" or "tonotdo"
+# replace ZSH_THEME="robbyrussell"
+# with ZSH_THEME="tonotdo"
+bindkey  "^[[H"   beginning-of-line
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
+----
