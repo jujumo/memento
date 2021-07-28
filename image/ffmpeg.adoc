@@ -55,6 +55,7 @@ ffmpeg -i video.mov   -q:v 1 -vframes 1 -ss 00:10:00   image.jpg  # <2>
 [source,bash]
 ----
 ffmpeg -framerate 1/5 -i img%03d.png -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
+ffmpeg -pattern_type glob -i "image-*.png" out.mp4  # Not numbered or no regular pattern
 ----
 
 NOTE: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
