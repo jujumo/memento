@@ -76,13 +76,11 @@ prompt_segment() {
 }
 
 prompt_line1() {
-    prompt_segment white black "╭─"
-    # echo -n "┌─"
+    prompt_segment white black "┌─"
 }
 
 prompt_line2() {
-    # echo -n "└─"
-    prompt_segment white black "╰>"
+    prompt_segment white black "└>"
 }
 
 prompt_return() {
@@ -106,7 +104,7 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment green default "%(!.%{%F{yellow}%}.)%n@%m"
+    prompt_segment green black "%(!.%{%F{yellow}%}.)%n@%m"
   fi
 }
 
