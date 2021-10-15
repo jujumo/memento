@@ -97,6 +97,11 @@ use sed where there are patterns in the text.
 Usage: sed [OPTION]... {script-only-if-no-other-script} [input-file]...
 ----
 
+usefull options:
+
+ - `-e` the command (directly as plain text, use `-f` to read it from file)
+ - `-i` inplace (change directly the file instead of outputing on stdout)
+
 .examples:
 [source,bash]
 ----
@@ -109,6 +114,9 @@ sed '2,$s/PATTERN1/PATTERN2/' filename
 # keep from line 16224 to 16482 of __filename__
 sed -n '16224,16482p;16483q' filename > newfile
 
+# remove
+sed -e 's/.../.../;t;d'
+# t without any label conditionally skips all following commands, d deletes line.
 ----
 
 source:
