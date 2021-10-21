@@ -43,14 +43,22 @@ The list of plugin I like:
 ...
 plugins=(
         cp
-        git
+        gitfast
         common-aliases
         per-directory-history
         rsync
+#       ssh-agent
         debian
         sudo
 )
 ...
+----
+
+== get my theme
+
+[source,bash]
+----
+wget https://raw.githubusercontent.com/jujumo/memento/main/coding/batch/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
 ----
 
 == configure kbd:[HOME] and kbd:[END] keys.
@@ -64,4 +72,9 @@ Adding the following to `.zshrc` usually restore the their behavior.
 ...
 bindkey "\033[1~" beginning-of-line
 bindkey "\033[4~" end-of-line
+
+   or
+
+bindkey  "^[[F"   end-of-line
+bindkey  "^[[3~"  delete-char
 ----
