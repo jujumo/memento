@@ -53,14 +53,9 @@ esac
   # what font the user is viewing this source code in. Do not replace the
   # escape sequence with a single literal character.
   # Do not change this! Do not make it '\u2b80'; that is the old, wrong code point.
-  # SEGMENT_SEPARATOR=$'\ue0b0'
-  # SEGMENT_SEPARATOR=$'▒'
-  SEGMENT_SEPARATOR=$'═'
-  SEGMENT_START=$'╘'
-  SEGMENT_END=$'╛'
-  SEGMENT_SEPARATOR=$'\u2771'
-  SEGMENT_START=$'\u2772'
-  SEGMENT_END=$'\u2771'
+  SEGMENT_SEPARATOR=$'%F{022}─'
+  SEGMENT_START=$'┤'
+  SEGMENT_STOP=$'├'
 }
 
 
@@ -74,7 +69,7 @@ prompt_segment() {
   fi
 
   LAST_SEGMENT=$2
-  echo -n " %{$fg%}$2%{%f%} "
+  echo -n "$SEGMENT_START%{$fg%}$2%{%f%}$SEGMENT_STOP"
 }
 
 prompt_start() {
