@@ -53,9 +53,9 @@ esac
   # what font the user is viewing this source code in. Do not replace the
   # escape sequence with a single literal character.
   # Do not change this! Do not make it '\u2b80'; that is the old, wrong code point.
-  SEGMENT_SEPARATOR=$'%F{022}─'
-  SEGMENT_START=$'┤'
-  SEGMENT_STOP=$'├'
+  SEGMENT_SEPARATOR=$'-'
+  SEGMENT_START=$'['
+  SEGMENT_STOP=$']'
 }
 
 
@@ -150,7 +150,6 @@ build_prompt() {
     prompt_conda
     prompt_root
     prompt_dirpath
-    prompt_segment
     prompt_return
     prompt_exec
 }
