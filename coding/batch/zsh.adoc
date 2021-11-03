@@ -85,6 +85,7 @@ bindkey  "^[[3~"  delete-char
 .download theme
 ----
 wget https://raw.githubusercontent.com/jujumo/memento/main/coding/batch/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
+. ~/.zshrc
 ----
 
 == .*rc files
@@ -104,7 +105,7 @@ complete list of which zsh config files are loaded
 |~/.zshrc       | F | D | --
 |/etc/zlogin    | G | --| --
 |~/.zlogin      | H | --| --
-4+| on logout
+| 3+| on logout
 |~/.zlogout     | I | --| --
 |/etc/zlogout   | J | --| --
 |===

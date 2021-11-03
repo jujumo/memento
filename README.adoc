@@ -1,12 +1,12 @@
-# MÉMENTO
+= MÉMENTO
 
-## IMAGE // VIDEO
+== IMAGE // VIDEO
 - image:image/icon_ffmpeg.svg["ffmpeg",link="image/ffmpeg.adoc"] link:image/ffmpeg.adoc[ffmpeg]
 , image:image/icon_magick.svg["convert",link="image/convert.adoc"] link:image/convert.adoc[convert]
 , image:image/icon_sensor.svg["sensors",link="image/sensors.adoc"] link:image/sensors.adoc[sensors]
 , image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
-## CODING
+== CODING
 - image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting
 : link:coding/batch/dos.adoc[dos]
 , link:coding/batch/bash.adoc[bash]
@@ -35,9 +35,7 @@
 , link:coding/cpp/snippets.adoc[snippets]
 , link:coding/cpp/algorithm.adoc[algorithms]
 
--
-
-## MISC.
+== MISC.
 - image:misc/asciidoc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc/README.adoc[asciidoc]
 - image:misc/icon_openssl.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
 - image:misc/icon_docker.svg["DOCKER"] link:misc/docker.adoc[Docker]
