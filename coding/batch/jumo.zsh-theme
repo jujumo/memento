@@ -53,36 +53,46 @@ esac
   # what font the user is viewing this source code in. Do not replace the
   # escape sequence with a single literal character.
   # Do not change this! Do not make it '\u2b80'; that is the old, wrong code point.
-  SEGMENT_SEPARATOR=$'-'
-  SEGMENT_START=$'['
-  SEGMENT_STOP=$']'
-}
-
-
-# Takes arguments foreground.  can be omitted,
-prompt_segment() {
-  local fg
-  [[ -n $1 ]] && fg="%F{$1}" || fg="%f"
-
-  if [[ $LAST_SEGMENT != 'NONE' ]]; then
-    echo -n "%{%f%}$SEGMENT_SEPARATOR"
-  fi
-
-  LAST_SEGMENT=$2
-  echo -n "$SEGMENT_START%{$fg%}$2%{%f%}$SEGMENT_STOP"
+  DIMMED=$'%F{008}'
+  SEGMENT_SEPARATOR=$'|'
+  SEGMENT_START=$'%F{008}[%{%f%}'
+  SEGMENT_STOP=$'%F{008}]%{%f%}'
 }
 
 prompt_start() {
     if [[ $RETVAL -ne 0 ]]; then
          echo -n "%{%F{red}%}"
+    else
+        echo -n "%F{014}"
     fi
-    echo -n "┌"
+    echo -n "%K{000}┌"
 }
 
+# start the segment line
+segment_start() {
+  echo -n "%F{014}["
+  LAST_SEGMENT='NONE'
+}
 
-# End the prompt, closing any open segments
-prompt_return() {
-    echo -n "\n"
+# add a segment info. Takes arguments foreground.  can be omitted,
+segment_append() {
+  local fg
+  [[ -n $1 ]] && fg="%F{$1}" || fg="%f"
+
+  if [[ $LAST_SEGMENT != 'NONE' ]]; then
+    echo -n "%F{014}$SEGMENT_SEPARATOR"
+  fi
+
+  LAST_SEGMENT=$2
+  # echo -n "$SEGMENT_START %{$fg%}$2%{%f%} $SEGMENT_STOP"
+  # echo -n "%F{008}[  %{$fg%}$2 %F{008}]"
+  echo -n " %{$fg%}$2 "
+}
+
+# end the segment line
+segment_end() {
+    echo -n "%F{014}]\n%k"
+    LAST_SEGMENT='NONE'
 }
 
 ### Prompt components
@@ -91,7 +101,7 @@ prompt_return() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment green "%(!.%{%F{yellow}%}.)%n@%m"
+    segment_append green "%(!.%{%F{yellow}%}.)%n@%m"
   fi
 }
 
@@ -99,18 +109,18 @@ prompt_context() {
 prompt_conda() {
   (( ${+CONDA_PREFIX} )) || return
   CONDA_PROMPT_MODIFIER="[$(basename $CONDA_PREFIX)]"
-  prompt_segment magenta $CONDA_PROMPT_MODIFIER
+  segment_append magenta $CONDA_PROMPT_MODIFIER
 }
 
 # Dir: current working directory: only dirname
 prompt_dirpath() {
-    prompt_segment blue "%1~/"
+    segment_append blue "%1~/"
 }
 
 prompt_root() {
   ROOT_DIR=$(pwd -P | cut -d "/" -f2)
   PROMPT_ROOT="/${ROOT_DIR}"
-  prompt_segment cyan $PROMPT_ROOT
+  segment_append cyan $PROMPT_ROOT
 }
 
 # Dir: current working directory name
@@ -120,19 +130,19 @@ prompt_mount() {
     CURRENT_MNT=`findmnt -T ${PWD} -n -o TARGET`
     ROOT_MNT=$(echo "$CURRENT_MNT" | cut -d "/" -f2)
     PROMPT_MNT="/${ROOT_MNT}"
-    prompt_segment cyan $PROMPT_MNT
+    segment_append cyan $PROMPT_MNT
 }
 
 # Virtualenv: current working virtualenv
 prompt_virtualenv() {
   local virtualenv_path="$VIRTUAL_ENV"
   if [[ -n $virtualenv_path && -n $VIRTUAL_ENV_DISABLE_PROMPT ]]; then
-    prompt_segment blue "(`basename $virtualenv_path`)"
+    segment_append blue "(`basename $virtualenv_path`)"
   fi
 }
 
 prompt_time() {
-    prompt_segment '012' '%*'
+    segment_append '012' '%*'
 }
 
 prompt_exec() {
@@ -145,12 +155,13 @@ prompt_exec() {
 build_prompt() {
     RETVAL=$?
     prompt_start
+    segment_start
     prompt_time
     prompt_context
     prompt_conda
     prompt_root
     prompt_dirpath
-    prompt_return
+    segment_end
     prompt_exec
 }
 
