@@ -50,6 +50,8 @@ plugins=(
 #       ssh-agent
         debian
         sudo
+        screen
+        docker
 )
 ...
 ----
