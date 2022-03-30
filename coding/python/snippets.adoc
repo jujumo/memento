@@ -16,10 +16,10 @@ class VerbosityParsor(argparse.Action):
     """ accept debug, info, ... or theirs corresponding integer value formatted as string."""
 
     def __call__(self, parser, namespace, values, option_string=None):
-        assert isinstance(values, str)
         try:  # in case it represent an int, directly get it
             values = int(values)
         except ValueError:  # else ask logging to sort it out
+            assert isinstance(values, str)
             values = logging.getLevelName(values.upper())
         setattr(namespace, self.dest, values)
 
