@@ -1,0 +1,23 @@
+= image:icon_python.svg["PYTHON", width=64px] Python::pyproj
+:toc:
+
+
+== define a transformation
+
+
+[source,python]
+----
+from pyproj import Transformer
+lla2ecef = Transformer.from_crs(
+    {"proj":'latlong', "ellps":'WGS84', "datum":'WGS84'},
+    {"proj":'geocent', "ellps":'WGS84', "datum":'WGS84'}
+)
+----
+
+== use the transformation
+
+[source,python]
+----
+lon, lat, alt = 35.61824094816852, 126.2997315110567, 0.0
+ecef = lla2ecef.transform(lon, lat, alt)
+----
