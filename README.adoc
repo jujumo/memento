@@ -26,7 +26,7 @@
 , link:coding/python/datetime.adoc[datetime]
 , link:coding/python/re.adoc[re]
 , link:coding/python/matplotlib.adoc[matplotlib]
-//, link:coding/python/vcvarsall.adoc[vcvarsall]
+, link:coding/python/pyproj.adoc[pyproj]
 
 - image:coding/cpp/icon_cpp.svg["c++"] Cpp
 : link:coding/cpp/rules.adoc[rules]
