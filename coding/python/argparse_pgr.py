@@ -13,7 +13,7 @@ def main():
     parser.add_argument('-n', '--number', type=int, default=1, help='number')        # <5>
     parser.add_argument('-l', '--level', type=int, choices=[1, 2, 4], help='level')  # <6>
     parser.add_argument('-x', default=None, const='zip', nargs='?', help='format')   # <7>
-    subparsers = parser.add_subparsers(help='sub-command help')
+    subparsers = parser.add_subparsers(help='sub-command help', dest="command")
     # create the parser for the "a" command
     parser_a = subparsers.add_parser('aaa', help='a help')
     parser_a.add_argument('foo', help='bar help')
