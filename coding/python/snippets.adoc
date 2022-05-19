@@ -93,13 +93,18 @@ next((x for x in range(10) if x > 10), 'not found')
 there is no number above `10` in `range(10)`, returns `"not found"` in that case.
 
 
+== List files
 
-## List files
 see link:path.adoc#list[path]
 
-## check a variable exists
+== check a variable exists
 
 |================================================================================
 | local                  | global                  | attribute of an object
 | `'myVar' in locals()`  | `'myVar' in globals()`  | `hasattr(obj, 'attr_name')`
 |================================================================================
+
+== web server
+
+[source,bash]
+python -m http.server 8000
