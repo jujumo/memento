@@ -32,6 +32,7 @@ def create_logger_output(level, logfile: Optional[str] = None):
     logger_stream.setFormatter(logger_formatter)
     logger_stream.setLevel(level)
     logger.addHandler(logger_stream)
+    return logger_stream
 
 
 def main():
