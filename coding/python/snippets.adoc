@@ -26,7 +26,7 @@ class VerbosityParsor(argparse.Action):
         setattr(namespace, self.dest, values)
 
 
-def create_logger(level, logfile: Optional[str] = None):
+def create_logger_output(level, logfile: Optional[str] = None):
     logger_formatter = logging.Formatter('%(name)s::%(levelname)-8s: %(message)s')
     logger_stream = logging.FileHandler(logfile) if logfile else logging.StreamHandler()
     logger_stream.setFormatter(logger_formatter)
@@ -54,7 +54,7 @@ def main():
         args.logfile = path.abspath(args.logfile) if args.logfile else None
         # logger stdout
         logger.setLevel(args.verbose)
-        create_logger(level=args.verbose, logfile=args.logfile)
+        create_logger_output(level=args.verbose, logfile=args.logfile)
         # config
         logger.debug('config:\n' + '\n'.join(f'\t\t{k}={v}' for k, v in vars(args).items()))
         #########################
