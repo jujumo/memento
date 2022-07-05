@@ -1,10 +1,3 @@
-# image:icon_python.svg["PYTHON", width=64px] Python::snippets
-:toc:
-
-## Main program structure
-
-[source,python]
-----
 #!/usr/bin/env python3
 import argparse
 import logging
@@ -73,42 +66,3 @@ if __name__ == '__main__':
     logger_stream.setFormatter(logger_formatter)
     logger.addHandler(logger_stream)
     main()
-----
-
-## Find first element in a sequence that matches a predicate
--- from: link:https://stackoverflow.com/questions/8534256/find-first-element-in-a-sequence-that-matches-a-predicate[stackoverflow]
-
-.finding first
-[source,python]
-----
-next((x for x in range(10) if x > 3), 'not found')
-# will return 4
-----
-
-will return the first number from 0 to 10 above 3, ie 4.
-
-.not finding
-[source,python]
-----
-next((x for x in range(10) if x > 10), 'not found')
-# will return 'not found'
-----
-
-there is no number above `10` in `range(10)`, returns `"not found"` in that case.
-
-
-== List files
-
-see link:path.adoc#list[path]
-
-== check a variable exists
-
-|================================================================================
-| local                  | global                  | attribute of an object
-| `'myVar' in locals()`  | `'myVar' in globals()`  | `hasattr(obj, 'attr_name')`
-|================================================================================
-
-== web server
-
-[source,bash]
-python -m http.server 8000
