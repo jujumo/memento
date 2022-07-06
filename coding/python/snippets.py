@@ -21,10 +21,7 @@ class VerbosityParsor(argparse.Action):
 
 
 def main():
-    config = {
-        'verbose': logging.CRITICAL,
-        'output': 'init'
-    }
+    config = {'verbose': logging.CRITICAL}
     try:
         conf_parser = argparse.ArgumentParser(add_help=False)  # Turn off help, print all options in response to -h
         conf_parser.add_argument('-c', '--conf_file', help="Specify config file", metavar="FILE")
