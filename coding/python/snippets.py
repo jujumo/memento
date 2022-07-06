@@ -2,7 +2,7 @@
 import argparse
 import logging
 import sys
-from configparser import ConfigParser
+from yaml import safe_load
 import os.path as path
 from typing import Optional
 
@@ -21,23 +21,22 @@ class VerbosityParsor(argparse.Action):
 
 
 def main():
+    config = {
+        'verbose': logging.CRITICAL,
+        'output': 'init'
+    }
     try:
         conf_parser = argparse.ArgumentParser(add_help=False)  # Turn off help, print all options in response to -h
-        conf_parser.add_argument(
-            '-c', '--conf_file',
-            help="Specify config file", metavar="FILE")
+        conf_parser.add_argument('-c', '--conf_file', help="Specify config file", metavar="FILE")
         args, remaining_argv = conf_parser.parse_known_args()
-
-        config = {}
-        if args.conf_file:
-            config_file = ConfigParser()
-            config_file.read([args.conf_file])
-            config = dict(config_file.items('Defaults'))
-
+        if args.conf_file and path.isfile(args.conf_file):
+            with open(args.conf_file, 'r') as f:
+                config.update(safe_load(f))
         # Parse rest of arguments
         parser = argparse.ArgumentParser(description='Description of the program.', parents=[conf_parser])
+        parser.set_defaults(**config)
         parser.add_argument(
-            '-v', '--verbose', nargs='?', default=logging.WARNING, const=logging.INFO, action=VerbosityParsor,
+            '-v', '--verbose', nargs='?', const=logging.INFO, action=VerbosityParsor,
             help='verbosity level (debug, info, warning, critical, ... or int value) [warning]')
         parser.add_argument(
             '-i', '--input', metavar='FILE',
@@ -45,18 +44,18 @@ def main():
         parser.add_argument(
             '-o', '--output', metavar='FILE',
             help='output file')
-        parser.set_defaults(**config)
         args = parser.parse_args(remaining_argv)
-
-        logger.setLevel(args.verbose)
-        logger.debug('config:\n' + '\n'.join(f'\t\t{k}={v}' for k, v in vars(args).items() if k != 'conf_file'))
+        config.update(vars(args).items())
+        logger.setLevel(config['verbose'])
+        logger.debug('config:\n' + '\n'.join(f'\t\t{k}: {v}' for k, v in config.items() if k != 'conf_file'))
+        logger.info('info')
         #########################
         # place your code here #
         ########################
 
     except Exception as e:
         logger.critical(e)
-        if args.verbose <= logging.DEBUG:
+        if config['verbose'] <= logging.DEBUG:
             raise
 
 
