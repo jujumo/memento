@@ -9,19 +9,38 @@ from typing import Optional
 logger = logging.getLogger('snippet')
 
 
-class VerbosityParsor(argparse.Action):
-    """ accept debug, info, ... or theirs corresponding integer value formatted as string."""
-    def __call__(self, parser, namespace, values, option_string=None):
-        try:  # in case it represent an int, directly get it
-            values = int(values)
-        except ValueError:  # else ask logging to sort it out
-            assert isinstance(values, str)
-            values = logging.getLevelName(values.upper())
-        setattr(namespace, self.dest, values)
+class Config(dict):
+    def __getattr__(self, name):
+        if name in self:
+            return self[name]
+        else:
+            raise AttributeError("No such attribute: " + name)
+
+    def __setattr__(self, name, value):
+        if name == 'verbose':  # convert verbose level to logging type (int)
+            try:  # in case it represents an int, directly get it
+                values = int(value)
+            except ValueError:  # else ask logging to sort it out
+                assert isinstance(value, str)
+                value = logging.getLevelName(value.upper())
+
+        self[name] = value
+
+    def __delattr__(self, name):
+        if name in self:
+            del self[name]
+        else:
+            raise AttributeError("No such attribute: " + name)
+
+    def update_from_args(self, args):
+        self.update(vars(args).items())
+
+    def set_defaults(self):
+        self.verbose = 'info'
 
 
 def main():
-    config = {'verbose': logging.CRITICAL}
+    config = Config()
     try:
         conf_parser = argparse.ArgumentParser(add_help=False)  # Turn off help, print all options in response to -h
         conf_parser.add_argument('-c', '--conf_file', help="Specify config file", metavar="FILE")
@@ -33,7 +52,7 @@ def main():
         parser = argparse.ArgumentParser(description='Description of the program.', parents=[conf_parser])
         parser.set_defaults(**config)
         parser.add_argument(
-            '-v', '--verbose', nargs='?', const=logging.INFO, action=VerbosityParsor,
+            '-v', '--verbose', nargs='?', const='info',
             help='verbosity level (debug, info, warning, critical, ... or int value) [warning]')
         parser.add_argument(
             '-i', '--input', metavar='FILE',
@@ -42,8 +61,9 @@ def main():
             '-o', '--output', metavar='FILE',
             help='output file')
         args = parser.parse_args(remaining_argv)
-        config.update(vars(args).items())
-        logger.setLevel(config['verbose'])
+        config.update_from_args(args)
+        config.set_defaults()
+        logger.setLevel(config.verbose)
         logger.debug('config:\n' + '\n'.join(f'\t\t{k}: {v}' for k, v in config.items() if k != 'conf_file'))
         logger.info('info')
         #########################
@@ -52,8 +72,8 @@ def main():
 
     except Exception as e:
         logger.critical(e)
-        if config['verbose'] <= logging.DEBUG:
-            raise
+        # if config['verbose'] <= logging.DEBUG:
+        raise
 
 
 if __name__ == '__main__':
