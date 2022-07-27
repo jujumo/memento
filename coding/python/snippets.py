@@ -32,11 +32,17 @@ class Config(dict):
         else:
             raise AttributeError("No such attribute: " + name)
 
+    def __repr__(self):
+        return '\n'.join(f'\t\t{k}: {v}' for k, v in self.items())
+
     def update_from_args(self, args):
         self.update(vars(args).items())
 
     def set_defaults(self):
-        self.verbose = 'info'
+        {'verbose': 'info'}
+
+    def check(self):
+        pass
 
 
 def main():
@@ -64,7 +70,7 @@ def main():
         config.update_from_args(args)
         config.set_defaults()
         logger.setLevel(config.verbose)
-        logger.debug('config:\n' + '\n'.join(f'\t\t{k}: {v}' for k, v in config.items() if k != 'conf_file'))
+        logger.debug('config:\n' + str(config))
         logger.info('info')
         #########################
         # place your code here #
@@ -72,8 +78,8 @@ def main():
 
     except Exception as e:
         logger.critical(e)
-        # if config['verbose'] <= logging.DEBUG:
-        raise
+        if config.verbose <= logging.DEBUG:
+            raise
 
 
 if __name__ == '__main__':
