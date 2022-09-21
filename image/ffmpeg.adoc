@@ -50,7 +50,7 @@ ffmpeg -i video.mov   -q:v 1 -vframes 1 -ss 00:10:00   image.jpg  # <2>
 |=====================================
 
 
-=== video <= images
+=== images => video
 
 [source,bash]
 ----
@@ -59,6 +59,23 @@ ffmpeg -pattern_type glob -i "image-*.png" out.mp4  # Not numbered or no regular
 ----
 
 NOTE: Use `-loop 1` as an input option for an infinite loop, and then use `-t 00:30:00` as an output option to cut off the video at thirty minutes.
+
+If file names does not comply the %d nomenclature (not starting 0), print the list into a file like:
+
+.mylist.txt
+[source,txt]
+----
+# this is a comment
+file '/path/to/file1.jpg'
+file '/path/to/file2.jpg'
+file '/path/to/file3.jpg'
+----
+
+[source,bash]
+----
+ls /volumes/data/sample/images/left/* | xargs -L 1 -I {} echo "file '{}'"
+ffmpeg ffmpeg -f concat -i mylist.txt -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
+----
 
 == Timing / framerate
 
