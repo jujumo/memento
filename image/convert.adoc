@@ -163,3 +163,25 @@ convert -delay 10 frame frame2 -coalesce -duplicate 1,-2-1 -loop 0 out.gif
 | `convert rose: rose.png`
 
 |===
+
+== PDF
+
+. Allow magick to convert from/to PDF:
+
+[source,bash]
+----
+# Open the file
+sudo nano /etc/ImageMagick-6/policy.xml
+
+# find and edit the line
+<policy domain="coder" rights="none" pattern="PDF" />
+# to :
+<policy domain="coder" rights="read|write" pattern="PDF" />
+----
+
+. convert full resolution
+
+[source,bash]
+convert   -density 250   doc.pdf    -quality 100 -flatten     doc.png
+
+
