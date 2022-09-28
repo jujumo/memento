@@ -17,13 +17,6 @@ class Config(dict):
             raise AttributeError("No such attribute: " + name)
 
     def __setattr__(self, name, value):
-        if name == 'verbose':  # convert verbose level to logging type (int)
-            try:  # in case it represents an int, directly get it
-                values = int(value)
-            except ValueError:  # else ask logging to sort it out
-                assert isinstance(value, str)
-                value = logging.getLevelName(value.upper())
-
         self[name] = value
 
     def __delattr__(self, name):
@@ -35,43 +28,48 @@ class Config(dict):
     def __repr__(self):
         return '\n'.join(f'\t\t{k}: {v}' for k, v in self.items())
 
-    def update_from_args(self, args):
-        self.update(vars(args).items())
-
-    def set_defaults(self):
-        {'verbose': 'info'}
-
-    def check(self):
-        pass
+    def validate(self):
+        # verbose
+        verbose_level = self.get('verbose')
+        verbose_level = 'critical' if verbose_level is None else verbose_level
+        if verbose_level is not None:  # convert verbose level to logging type (int)
+            try:  # in case it represents an int, directly get it
+                verbose_level = int(verbose_level)
+            except ValueError:  # else ask logging to sort it out
+                assert isinstance(verbose_level, str)
+                verbose_level = logging.getLevelName(verbose_level.upper())
+            self['verbose'] = verbose_level
 
 
 def main():
     config = Config()
     try:
-        conf_parser = argparse.ArgumentParser(add_help=False)  # Turn off help, print all options in response to -h
-        conf_parser.add_argument('-c', '--conf_file', help="Specify config file", metavar="FILE")
-        args, remaining_argv = conf_parser.parse_known_args()
+        parser_conf_file = argparse.ArgumentParser(add_help=False)  # Turn off help, print all options in response to -h
+        parser_conf_file.add_argument('-c', '--conf_file', help="Specify config file (yaml)", metavar="FILE")
+        args, remaining_argv = parser_conf_file.parse_known_args()  # only retrieve the config file path from cli
         if args.conf_file and path.isfile(args.conf_file):
             with open(args.conf_file, 'r') as f:
                 config.update(safe_load(f))
         # Parse rest of arguments
-        parser = argparse.ArgumentParser(description='Description of the program.', parents=[conf_parser])
+        parser = argparse.ArgumentParser(description='Description of the program.', parents=[parser_conf_file])
         parser.set_defaults(**config)
         parser.add_argument(
-            '-v', '--verbose', nargs='?', const='info',
+            '-v', '--verbose', nargs='?', const='info', type=str,
             help='verbosity level (debug, info, warning, critical, ... or int value) [warning]')
         parser.add_argument(
             '-i', '--input', metavar='FILE',
-            help='input')
+            help='input file')
         parser.add_argument(
             '-o', '--output', metavar='FILE',
             help='output file')
         args = parser.parse_args(remaining_argv)
-        config.update_from_args(args)
-        config.set_defaults()
+        config.update(vars(args).items())
+        config.validate()
         logger.setLevel(config.verbose)
         logger.debug('config:\n' + str(config))
-        logger.info('info')
+        logger.critical('printing critical')
+        logger.info('printing info')
+        logger.debug('printing debug')
         #########################
         # place your code here #
         ########################
