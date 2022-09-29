@@ -1,0 +1,13 @@
+= PYTHON cheat sheet
+
+== docs
+
+* link:coding/python/snippets.adoc[snippets]
+* link:coding/python/argparse.adoc[argparse]
+* link:coding/python/logging.adoc[logging]
+* link:coding/python/path.adoc[path]
+* link:coding/python/conda.adoc[conda]
+* link:coding/python/datetime.adoc[datetime]
+* link:coding/python/re.adoc[re]
+* link:coding/python/matplotlib.adoc[matplotlib]
+* link:coding/python/pyproj.adoc[pyproj]
