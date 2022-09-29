@@ -10,18 +10,9 @@ logger = logging.getLogger('snippet')
 
 
 class Config(dict):
-    def __getattr__(self, name):
+    def __getattr__(self, name):  # for ease of access, e.g. config.verbose
         if name in self:
             return self[name]
-        else:
-            raise AttributeError("No such attribute: " + name)
-
-    def __setattr__(self, name, value):
-        self[name] = value
-
-    def __delattr__(self, name):
-        if name in self:
-            del self[name]
         else:
             raise AttributeError("No such attribute: " + name)
 
@@ -31,7 +22,7 @@ class Config(dict):
     def validate(self):
         # verbose
         verbose_level = self.get('verbose')
-        verbose_level = 'critical' if verbose_level is None else verbose_level
+        verbose_level = 'warning' if verbose_level is None else verbose_level
         if verbose_level is not None:  # convert verbose level to logging type (int)
             try:  # in case it represents an int, directly get it
                 verbose_level = int(verbose_level)
@@ -52,7 +43,6 @@ def main():
                 config.update(safe_load(f))
         # Parse rest of arguments
         parser = argparse.ArgumentParser(description='Description of the program.', parents=[parser_conf_file])
-        parser.set_defaults(**config)
         parser.add_argument(
             '-v', '--verbose', nargs='?', const='info', type=str,
             help='verbosity level (debug, info, warning, critical, ... or int value) [warning]')
@@ -68,6 +58,7 @@ def main():
         logger.setLevel(config.verbose)
         logger.debug('config:\n' + str(config))
         logger.critical('printing critical')
+        logger.warning('printing warning')
         logger.info('printing info')
         logger.debug('printing debug')
         #########################
@@ -82,7 +73,7 @@ def main():
 
 if __name__ == '__main__':
     logger_formatter = logging.Formatter('%(name)s::%(levelname)-8s: %(message)s')
-    logger_stream = logging.StreamHandler()  # logging.FileHandler(logfile)
+    logger_stream = logging.StreamHandler()  # or logging.FileHandler(logfile)
     logger_stream.setFormatter(logger_formatter)
     logger.addHandler(logger_stream)
     main()
