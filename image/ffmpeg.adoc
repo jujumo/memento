@@ -73,7 +73,7 @@ file '/path/to/file3.jpg'
 
 [source,bash]
 ----
-ls /volumes/data/sample/images/left/* | xargs -L 1 -I {} echo "file '{}'"
+ls /volumes/data/sample/images/left/* | xargs -L 1 -I {} echo "file '{}'" >> mylist.txt 
 ffmpeg ffmpeg -f concat -i mylist.txt -c:v libx264 -r 30 -pix_fmt yuv420p out.mp4
 ----
 
