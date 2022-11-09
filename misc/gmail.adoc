@@ -1,0 +1,21 @@
+= image:icon_gmail.svg["enroot", width=64px] GMAIL cheat sheet
+:author: Julien Morat
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
+
+== filters
+
+
+
+|===
+|filter | comment
+
+|larger:1mb
+|large files
+
+|older_than:1y
+|older than a year
+|===
+

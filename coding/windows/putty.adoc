@@ -1,0 +1,12 @@
+= image:icon_windows.svg["X", width=64px] Putty cheat code
+:toc:
+
+== solarized dark colors
+
+update the windows registry using :
+link:putty-modern-256color.reg[]
+
+== keymap
+
+set
+

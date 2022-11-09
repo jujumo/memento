@@ -46,3 +46,42 @@ docker system prune -a # unused images not just dangling ones
 . `CONTAINER ID` uniquely identified a container.
 . `NAME` is an alias to `CONTAINER ID`.
 
+== format
+
+You can customize the default formatting of `docker ps` command by setting the `.docker/config.json`
+
+[source,bash]
+mkdir ~/.docker && nano ~/.docker/config.json
+
+For example:
+
+..docker/config.json
+[source,json]
+----
+{
+  "psFormat": "table {{.Names}}\\t{{.Status}}\\t{{.RunningFor}}\\t{{.Image}}"
+}
+----
+
+[cols="1,5", header=]
+.format placeholders
+|===
+|Placeholder   |Description
+
+|.ID           |Container ID
+|.Image        |Image ID
+|.Command      |Quoted command
+|.CreatedAt    |Time when the container was created.
+|.RunningFor   |Elapsed time since the container was started.
+|.Ports        |Exposed ports.
+|.State        |Container status (for example; “created”, “running”, “exited”).
+|.Status       |Container status with details about duration and health-status.
+|.Size         |Container disk size.
+|.Names        |Container names.
+|.Labels       |All labels assigned to the container.
+|.Label        |Value of a specific label for this container. For example '{{.Label "com.docker.swarm.cpu"}}'
+|.Mounts       |Names of the volumes mounted in this container.
+|.Networks     |Names of the networks attached to this container.
+|===
+
+https://docs.docker.com/engine/reference/commandline/ps/#formatting[source]
