@@ -151,5 +151,15 @@ parallel -d _ echo :::: abc_-file                       # parse '_' separated in
 parallel -q echo "\"{}\"" ::: a b c                     # "a" "b" "c"
 ----
 
-== remote exec
-TODO
+== install
+
+[source,bash]
+----
+wget http://ftp.gnu.org/gnu/parallel/parallel-latest.tar.bz2
+tar -xjf parallel-latest.tar.bz2
+cd parallel-20221022
+./configure
+make
+sudo make install
+parallel --citation
+----
