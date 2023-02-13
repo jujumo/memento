@@ -45,9 +45,7 @@ plugins=(
         cp
         gitfast
         common-aliases
-        per-directory-history
         rsync
-#       ssh-agent
         debian
         sudo
         screen
