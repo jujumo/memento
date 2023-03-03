@@ -155,9 +155,9 @@ parallel -q echo "\"{}\"" ::: a b c                     # "a" "b" "c"
 
 [source,bash]
 ----
-wget http://ftp.gnu.org/gnu/parallel/parallel-latest.tar.bz2
+wget https://github.com/jujumo/memento/raw/main/coding/linux/parallel-latest.tar.bz2
 tar -xjf parallel-latest.tar.bz2
-cd parallel-20221022
+cd parallel-20230222/
 ./configure
 make
 sudo make install
