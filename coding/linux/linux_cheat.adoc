@@ -117,6 +117,9 @@ sed -n '16224,16482p;16483q' filename > newfile
 # remove
 sed -e 's/.../.../;t;d'
 # t without any label conditionally skips all following commands, d deletes line.
+
+# keep 1 on 10th files
+ls /tmp | sed -n '0~10p'
 ----
 
 source:
