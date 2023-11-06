@@ -137,11 +137,14 @@ Use awk when the text looks more like rows and columns.
 |===
 |Command |
 
-| $1
-| Reference first column
-
 | awk '/pattern/ {action}' file
 | Execute action for matched pattern `pattern` on file `file`
+
+| $0
+| Reference current record line
+
+| $1 $2 $3 .. $NF
+| Reference first, second third column and so on .. to the last
 
 | ;
 | Char to separate two actions
@@ -149,18 +152,17 @@ Use awk when the text looks more like rows and columns.
 | print
 | Print current record line
 
-| $0
-| Reference current record line
-
 | FS
 | Field separator of input file (default whitespace)
+
+| -F
+| Command line option to specify input field delimiter
 
 | NF
 | Number of fields in current record
 
 | NR
 | Line number of the current record
-
 
 | ^
 | Match beginning of field
@@ -170,9 +172,6 @@ Use awk when the text looks more like rows and columns.
 
 | !~
 | Do not match operator
-
-| -F
-| Command line option to specify input field delimiter
 
 | BEGIN
 | Denotes block executed once at start
@@ -185,7 +184,17 @@ Use awk when the text looks more like rows and columns.
 |===
 
 
+.example
+[source,bash]
+----
+$> awk '{print $3 "\t" $4}' marks.txt 
+# print out 3rd and 4th fields of mark.txt file
 
+$> awk -F: '{print toupper($NF)}' /etc/passwd
+# print last field of ':' separated file upper-case
+$> awk -F: 'BEGIN { FS=":" }{print toupper($NF)}' /etc/passwd
+# do the same
+----
 
 === rename bunch of files
 
