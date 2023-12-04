@@ -15,7 +15,8 @@
 - image:coding/linux/icon_linux.svg["linux"] linux
 : link:coding/linux/linux_cheat.adoc[cheat]
 , link:coding/linux/parallel.adoc[parallel]
-, link:coding/linux/armbian.adoc[armbian].
+, link:coding/linux/armbian.adoc[armbian]
+, link:coding/linux/direnv.adoc[direnv]
 
 - image:coding/python/icon_python.svg["PYTHON"] python
 : link:coding/python/snippets.adoc[snippets]
