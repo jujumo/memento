@@ -38,6 +38,7 @@
 
 == MISC.
 - image:misc/asciidoc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc/README.adoc[asciidoc]
+- image:misc/icon_gmail.svg["GMAIL"] link:misc/gmail.adoc[gmail]
 - image:misc/icon_openssl.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
 - image:misc/icon_docker.svg["DOCKER"] link:misc/docker.adoc[Docker]
 - image:misc/icon_rsync.svg["Rsync] link:misc/rsync.adoc[rsync]
