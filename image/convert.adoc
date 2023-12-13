@@ -182,6 +182,8 @@ sudo nano /etc/ImageMagick-6/policy.xml
 . convert full resolution
 
 [source,bash]
-convert   -density 250   doc.pdf    -quality 100 -flatten     doc.png
-
+----
+convert   -density 250   doc.pdf    -quality 100 -flatten     doc.png  # single page
+convert   -density 250   doc.pdf    -quality 100         page%02d.png  # multi pages
+----
 
