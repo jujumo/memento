@@ -14,6 +14,7 @@
 - image:coding/windows/icon_windows.svg["windows"] windows : link:coding/windows/windows_cheat.adoc[cheat], link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
 - image:coding/linux/icon_linux.svg["linux"] linux
 : link:coding/linux/linux_cheat.adoc[cheat]
+: link:coding/linux/apptainer_cheat.adoc[apptainer]
 , link:coding/linux/parallel.adoc[parallel]
 , link:coding/linux/armbian.adoc[armbian]
 , link:coding/linux/direnv.adoc[direnv]
