@@ -163,3 +163,23 @@ make
 sudo make install
 parallel --citation
 ----
+
+NOTE: for synology, opkg perl package may lead to error:
+
+
+[source,bash]
+----
+$> parallel
+Can't locate IPC/Open3.pm in @INC (you may need to install the IPC::Open3 module) (@INC contains: /opt/lib/perl5/5.28) at 
+...
+----
+
+Use this version of Perl instead 
+
+
+[source,bash]
+----
+sudo opkg remove perl
+sudo -i
+curl -fsSL https://git.io/perl-install | bash -s ~/perl
+----
