@@ -164,8 +164,10 @@ sudo make install
 parallel --citation
 ----
 
-NOTE: for synology, opkg perl package may lead to error:
 
+=== synology
+
+On Synology NAS, the `opkg` perl package may lead to following error:
 
 [source,bash]
 ----
