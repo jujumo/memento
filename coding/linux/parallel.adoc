@@ -157,7 +157,7 @@ parallel -q echo "\"{}\"" ::: a b c                     # "a" "b" "c"
 ----
 wget https://github.com/jujumo/memento/raw/main/coding/linux/parallel-latest.tar.bz2
 tar -xjf parallel-latest.tar.bz2
-cd parallel-20230222/
+cd parallel-20240222/
 ./configure
 make
 sudo make install
