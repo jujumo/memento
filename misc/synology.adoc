@@ -88,6 +88,33 @@ chmod 755 rc.optware
 
 Edit your `.profile` to add ipkg to your path (see profile section).
 
+== opkg packet manager
+
+=== Installation
+
+[source,bash]
+----
+sudo su
+mkdir -p /volume1/@entware-ng/opt
+wget -O - http://pkg.entware.net/binaries/armv7/installer/entware_install.sh | /bin/sh
+/opt/bin/opkg update
+/opt/bin/opkg upgrade
+/opt/bin/opkg install nano
+----
+
+=== to use it (to be verified)
+
+[source,bash]
+----
+/opt/bin/nano /etc/rc.local
+----
+
+./etc/rc.local
+----
+/bin/ln -sf /volume1/@entware-ng/opt /opt
+/opt/etc/init.d/rc.unslung start
+----
+
 == profile
 As _user_, create your own profile:
 ```bash
