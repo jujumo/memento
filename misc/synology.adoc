@@ -25,22 +25,22 @@ Make sure you have home directory.
 create ssh key :
 [source,bash]
 ----
-ssh-keygen -t dsa
+$> ssh-keygen -t dsa
 ----
 
 Make sure home dir permission is `755` (cf: [superuser][su]) :
 [source,bash]
 ----
-cd
-chmod 755 ~/
-chmod 700 ~/.ssh
-chmod 600 ~/.ssh/authorized_keys
+$> cd
+$> chmod 755 ~/
+$> chmod 700 ~/.ssh
+$> chmod 600 ~/.ssh/authorized_keys
 ----
 
 Then, copy public key on remote server
 [source,bash]
 ----
-scp -P PORT .ssh/id_dsa.pub USER@REMOTE:.ssh/authorized_keys
+$> scp -P PORT .ssh/id_dsa.pub USER@REMOTE:.ssh/authorized_keys
 ----
 
 WARNING: this will erase previously key set
@@ -53,6 +53,14 @@ replace:
 
 
 https://superuser.com/questions/736055/ssh-with-no-password-passwordless-on-synology-dsm-5-as-other-non-root-user/769819#769819?newreg=593ce82fe74c491f80bb906c69644f49[SU]
+
+=== Git server
+Enable git server package in DSM, and allow port forwarding in ssh. Edit `/etc/ssh/ssh_config`
+
+uncomment the following line :
+----
+AllowForwarding yes
+----
 
 == ipkg packet manager (deprecated: see opkg)
 Source: http://blog.nouveauxterritoires.fr/fr/2014/04/23/installer-la-commande-ipkg-sur-un-nas-synology-recent/[installer-la-commande-ipkg-sur-un-nas-synology-recent]
@@ -90,44 +98,33 @@ Edit your `.profile` to add ipkg to your path (see profile section).
 
 == opkg packet manager
 
-=== Installation
+source: https://github.com/Entware/Entware-ng/wiki/Install-on-Synology-NAS
 
 [source,bash]
 ----
-sudo su
-mkdir -p /volume1/@entware-ng/opt
-wget -O - http://pkg.entware.net/binaries/armv7/installer/entware_install.sh | /bin/sh
-/opt/bin/opkg update
-/opt/bin/opkg upgrade
-/opt/bin/opkg install nano
+$> sudo su
+$> mkdir -p /volume1/@entware-ng/opt
+# Remove /opt and create a symlink
+$> rm -rf /opt
+$> ln -sf /volume1/@entware-ng/opt /opt
+
+$> wget -O - http://pkg.entware.net/binaries/armv7/installer/entware_install.sh | /bin/sh
+$> /opt/bin/opkg update
+$> /opt/bin/opkg upgrade
+$> /opt/bin/opkg install nano
 ----
 
-=== to use it (to be verified)
 
+To add `/opt`to `$PATH` : add the following line in the end of `/root/.profile` and `/etc/profile` file
+
+./root/.profile
 [source,bash]
 ----
-/opt/bin/nano /etc/rc.local
+. /opt/etc/profile
 ----
 
-./etc/rc.local
-----
-/bin/ln -sf /volume1/@entware-ng/opt /opt
-/opt/etc/init.d/rc.unslung start
-----
+NOTE: As of DSM 6.0, `/etc/rc.local` is no longer executed as part of the boot process.
 
-== profile
-As _user_, create your own profile:
-```bash
-sudo cp /root/.profile ~/
-sed -i 's,/root,'`echo ~`',g' ~/.profile
-echo 'export PATH=/opt/bin:/opt/sbin:$PATH' >> ~/.profile
-```
-
-finally, lock and load:
-[source,bash]
-----
-source ~/.profile
-----
 
 == sudo
 NOTE: may not be necessary on latest version.
@@ -140,24 +137,15 @@ ipkg install sudo
 
  and add your user (replace 'user' by your own username) to the sudoers :
  edit `/opt/etc/sudoers` (eg. `nano /opt/etc/sudoers`), append somewhere :
-```bash
+
+----
 user ALL=(ALL) ALL
-```
-
-== Git server
-Enable git server package in DSM, and allow port forwarding in ssh. Edit
-[source,bash]
-----
-/etc/ssh/ssh_config
 ----
 
-uncomment the following line :
-----
-AllowForwarding yes
-----
+
 
 == rsync
 see [rsync](rsync.md) page.
 
 == crontab
-NOTE: `/etc/crontab` is reset at each synology updates. I recommend to use the synology cron hadler (in DSM) instead of directly edit crontab by your own.
+NOTE: `/etc/crontab` is reset at each synology updates. I recommend to use the synology cron handler (in DSM) instead of directly edit crontab by your own.
