@@ -64,6 +64,7 @@ AllowForwarding yes
 
 == opkg packet manager
 
+=== install
 source: https://github.com/Entware/Entware-ng/wiki/Install-on-Synology-NAS
 
 [source,bash]
@@ -73,15 +74,16 @@ $> mkdir -p /volume1/@entware-ng/opt
 # Remove /opt and create a symlink
 $> rm -rf /opt
 $> ln -sf /volume1/@entware-ng/opt /opt
-
+# launch install script
 $> wget -O - http://pkg.entware.net/binaries/armv7/installer/entware_install.sh | /bin/sh
+# update
 $> /opt/bin/opkg update
 $> /opt/bin/opkg upgrade
 $> /opt/bin/opkg install nano
 ----
 
 
-To add `/opt`to `$PATH` : add the following line in the end of `/root/.profile` and `/etc/profile` file
+To add `/opt` to `$PATH` : add the following line in the end of `/root/.profile` and `/etc/profile` file
 
 ./root/.profile
 [source,bash]
