@@ -110,3 +110,15 @@ with edward norton
 brad pit is tyler durden
 edward norton is the narator narrator
 ----
+
+## Split long line
+
+[source,bash]
+----
+$> cmd | cmd | cmd | cmd # some comment
+$> cmd \
+  | cmd \
+  `# some comment` \
+  | cmd \
+  | cmd
+----
