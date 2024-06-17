@@ -58,7 +58,7 @@ plugins=(
 
 [source,bash]
 ----
-wget https://raw.githubusercontent.com/jujumo/memento/main/coding/batch/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
+wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
 ----
 
 == configure kbd:[HOME] and kbd:[END] keys.
@@ -84,7 +84,7 @@ bindkey  "^[[3~"  delete-char
 [source,bash]
 .download theme
 ----
-wget https://raw.githubusercontent.com/jujumo/memento/main/coding/batch/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
+wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
 . ~/.zshrc
 ----
 

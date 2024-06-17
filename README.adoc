@@ -7,14 +7,17 @@
 , image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 
 == CODING
-- image:coding/batch/icon_dos.svg["DOS",link="coding/batch/dos.adoc"] Scripting
-: link:coding/batch/dos.adoc[dos]
-, link:coding/batch/bash.adoc[bash]
-, link:coding/batch/zsh.adoc[zsh]
-- image:coding/windows/icon_windows.svg["windows"] windows : link:coding/windows/windows_cheat.adoc[cheat], link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
+
+- image:coding/windows/icon_windows.svg["windows"] windows
+: link:coding/windows/dos.adoc[dos]
+, link:coding/windows/windows_cheat.adoc[cheat]
+, link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
+
 - image:coding/linux/icon_linux.svg["linux"] linux
 : link:coding/linux/linux_cheat.adoc[cheat]
-: link:coding/linux/apptainer_cheat.adoc[apptainer]
+, link:coding/linux/bash.adoc[bash]
+, link:coding/linux/zsh.adoc[zsh]
+, link:coding/linux/apptainer_cheat.adoc[apptainer]
 , link:coding/linux/parallel.adoc[parallel]
 , link:coding/linux/armbian.adoc[armbian]
 , link:coding/linux/direnv.adoc[direnv]
