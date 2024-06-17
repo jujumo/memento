@@ -85,3 +85,13 @@ For example:
 |===
 
 https://docs.docker.com/engine/reference/commandline/ps/#formatting[source]
+
+
+== `CMD` VS `ENTRYPOINT`
+
+- `CMD` is an instruction that is best to use if you need a default command which users can easily override.
+- `ENTRYPOINT` is preferred when you want to define a container with a specific executable.
+
+Prefer exec form (`["echo", "Hello World"]`) to prevent potential performance issues.
+
+More : https://phoenixnap.com/kb/docker-cmd-vs-entrypoint[docker-cmd-vs-entrypoint]
