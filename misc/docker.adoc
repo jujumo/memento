@@ -95,3 +95,9 @@ https://docs.docker.com/engine/reference/commandline/ps/#formatting[source]
 Prefer exec form (`["echo", "Hello World"]`) to prevent potential performance issues.
 
 More : https://phoenixnap.com/kb/docker-cmd-vs-entrypoint[docker-cmd-vs-entrypoint]
+
+== `PORT` VS `EXPOSE`
+
+ - `port`: map the port from inside to outside the container.
+ - `expose`: don't publish to the host machine - they’ll only be accessible to linked services.
+               Only the internal port can be specified.
