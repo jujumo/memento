@@ -101,3 +101,21 @@ More : https://phoenixnap.com/kb/docker-cmd-vs-entrypoint[docker-cmd-vs-entrypoi
  - `port`: map the port from inside to outside the container.
  - `expose`: don't publish to the host machine - they’ll only be accessible to linked services.
                Only the internal port can be specified.
+
+== Run as a non-root user
+
+For Debian-based images, removing root from container can be done like this:
+
+
+[source,bash]
+----
+RUN   groupadd -g 10001 dotnet \
+&&    useradd -u 10000 -g dotnet dotnet \
+&&    chown -R dotnet:dotnet /app
+
+USER  dotnet:dotnet
+----
+
+NOTE: UIDs below 10000 are a security risk on several systems.
+
+see more on https://github.com/dnaprawa/dockerfile-best-practices#alpine-is-not-always-the-best-choice[dockerfile-best-practices]
