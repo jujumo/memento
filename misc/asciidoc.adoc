@@ -1,4 +1,4 @@
-= image:icon_asciidoc.svg["Asciidoc", width=64px] Asciidoc cheat sheet
+= image:asciidoc_icon.svg["Asciidoc", width=64px] Asciidoc cheat sheet
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums:
