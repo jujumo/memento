@@ -106,17 +106,19 @@ NOTE: `/etc/crontab` is reset at each synology updates. I recommend to use the s
 To clone a directory
 [source,bash]
 ----
-$> rsync `# do not use -a evoid perms/owner preservation` \
+$> rsync `# do not use -a avoid perms/owner preservation` \
         --rsh 'ssh -p 22' `# Specify ssh options to use` \
-        --verbose \
-        --progress \
+        --rsync-path=PATH `# Specify path of rsync on remote` \
+        --verbose --progress \
         --recursive \
-        --compress  `# Compress file data during the transfer` \
-        --links     `# Copy symlinks as symlinks` \
-        --times     `# the basics` \
-        --update    `# Skip files that are newer on the receiver` \
-        --delete    `# Delete extraneous files from destination dirs` \
-        --partial   `# Keep partially transferred files` \
+        --compress        `# Compress file data during the transfer` \
+        --partial         `# Keep partially transferred files` \
+        --partial-dir=DIR `# put a partially transferred file into DIR` \
+        --links           `# Copy symlinks as symlinks` \
+        --times           `# preserve modification times (important for update)` \
+        --update          `# Skip files that are newer on the receiver` \
+        --checksum        `# replace the times+sizes heuristic with sizes+md5 one` \
+        --delete          `# Delete extraneous files from destination dirs` \
         --exclude '@eaDir' `# exclude syno junk metadata` \
         /sourceDir/ IP:/destDir/
 ----
@@ -124,22 +126,10 @@ $> rsync `# do not use -a evoid perms/owner preservation` \
 Making versioned archive
 [source,bash]
 ----
-$> rsync \
-        `# do not use -a avoid perms/owner preservation` \
-        --rsh 'ssh -p 22' `# Specify ssh options to use` \
-        --verbose \
-        --progress \
-        --recursive \
-        --compress  `# Compress file data during the transfer` \
-        --links     `# Copy symlinks as symlinks` \
-        --times     `# the basics` \
-        --update    `# Skip files that are newer on the receiver` \
-        --delete    `# Delete extraneous files from destination dirs` \
-        --partial   `# Keep partially transferred files` \
-        --exclude '@eaDir' `# exclude syno junk metadata` \
+...
         --backup   `# make a backup of what changed on destination` \
         --backup-dir=/destDir/$( date +"%Y-%m-%d-%H-%M" )/  `#` \
-        /sourceDir/ IP:/destDir/
+...
 ----
 
 see more link:rsync.adoc[rsync.adoc]
