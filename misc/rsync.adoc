@@ -1,4 +1,4 @@
-= image:icon_rsync.svg["rsync", width=64px] rsync
+= image:rsync_icon.svg["rsync", width=64px] rsync
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums:

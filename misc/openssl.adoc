@@ -1,4 +1,4 @@
-# image:icon_openssl.svg["PYTHON", width=64px] OpenSSL
+# image:openssl_icon.svg["PYTHON", width=64px] OpenSSL
 for windows
 
 ## Install Windows
