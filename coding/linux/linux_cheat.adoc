@@ -1,4 +1,4 @@
-= image:icon_linux.svg["X", width=64px] Linux cheat code
+= image:linux_icon.svg["X", width=64px] Linux cheat code
 :toc:
 
 == Do for all files

@@ -1,4 +1,4 @@
-= image:icon_apptainer.svg["apptainer", width=64px] Apptainer [former singularity]
+= image:apptainer_icon.svg["apptainer", width=64px] Apptainer [former singularity]
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums: 2
