@@ -1,4 +1,4 @@
-= image:icon_bash.svg["BASH", width=64px] (Oh My) ZSH
+= image:bash_icon.svg["BASH", width=64px] (Oh My) ZSH
 :experimental:
 :toc:
 

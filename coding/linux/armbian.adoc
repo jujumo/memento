@@ -1,4 +1,4 @@
-= image:icon_armbian.svg["armbian", width=64px] Raspberry Pi / Armbian
+= image:armbian_icon.svg["armbian", width=64px] Raspberry Pi / Armbian
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums: 2

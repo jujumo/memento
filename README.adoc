@@ -13,7 +13,7 @@
 , link:coding/windows/windows_cheat.adoc[cheat]
 , link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
 
-- image:coding/linux/icon_linux.svg["linux"] linux
+- image:coding/linux/linux_icon.svg["linux"] linux
 : link:coding/linux/linux_cheat.adoc[cheat]
 , link:coding/linux/bash.adoc[bash]
 , link:coding/linux/zsh.adoc[zsh]

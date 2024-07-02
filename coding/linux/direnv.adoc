@@ -1,4 +1,4 @@
-= image:icon_linux.svg["direnv", width=64px] direnv (envrc)
+= image:linux_icon.svg["direnv", width=64px] direnv (envrc)
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums: 2
