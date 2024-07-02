@@ -1,4 +1,4 @@
-= image:icon_octoprint.svg["OCTOPRINT", width=64px] Octoprint
+= image:octoprint_icon.svg["OCTOPRINT", width=64px] Octoprint
 
 WARNING: only tested on **Raspberry Pi Zero** and **Orange Pi Zero**.
 

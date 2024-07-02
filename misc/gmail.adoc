@@ -1,4 +1,4 @@
-= image:icon_gmail.svg["enroot", width=64px] GMAIL cheat sheet
+= image:gmail_icon.svg["enroot", width=64px] GMAIL cheat sheet
 :author: Julien Morat
 :sectnums:
 :toc: left

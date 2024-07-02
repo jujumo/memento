@@ -1,4 +1,4 @@
-= image:icon_docker.svg["docker", width=64px] Docker cheat sheet
+= image:docker_icon.svg["docker", width=64px] Docker cheat sheet
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums:

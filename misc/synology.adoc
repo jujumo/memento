@@ -1,4 +1,4 @@
-= image:icon_synology.svg["Synology", width=64px] Synology
+= image:synology_icon.svg["Synology", width=64px] Synology
 :toc:
 
 == ssh

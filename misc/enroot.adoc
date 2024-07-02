@@ -1,4 +1,4 @@
-= image:icon_docker.svg["enroot", width=64px] enroot cheat sheet
+= image:docker_icon.svg["enroot", width=64px] enroot cheat sheet
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums:

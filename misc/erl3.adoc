@@ -1,4 +1,4 @@
-# image:icon_erl3.svg["ERL3", width=64px] Edge Router Lite 3
+# image:erl3_icon.svg["ERL3", width=64px] Edge Router Lite 3
 :toc:
 
 ## OpenVPN
