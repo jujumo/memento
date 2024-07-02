@@ -39,9 +39,9 @@ rsync -a username@remote_host:/home/username/destination_dir local_source_dir
 [frame=none, grid=none, cols=">1m,3m,6"]
 .backup directories
 |===
-| -b    | --backup          | backup with suffix
+| -b    | --backup          | make backups of what changed on destination (see --suffix & --backup-dir)
+|       | --backup-dir=DIR  | root path of backup hierarchy.
 |       | --suffix=SUFFIX   | Override backup suffix. Default `~` without `--backup-dir`.
-|       | --backup-dir=DIR  | backups changes into this directory.
 |       | --link-dest       | this is a neat way to make full backups of your computers without losing much space. rsync links unchanged files to the previous backup (using hard-links, see below if you don’t know hard-links) and only claims space for changed files. This only works if you have a backup at hand, otherwise you have to make at least one backup beforehand.
 |===
 

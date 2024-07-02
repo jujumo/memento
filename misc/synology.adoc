@@ -100,3 +100,48 @@ refer to old version : https://github.com/jujumo/memento/commit/1058728796f83f32
 
 == crontab
 NOTE: `/etc/crontab` is reset at each synology updates. I recommend to use the synology cron handler (in DSM) instead of directly edit crontab by your own.
+
+== rsync
+
+To clone a directory
+[source,bash]
+----
+$> rsync `# do not use -a evoid perms/owner preservation` \
+        --rsh 'ssh -p 22' `# Specify ssh options to use` \
+        --verbose \
+        --progress \
+        --recursive \
+        --compress  `# Compress file data during the transfer` \
+        --links     `# Copy symlinks as symlinks` \
+        --times     `# the basics` \
+        --update    `# Skip files that are newer on the receiver` \
+        --delete    `# Delete extraneous files from destination dirs` \
+        --partial   `# Keep partially transferred files` \
+        --exclude '@eaDir' `# exclude syno junk metadata` \
+        /sourceDir/ IP:/destDir/
+----
+
+Making versioned archive
+[source,bash]
+----
+$> rsync \
+        `# do not use -a avoid perms/owner preservation` \
+        --rsh 'ssh -p 22' `# Specify ssh options to use` \
+        --verbose \
+        --progress \
+        --recursive \
+        --compress  `# Compress file data during the transfer` \
+        --links     `# Copy symlinks as symlinks` \
+        --times     `# the basics` \
+        --update    `# Skip files that are newer on the receiver` \
+        --delete    `# Delete extraneous files from destination dirs` \
+        --partial   `# Keep partially transferred files` \
+        --exclude '@eaDir' `# exclude syno junk metadata` \
+        --backup   `# make a backup of what changed on destination` \
+        --backup-dir=/destDir/$( date +"%Y-%m-%d-%H-%M" )/  `#` \
+        /sourceDir/ IP:/destDir/
+----
+
+see more link:rsync.adoc[rsync.adoc]
+
+https://www.rsyncinator.app/web
