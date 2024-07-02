@@ -41,7 +41,7 @@
 , link:coding/cpp/algorithm.adoc[algorithms]
 
 == MISC.
-- image:misc/asciidoc/icon_asciidoc.svg["asciidoc"] link:misc/asciidoc/README.adoc[asciidoc]
+- image:misc/asciidoc_icon.svg["asciidoc"] link:misc/asciidoc.adoc[asciidoc]
 - image:misc/gmail_icon.svg["GMAIL"] link:misc/gmail.adoc[gmail]
 - image:misc/openssl_icon.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
 - image:misc/docker_icon.svg["DOCKER"] link:misc/docker.adoc[Docker]
