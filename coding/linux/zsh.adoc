@@ -29,9 +29,11 @@ source: https://leahneukirchen.org/blog/archive/2008/02/10-zsh-tricks-you-may-no
 
 [source,bash]
 ----
-sudo apt-get install zsh curl git
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+$> sudo apt-get install zsh curl git
+$> sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ----
+
+NOTE: if you get an error mentioning missing `remote-https`, please refer to git section in link:../../misc/synology.adoc .
 
 == configure plugins
 
@@ -58,7 +60,9 @@ plugins=(
 
 [source,bash]
 ----
-wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
+$> wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
+$> curl https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -o ~/.oh-my-zsh/themes/jumo.zsh-theme  # or use curl if you prefer
+$> . ~/.zshrc  # to reload
 ----
 
 == configure kbd:[HOME] and kbd:[END] keys.
@@ -77,15 +81,6 @@ bindkey "\033[4~" end-of-line
 
 bindkey  "^[[F"   end-of-line
 bindkey  "^[[3~"  delete-char
-----
-
-== install theme
-
-[source,bash]
-.download theme
-----
-wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
-. ~/.zshrc
 ----
 
 == .*rc files

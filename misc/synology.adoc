@@ -55,12 +55,15 @@ replace:
 https://superuser.com/questions/736055/ssh-with-no-password-passwordless-on-synology-dsm-5-as-other-non-root-user/769819#769819?newreg=593ce82fe74c491f80bb906c69644f49[SU]
 
 === Git server
+why ?
 Enable git server package in DSM, and allow port forwarding in ssh. Edit `/etc/ssh/ssh_config`
 
 uncomment the following line :
 ----
 AllowForwarding yes
 ----
+
+
 
 == opkg packet manager
 
@@ -135,3 +138,20 @@ Making versioned archive
 see more link:rsync.adoc[rsync.adoc]
 
 https://www.rsyncinator.app/web
+
+== git
+
+Installing `git` package using `opkg` (see above) is not complete.
+If you encounter the following error, you might install additional `git-http`package.
+
+.missing git-http
+[source,bash]
+----
+git: 'remote-https' is not a git command. See 'git --help
+----
+
+.install git-http
+[source,bash]
+----
+$> sudo opkg install git git-http wget-ssl
+----
