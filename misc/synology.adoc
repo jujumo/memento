@@ -110,20 +110,22 @@ To clone a directory
 [source,bash]
 ----
 $> rsync `# do not use -a avoid perms/owner preservation` \
-        --rsh 'ssh -p 22' `# Specify ssh options to use` \
-        --rsync-path=PATH `# Specify path of rsync on remote` \
-        --verbose --progress \
+        --rsh 'ssh -p 22'       `# Specify ssh options to use` \
+        --rsync-path=PATH       `# Specify path of rsync on remote` \
+        --verbose  \
+        --progress              `# monitor the progress of data or data transfer.`\
         --recursive \
-        --compress        `# Compress file data during the transfer` \
-        --partial         `# Keep partially transferred files` \
-        --partial-dir=DIR `# put a partially transferred file into DIR` \
-        --links           `# Copy symlinks as symlinks` \
-        --times           `# preserve modification times (important for update)` \
-        --update          `# Skip files that are newer on the receiver` \
-        --checksum        `# replace the times+sizes heuristic with sizes+md5 one` \
-        --delete          `# Delete extraneous files from destination dirs` \
-        --exclude '@eaDir' `# exclude syno junk metadata` \
-        /sourceDir/ IP:/destDir/
+        --compress              `# Compress file data during the transfer` \
+        --partial               `# Keep partially transferred files` \
+        --partial-dir=DIR       `# put a partially transferred file into DIR` \
+        --links                 `# Copy symlinks as symlinks` \
+        --times                 `# preserve modification times (important for update)` \
+        --update                `# Skip files that are newer on the receiver` \
+        --checksum              `# replace the times+sizes heuristic with sizes+md5 one` \
+        --delete                `# Delete extraneous files from destination dirs` \
+        --exclude '@eaDir'      `# exclude syno junk files` \
+        --exclude 'Thumbs.db'   `# windows syno junk metadata` \
+        /sourceDir/ HOSTNAME:/destDir/
 ----
 
 Making versioned archive
@@ -132,6 +134,15 @@ Making versioned archive
 ...
         --backup   `# make a backup of what changed on destination` \
         --backup-dir=/destDir/$( date +"%Y-%m-%d-%H-%M" )/  `#` \
+...
+----
+
+`--itemize-change` and the `--dry-run` options to figure out how the command will behave before launching the real one.
+[source,bash]
+----
+...
+        --itemize-changes       `# output a change-summary for all updates` \
+        --dry-run               `# perform a trial run with no changes made` \
 ...
 ----
 
