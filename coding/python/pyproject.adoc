@@ -1,0 +1,73 @@
+= image:icon_python.svg["PYTHON", width=64px] Python::pyproj
+:toc:
+
+`pyproject.toml` contains the build system requirements of Python projects.
+
+minimal example
+
+== file structure
+
+----
+root-project
+├── pyproject.toml
+└── sandbox
+    ├── action.py
+    └── shovel.py
+----
+
+.pyproject.toml
+[source,toml]
+----
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sandbox"
+version="1.0.0"
+
+[project.scripts]
+creuse="sandbox.action:play"
+----
+
+.action.py
+[source,python]
+----
+from sandbox import shovel
+
+def play():
+    shovel.dig()
+
+if __name__ == '__main__':
+    main()
+----
+
+.shovel.py
+[source,python]
+----
+def dig():
+    print("<===D")
+----
+
+== use venv [optional]
+
+In a terminal
+
+.$>bash
+[source,bash]
+----
+$> python -m venv .venv
+# activate: activation depends on windows or linux
+----
+
+== install or debug
+
+.$>bash
+[source,bash]
+----
+$> python -m pip install -e .  # where . is the path where pyproject.toml is
+----
+
+== references:
+
+https://www.youtube.com/watch?v=v6tALyc4C10[RealPython:Packaging Your Python Code With pyproject.toml ]
