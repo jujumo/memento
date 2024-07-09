@@ -11,3 +11,4 @@
 * link:coding/python/re.adoc[re]
 * link:coding/python/matplotlib.adoc[matplotlib]
 * link:coding/python/pyproj.adoc[pyproj]
+* link:coding/python/pyproject.adoc[pyproject.toml]
