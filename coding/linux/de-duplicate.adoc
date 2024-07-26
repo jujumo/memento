@@ -1,0 +1,75 @@
+= image:bash_icon.svg["BASH", width=64px] Search and destroy file duplicates
+:experimental:
+:toc:
+
+This tutorial explains how to use plain gnu tools to find and remove duplicate files.
+It only rely on bash command and gnu tools, such as: parallel, sha256sum and other bash commands.
+
+== install required tools
+
+`cat`, `find`, `sed`, `uniq`, `sponge`, `grep`, 'tree` and `sort` should be installed.
+
+=== To insatll `sha256sum` :
+
+[source,bash]
+$> sudo apt-get install sha256sum
+
+=== To install parallel: 
+
+link:parallel.adoc
+
+== building `fingerprints.txt` index file using hash
+
+To search duplicates, I rely on sha256sum hash functions. 
+So first thing to do, is to compute the hash for all files.
+It may take a while.
+
+.terminal
+[source,bash]
+----
+# compute hash for files
+$> find ./ -type f ! -wholename "*/@eaDir/*" ! -name "Thumbs.db" | parallel "sha256sum {} >> fingerprints.txt"
+# you can repeat the hash process with multiple path for find, as long as root path is the same (or use absolute paths).
+
+# optionally exclude some files a posteriori
+$> grep -v "selection" fingerprints.txt | sponge fingerprints.txt
+
+# At the end, make sure you have no duplicate entries that can pollute the following processes.
+# duplicate entries might happens if you apply twice same command.
+$> sort --unique fingerprints.txt -o fingerprints.txt  # heals remove single file duplication in case of multiple runs
+----
+
+== build table of duplicate files in `duplicates.txt`
+
+Once, `fingerprints.txt` index file is built, you can look for duplication.
+
+
+.terminal
+[source,bash]
+----
+$> cat fingerprints.txt | sort -k1 | uniq -D -w 65 > duplicates.txt
+$> cat duplicates.txt | sed 's/^.\{66\}//' > suppression.txt
+$> cat suppression.txt | grep -i "0-temp"  | sponge suppression.txt
+----
+
+== suppression
+
+.terminal
+[source,bash]
+----
+# remove dupliacte
+$> mkdir trash
+$> parallel mv {} trash/{/} :::: suppression.txt
+$> du -csh trash  # see how much space is gained
+----
+
+== clean up and update 
+
+.terminal
+[source,bash]
+----
+$> rm -rf trash suppression.txt duplicates.txt
+
+# filter out files that does not exists anymore
+$> cat fingerprints.txt | parallel --plus  "[[ -f {= s/^.{66}// =} ]] && echo {}" | sponge fingerprints.txt
+----
