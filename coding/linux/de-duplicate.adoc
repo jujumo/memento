@@ -29,6 +29,7 @@ It may take a while.
 ----
 # compute hash for files
 $> find ./ -type f ! -wholename "*/@eaDir/*" ! -name "Thumbs.db" | parallel "sha256sum {} >> fingerprints.txt"
+# note @eaDir Thumbs.db files are not processed
 # you can repeat the hash process with multiple path for find, as long as root path is the same (or use absolute paths).
 
 # optionally exclude some files a posteriori
@@ -37,43 +38,46 @@ $> grep -v "selection" fingerprints.txt | sponge fingerprints.txt
 # At the end, make sure you have no duplicate entries that can pollute the following processes.
 # duplicate entries might happens if you apply twice same command.
 $> sort --unique fingerprints.txt -o fingerprints.txt  # heals remove single file duplication in case of multiple runs
+$> sort -k2 fingerprints.txt -o fingerprints.txt  # sort by filename, just for convenience
 ----
 
 `fingerprints.txt` should looks like:
 
 .fingerprints.txt
 ----
+ee5954355d52d5fdde425ab37adb2247cad3c8492966005631ee04fda2d5f188  ./mydir/tmp.47gcuzDvp2
 0191a0f48a8a0d4f1db3e906c54d4f0b815da7dd7eea3abb9682265b8aef5e8c  ./mydir/tmp.8UTz5kGOiZ
-1149788a2cc8097bf17bbcbd9a5aa56d08e4b4ea669279259fe40a5a08d37970  ./mydir/tmp.Q6bW1mVC4J
-5b07fc1686009a66c650982c0a6363f69301c5369f2dd87ec930eee583aa2ebc  ./mydir/tmp.WI4RxZeymC
-6a8eaa536cc65fc6490e6b743e722647037b2e57e6461c875a76539685e167a5  ./mydir/tmp.MjEENkA9rM
-78fb97104bfc022e2d3f8bd40193ff0ede37fd3a398a0e2ac0947fbfc6627aaf  ./mydir/tmp.FBINu8gnGL
+abf61dc38ed225c2c2d71afc6f093e120289c1ca5bdb10b70b195b6891560496  ./mydir/tmp.BlgDxx3yAj
 87c67bbc3c3b16f7ad8f8db6d912df5739efea9be76218f5d6a9d38524b34724  ./mydir/tmp.dzCsVWATqC
-8af7a327a438d22a8158eac434c37e16fd70ffa326a2d520f52b819dc07a1b48  ./mydir/tmp.sgprKjAw1B
+9cd05f25f126936ae1e6ac487021033fd8c02760c48eac35af07a66755e4d684  ./mydir/tmp.E1dIRUDPLf
+78fb97104bfc022e2d3f8bd40193ff0ede37fd3a398a0e2ac0947fbfc6627aaf  ./mydir/tmp.FBINu8gnGL
 8f04793f9be7bb502d33cec17a9aad557d84f0a194c48bc7530c845a73c541eb  ./mydir/tmp.foNntc262d
 8f04793f9be7bb502d33cec17a9aad557d84f0a194c48bc7530c845a73c541eb  ./mydir/tmp.H24yD9WWzP
-8f04793f9be7bb502d33cec17a9aad557d84f0a194c48bc7530c845a73c541eb  ./mydir/tmp.Xdr3qwyAu9
-98bd06465977efdb4026b198c0f81dd4565754c5705cb57e82c2733b452464bd  ./mydir/tmp.nYU8iWL1MY
-9cd05f25f126936ae1e6ac487021033fd8c02760c48eac35af07a66755e4d684  ./mydir/tmp.E1dIRUDPLf
-abf61dc38ed225c2c2d71afc6f093e120289c1ca5bdb10b70b195b6891560496  ./mydir/tmp.BlgDxx3yAj
-d38407d55361bc28decb6e8d5f42587aa04651772342ceb906fd08d687ff5653  ./mydir/tmp.uMXMd32oLk
 e458588262911df9a6bf9be66bc93955db4a396b42c9d180d7387eafa29cf987  ./mydir/tmp.kpg3eqAzUi
-e458588262911df9a6bf9be66bc93955db4a396b42c9d180d7387eafa29cf987  ./mydir/tmp.zx5eYf4cgK
-ee5954355d52d5fdde425ab37adb2247cad3c8492966005631ee04fda2d5f188  ./mydir/tmp.47gcuzDvp2
-ee5954355d52d5fdde425ab37adb2247cad3c8492966005631ee04fda2d5f188  ./mydir/tmp.zXo79fQtSm
+6a8eaa536cc65fc6490e6b743e722647037b2e57e6461c875a76539685e167a5  ./mydir/tmp.MjEENkA9rM
+98bd06465977efdb4026b198c0f81dd4565754c5705cb57e82c2733b452464bd  ./mydir/tmp.nYU8iWL1MY
+1149788a2cc8097bf17bbcbd9a5aa56d08e4b4ea669279259fe40a5a08d37970  ./mydir/tmp.Q6bW1mVC4J
+8af7a327a438d22a8158eac434c37e16fd70ffa326a2d520f52b819dc07a1b48  ./mydir/tmp.sgprKjAw1B
+d38407d55361bc28decb6e8d5f42587aa04651772342ceb906fd08d687ff5653  ./mydir/tmp.uMXMd32oLk
+5b07fc1686009a66c650982c0a6363f69301c5369f2dd87ec930eee583aa2ebc  ./mydir/tmp.WI4RxZeymC
+8f04793f9be7bb502d33cec17a9aad557d84f0a194c48bc7530c845a73c541eb  ./mydir/tmp.Xdr3qwyAu9
 f2d922da9e89fa59ee4561cadf2b0b809e18ac01360e8ea53d67d643e4e645bb  ./mydir/tmp.ziiDYzWAG2
+e458588262911df9a6bf9be66bc93955db4a396b42c9d180d7387eafa29cf987  ./mydir/tmp.zx5eYf4cgK
+ee5954355d52d5fdde425ab37adb2247cad3c8492966005631ee04fda2d5f188  ./mydir/tmp.zXo79fQtSm
 ----
 
 
 == build table of duplicate files in `duplicates.txt`
 
-Once, `fingerprints.txt` index file is built, you can look for duplication.
-
+Once `fingerprints.txt` index file is built, you can look for duplication.
+So, in the end, `duplicates.txt` is just a subset of `fingerprints.txt` containing
+all occurrences of duplicate files.
 
 .terminal
 [source,bash]
 ----
-$> cat fingerprints.txt | sort -k1 | uniq -D --check-chars=65 > duplicates.txt
+$> cat fingerprints.txt | sort -k1,1 | uniq -D --check-chars=65 > duplicates.txt
+
 ----
 
 .duplicates.txt
@@ -90,19 +94,23 @@ ee5954355d52d5fdde425ab37adb2247cad3c8492966005631ee04fda2d5f188  ./mydir/tmp.zX
 You can inspect the number of duplicate files using the following:
 
 ----
-$> cat duplicates.txt | sort -k1 | uniq --repeated --check-chars=65 --count | sort -r -k1 | head
+$> cat duplicates.txt | sort -k1 | uniq --repeated --check-chars=65 --count | sort -r -k1 | head -n 20
       3 8f04793f9be7bb502d33cec17a9aad557d84f0a194c48bc7530c845a73c541eb  ./mydir/tmp.foNntc262d
       2 ee5954355d52d5fdde425ab37adb2247cad3c8492966005631ee04fda2d5f188  ./mydir/tmp.47gcuzDvp2
       2 e458588262911df9a6bf9be66bc93955db4a396b42c9d180d7387eafa29cf987  ./mydir/tmp.kpg3eqAzUi
 ----
 
-
 == suppression
+
+Now, we will extract one occurrence of file for each duplication from `duplicates.txt`.
+Then, a single file path for each hash will be stored in `suppression.txt`.
 
 .terminal
 [source,bash]
 ----
-$> cat duplicates.txt | sed 's/^.\{66\}//' > suppression.txt
+# optionally reverse sort entries of each duplicates (might be handy if names are dates).
+$> cat duplicates.txt | sort -k1,1 -k2r | sponge duplicates.txt
+$> cat duplicates.txt | uniq --repeated --check-chars=65 | sed 's/^.\{66\}//' > suppression.txt
 $> cat suppression.txt | grep -i "0-temp"  | sponge suppression.txt
 
 # remove dupliacte
@@ -120,4 +128,14 @@ $> rm -rf trash suppression.txt duplicates.txt
 
 # filter out files that does not exists anymore
 $> cat fingerprints.txt | parallel --plus  "[[ -f {= s/^.{66}// =} ]] && echo {}" | sponge fingerprints.txt
+----
+
+== other tools
+
+This command gives the duplicated filenames in 2 paths.
+
+.terminal
+[source,bash]
+----
+$> fgrep -x -f <( ls ./tmp1 ) <( ls ./tmp2 )
 ----
