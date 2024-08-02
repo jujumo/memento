@@ -21,6 +21,7 @@
 , link:coding/linux/parallel.adoc[parallel]
 , link:coding/linux/armbian.adoc[armbian]
 , link:coding/linux/direnv.adoc[direnv]
+, link:coding/linux/de-duplicate.adoc[de-duplicate]
 
 - image:coding/python/icon_python.svg["PYTHON"] python
 : link:coding/python/snippets.adoc[snippets]
