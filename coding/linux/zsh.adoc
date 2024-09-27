@@ -28,6 +28,7 @@ source: https://leahneukirchen.org/blog/archive/2008/02/10-zsh-tricks-you-may-no
 == install
 
 [source,bash]
+.bash
 ----
 $> sudo apt-get install zsh curl git
 $> sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
@@ -35,34 +36,43 @@ $> sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/
 
 NOTE: if you get an error mentioning missing `remote-https`, please refer to git section in link:../../misc/synology.adoc .
 
-== configure plugins
+== configure
 
-The list of plugin I like:
-
-..zshrc
-[source,bash]
-----
-...
-plugins=(
-        cp
-        gitfast
-        common-aliases
-        rsync
-        debian
-        sudo
-        screen
-        docker
-)
-...
-----
-
-== get my theme
+get my theme
 
 [source,bash]
+.bash
 ----
 $> wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
 $> curl https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -o ~/.oh-my-zsh/themes/jumo.zsh-theme  # or use curl if you prefer
-$> . ~/.zshrc  # to reload
+----
+
+enable plugins
+
+[source,bash]
+.bash
+----
+$> cat <<EOT >> profile.patch
+11c11
+< ZSH_THEME="robbyrussell"
+---
+> ZSH_THEME="jumo"
+73c73,82
+< plugins=(git)
+---
+> plugins=(
+>         cp
+>         gitfast
+>         common-aliases
+>         rsync
+>         debian
+>         sudo
+>         screen
+>         docker
+> )
+EOT
+$> patch .zshrc -i profile.patch
+$> . ~/.zshrc  # apply changes
 ----
 
 == configure kbd:[HOME] and kbd:[END] keys.
