@@ -155,6 +155,8 @@ parallel -q echo "\"{}\"" ::: a b c                     # "a" "b" "c"
 
 [source,bash]
 ----
+wget https://mirror.cyberbits.eu/gnu/parallel/parallel-latest.tar.bz2
+# or from this repo
 wget https://github.com/jujumo/memento/raw/main/coding/linux/parallel-latest.tar.bz2
 tar -xjf parallel-latest.tar.bz2
 cd parallel-20240222/
