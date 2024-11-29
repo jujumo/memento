@@ -1,0 +1,26 @@
+= image:icon_python.svg["PYTHON", width=64px] Python::jsonargparse
+:toc:
+
+
+== CLI usage
+[source,python]
+----
+from jsonargparse import CLI
+
+def my_function(
+    name: str,
+    prize: int = 100
+):
+    """
+    Args:
+        name: Name of winner.
+        prize: Amount won.
+    """
+    print(f'{name} won {prize}€!')
+
+def main():
+    CLI(my_function)
+
+if __name__ == '__main__':
+    main()
+----
