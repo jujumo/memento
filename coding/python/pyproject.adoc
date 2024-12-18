@@ -25,6 +25,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "sandbox"
 version="1.0.0"
+dependencies = ["jsonargparse"]     # If project has dependencies
 
 [project.scripts]
 creuse="sandbox.action:play"
@@ -66,6 +67,28 @@ $> python -m venv .venv
 [source,bash]
 ----
 $> python -m pip install -e .  # where . is the path where pyproject.toml is
+----
+
+== more advanced
+
+If you have more than one subdirectory, you might encounter the following error:
+
+----
+error: Multiple top-level packages discovered in a flat-layout: ['xxx', 'sandbox']
+----
+
+In that case, manually specify the packages to be included:
+
+.pyproject.toml
+[source,toml]
+----
+...
+[tool.setuptools]
+packages = ["sandbox"]
+...
+[tool.setuptools.package_data]
+"samples" = ["*.png"]
+...
 ----
 
 == references:
