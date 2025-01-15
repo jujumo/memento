@@ -119,3 +119,22 @@ USER  dotnet:dotnet
 NOTE: UIDs below 10000 are a security risk on several systems.
 
 see more on https://github.com/dnaprawa/dockerfile-best-practices#alpine-is-not-always-the-best-choice[dockerfile-best-practices]
+
+== Compose
+
+NOTE: Work in progress
+
+.compose.yaml
+[source,yaml]
+----
+services:
+  hello:
+    build: .
+    ports:
+      - "8000:5000"
+----
+
+[source,bash]
+----
+$> docker compose up
+----
