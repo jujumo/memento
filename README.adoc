@@ -24,17 +24,17 @@
 , link:coding/linux/de-duplicate.adoc[de-duplicate]
 
 - image:coding/python/icon_python.svg["PYTHON"] python
-: link:coding/python/snippets.adoc[snippets]
-, link:coding/python/argparse.adoc[argparse]
+: [line-through]#link:coding/python/argparse.adoc[argparse]#
 , link:coding/python/conda.adoc[conda]
 , link:coding/python/datetime.adoc[datetime]
 , link:coding/python/jsonargparse.adoc[jsonargparse]
 , link:coding/python/logging.adoc[logging]
-, link:coding/python/path.adoc[path]
-, link:coding/python/re.adoc[re]
 , link:coding/python/matplotlib.adoc[matplotlib]
+, link:coding/python/path.adoc[path]
 , link:coding/python/pyproj.adoc[pyproj]
 , link:coding/python/pyproject.adoc[pyproject.toml]
+, link:coding/python/re.adoc[re]
+, link:coding/python/snippets.adoc[snippets]
 
 
 - image:coding/cpp/icon_cpp.svg["c++"] Cpp
