@@ -1,5 +1,7 @@
 = image:icon_python.svg["PYTHON", width=64px] Python::argparse
 
+Prefer link:jsonargparse.adoc[jsonargparse]
+
 == Par l'exemple
 
 === CODE
