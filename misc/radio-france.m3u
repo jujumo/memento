@@ -13,3 +13,7 @@ http://stream.srg-ssr.ch/m/couleur3/mp3_128
 http://alpes1grenoble.ice.infomaniak.ch/alpes1grenoble-high.mp3
 #EXTINF:-1 tvg-id="" tvg-name="rire et chanson" group-title="FRANCE" tvg-logo="",rire et chanson
 http://cdn.nrjaudio.fm/audio1/fr/30401/mp3_128.mp3?origine=fluxradios
+#EXTINF:-1 tvg-id="" tvg-name="100Chill" group-title="FRANCE",100Chill
+https://radio1.streamserver.link/radio/8110/100chill-aac
+#EXTINF:-1 tvg-id="" tvg-name="fjperezdj" group-title="FRANCE",fjperezdj
+http://s02.fjperezdj.com:8036/live
