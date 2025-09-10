@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# Install required packages
+sudo apt-get update
+sudo apt-get install -y zsh curl git
+
+# Install oh-my-zsh (official script)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+
+# download custom theme
+wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -O ~/.oh-my-zsh/themes/jumo.zsh-theme
+
 # Create patch file
 cat <<'EOT' > profile.patch
 11c11
@@ -24,5 +34,4 @@ EOT
 # Apply patch
 patch ~/.zshrc -i profile.patch
 
-# Source updated .zshrc
-. ~/.zshrc
+echo "Now run 'source ~/.zshrc' or restart zsh to apply changes."
