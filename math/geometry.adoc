@@ -13,6 +13,10 @@ image:trigo.svg["trigo circle"]
 
 
 == Cross-product
+
+Takes two 3-D vectors and returns a single 3-D vector.
+The resulting 3-D vector is perpendicular to both inputs.
+
 image:Cross_product_formula.svg[formula]
 
 ////
@@ -36,7 +40,7 @@ image:Cross_product_formula.svg[formula]
 \end{vmatrix}
 ////
 
-NOTE: If two vectors are aligned or if either one has zero length, then their cross product is zero.
+If two vectors are aligned or if either one has zero length, then their cross product is zero.
 
 image:Cross_product_parallelogram.svg[Cross product vector]
 
