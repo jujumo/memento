@@ -24,14 +24,22 @@
 
 source: https://leahneukirchen.org/blog/archive/2008/02/10-zsh-tricks-you-may-not-know.html[leahneukirchen]
 
+== automatic install and configure
 
-== install
+[source,bash]
+.bash
+----
+$> sh -c "$(curl -fsSL https://raw.githubusercontent.com/jujumo/memento/refs/heads/main/coding/linux/zsh-setup.sh)"
+----
+
+== manual install
 
 [source,bash]
 .bash
 ----
 $> sudo apt-get install zsh curl git
 $> sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+$> sh -c "$(curl -fsSL https://raw.githubusercontent.com/jujumo/memento/refs/heads/main/coding/linux/zsh-setup.sh)"
 ----
 
 NOTE: if you get an error mentioning missing `remote-https`, please refer to git section in link:../../misc/synology.adoc .
