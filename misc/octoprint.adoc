@@ -101,6 +101,43 @@ $> sudo systemctl status octoprint.service
 $> sudo systemctl enable octoprint
 ----
 
+== octoprint setup
+
+=== server control (reboot)
+
+First allow octoprint user to reboot.
+
+
+[source,bash]
+----
+sudo groupadd power 				# create a group allowed to reboot
+sudo usermod -a -G power $USER      # add users to that group
+sudo visudo							# allow the group to take those actions
+----
+
+Add at the end the following:
+
+.visudo
+[source,ini]
+----
+## user is allowed to execute halt and reboot
+%power ALL=(ALL) NOPASSWD: /bin/systemctl poweroff,/bin/systemctl halt,/bin/systemctl reboot
+----
+
+Note to myself:
+Passwd prompt might be a pb. See add "NOPASSWD:ALL" to avoid passwd prompt.
+Explore `sudo echo $USER >> /etc/shutdown.allow`
+
+Then, in the OctoPrint web-ui, go to `Settings` > `Server` > `Commands`, configure the following commands:
+
+ - Restart OctoPrint: `sudo /usr/bin/systemctl restart octoprint.service`
+ - Restart system: `sudo /usr/bin/systemctl reboot`
+ - Shutdown system: `sudo /usr/bin/systemctl poweroff`
+
+
+== reverse proxy
+
+
 == reference
 
 
