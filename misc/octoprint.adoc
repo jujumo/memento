@@ -5,6 +5,8 @@
 
 == install
 
+Tested on a Raspberry Pi 3 with trixie.
+
 === Install the prerequisites:
 
 .bash
@@ -132,6 +134,18 @@ Then, in the OctoPrint web-ui, go to `Settings` > `Server` > `Commands`, configu
  - Restart system: `sudo /usr/bin/systemctl reboot`
  - Shutdown system: `sudo /usr/bin/systemctl poweroff`
 
+=== plugins
+
+- Bed Level Visualizer: Displays 3D mesh of bed topography report.
+- OctoPrint-PrintTimeGenius: Use a gcode pre-analysis to provide better print time estimation
+- DisplayLayerProgress: Progress and other data on "Printer-Display"
+- OctoPrint-MQTT + OctoPrint-HomeAssistant
+- Themeify: dark theme
+- Cura Thumbnail: support for Ultimaker Format Package (.ufp) files
+- OctoPrint-TabOrder: ordering of tabs
+
+Let's keep in mind the evolution of the camera stack:
+https://github.com/cp2004/OctoPrint-CameraStreamer-Control
 
 == reverse proxy
 
