@@ -137,9 +137,69 @@ Then, in the OctoPrint web-ui, go to `Settings` > `Server` > `Commands`, configu
 
 == reverse proxy
 
+Install haproxy :
+
+[source,bash]
+----
+$> sudo apt install -y haproxy
+$> sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
+$> sudo nano /etc/haproxy/haproxy.cfg
+# check the configuration is valid!
+$> /usr/sbin/haproxy -c -V -f /etc/haproxy/haproxy.cfg
+----
+
+
+./etc/haproxy/haproxy.cfg
+[source,ini]
+----
+global
+        maxconn 4096
+        user haproxy
+        group haproxy
+        daemon
+        log 127.0.0.1 local0 debug
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+        option  dontlognull
+        retries 3
+        option redispatch
+        option http-server-close
+        option forwardfor
+        maxconn 2000
+        timeout connect 5s
+        timeout client  15m
+        timeout server  15m
+
+frontend public
+        bind :::80 v4v6
+        use_backend webcam if { path_beg /webcam/ }
+        default_backend octoprint
+
+backend octoprint
+        http-request replace-path /(.*) /\1
+        option forwardfor
+        server octoprint1 127.0.0.1:5000
+
+backend webcam
+        http-request replace-path /webcam/(.*) /\1
+        server webcam1  127.0.0.1:8080
+----
+
+Activate the reverse proxy:
+
+----
+$> sudo systemctl start haproxy
+$> sudo systemctl status haproxy
+$> sudo systemctl enable haproxy
+----
+
 
 == reference
 
 
 see more on:
 https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian/2337
+https://community.octoprint.org/t/reverse-proxy-configuration/1107
