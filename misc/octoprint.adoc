@@ -1,31 +1,52 @@
 = image:octoprint_icon.svg["OCTOPRINT", width=64px] Octoprint
+:experimental:
+:toc:
 
-WARNING: only tested on **Raspberry Pi Zero** and **Orange Pi Zero**.
 
-== install (from source)
+== install
 
-Install the prerequisites:
+=== install from source
+
+==== Install the prerequisites:
 
 .bash
 [source,bash]
 ----
-cd
-sudo apt-get install -y git virtualenv gcc build-essential libyaml-dev
-sudo apt-get install -y python-pip python-dev python-setuptools python-virtualenv
+$> cd
+$> sudo apt-get install -y git virtualenv gcc build-essential libyaml-dev
+$> sudo apt-get install -y python-pip python-dev python-setuptools python-venv
 ----
+
+==== from source
 
 Then you can install __octoprint__ from source, as regular user, using:
 
 .bash
 [source,bash]
 ----
-git clone https://github.com/foosel/OctoPrint.git
-cd OctoPrint
-virtualenv venv
-source ~/OctoPrint/venv/bin/activate
-pip install pip --upgrade
-python setup.py install
+$> git clone https://github.com/OctoPrint/OctoPrint.git
+$> cd OctoPrint
+$> python3 -m venv venv        # create an env dedicated to octoprint
+$> source ./venv/bin/activate  # activate this env
+$> pip install pip --upgrade   # optional
+$> pip install .               # install octoprint from source int the env
 ----
+
+==== from pip (recommended)
+
+.bash
+[source,bash]
+----
+$> mkdir OctoPrint && cd OctoPrint
+$> python3 -m venv venv			# create an env dedicated to octoprint
+$> source ./venv/bin/activate		# activate this env
+$> pip install pip --upgrade       # optional
+$> pip install OctoPrint			# install octoprint from pip
+----
+
+== setup system
+
+=== permissions
 
 You may need to add the user to the `dialout` and `tty` groups,
 so that the user can access the serial ports. To do so, do:
@@ -33,8 +54,10 @@ so that the user can access the serial ports. To do so, do:
 .bash
 [source,bash]
 ----
-sudo usermod -a -G tty $USER
-sudo usermod -a -G dialout $USER
+# add the user to the dialout group and tty so that the user can access the serial ports
+$> sudo usermod -a -G tty $USER
+$> sudo usermod -a -G dialout $USER   # for access to webcam
+$> sudo usermod -a -G video $USER     # for access to vcgencmd
 ----
 
 Test octoprint is working fine:
@@ -42,79 +65,44 @@ Test octoprint is working fine:
 .bash
 [source,bash]
 ----
-~/OctoPrint/venv/bin/octoprint serve
+$> ~/OctoPrint/venv/bin/octoprint serve
 ----
 
-== setup as service
+Then, visit http://xxx:5000/[]
+where `xxx` is the address of your device (can be `localhost`).
 
-If you user is **not** `pi`, change it in the `scripts/octoprint.default`.
+
+=== setup as service
+
+If your user is **not** `pi`, change it in the `scripts/octoprint.default`.
 The following will do it for you:
 
 .bash
 [source,bash]
 ----
-cd  ~/OctoPrint # go to the Octoprint source directory
+$> cd
+$> git clone https://github.com/leoheck/octoprint-systemd.git
+$> cd octoprint-systemd
+$> make install      # be sure to execute as user (not sudo).
 ----
+
+The path may be written with wrong case ("octoprint" instead of "OctoPrint").
+Check and fix using:
 
 .bash
 [source,bash]
 ----
-# create a patch
-cat > octoprint.config.patch << EOF
-index 1f58092..9cbe0b6 100644
---- a/scripts/octoprint.default
-+++ b/scripts/octoprint.default
-@@ -1,19 +1,19 @@
- # Configuration for /etc/init.d/octoprint
 
- # The init.d script will only run if this variable non-empty.
--OCTOPRINT_USER=pi
-+OCTOPRINT_USER=$USER
-
- # base directory to use
--#BASEDIR=/home/pi/.octoprint
-+BASEDIR=/home/$USER/.octoprint
-
- # configuration file to use
--#CONFIGFILE=/home/pi/.octoprint/config.yaml
-+#CONFIGFILE=/home/$USER/.octoprint/config.yaml
-
- # On what port to run daemon, default is 5000
- PORT=5000
-
- # Path to the OctoPrint executable, you need to set this to match your installation!
--#DAEMON=/home/pi/OctoPrint/venv/bin/octoprint
-+DAEMON=/home/$USER/OctoPrint/venv/bin/octoprint
-
- # What arguments to pass to octoprint, usually no need to touch this
- DAEMON_ARGS="--port=\$PORT"
-EOF
+$> sudo nano /etc/systemd/system/octoprint.service #< to check ExecStart = ...
+$> sudo sed -i "s,/octoprint/,/OctoPrint/,g" /etc/systemd/system/octoprint.service # fix
+$> sudo systemctl daemon-reload
+$> sudo systemctl restart octoprint.service
+$> sudo systemctl status octoprint.service
+$> sudo systemctl enable octoprint
 ----
 
-And then, apply the patch:
+== reference
 
-.bash
-[source,bash]
-----
-git apply octoprint.config.patch
-----
 
-Finally, copy config files to service:
-
-.bash
-[source,bash]
-----
-sudo cp ~/OctoPrint/scripts/octoprint.init /etc/init.d/octoprint
-sudo cp ~/OctoPrint/scripts/octoprint.default /etc/default/octoprint
-sudo chmod +x /etc/init.d/octoprint
-sudo update-rc.d octoprint defaults
-sudo reboot
-----
-
-Check the service is running:
-
-.bash
-[source,bash]
-----
-sudo systemctl status octoprint
-----
+see more on:
+https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian/2337
