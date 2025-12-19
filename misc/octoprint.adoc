@@ -5,9 +5,7 @@
 
 == install
 
-=== install from source
-
-==== Install the prerequisites:
+=== Install the prerequisites:
 
 .bash
 [source,bash]
@@ -17,7 +15,7 @@ $> sudo apt-get install -y git virtualenv gcc build-essential libyaml-dev
 $> sudo apt-get install -y python-pip python-dev python-setuptools python-venv
 ----
 
-==== from source
+=== install from source
 
 Then you can install __octoprint__ from source, as regular user, using:
 
@@ -32,7 +30,7 @@ $> pip install pip --upgrade   # optional
 $> pip install .               # install octoprint from source int the env
 ----
 
-==== from pip (recommended)
+=== install from pip (recommended)
 
 .bash
 [source,bash]
@@ -137,6 +135,8 @@ Then, in the OctoPrint web-ui, go to `Settings` > `Server` > `Commands`, configu
 
 == reverse proxy
 
+Neet to host both webcam and octoprint.
+It redirects to octoprint or webcam based on the url.
 Install haproxy :
 
 [source,bash]
@@ -197,9 +197,7 @@ $> sudo systemctl enable haproxy
 ----
 
 
-== reference
+== references
 
-
-see more on:
-https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian/2337
-https://community.octoprint.org/t/reverse-proxy-configuration/1107
+- https://community.octoprint.org/t/setting-up-octoprint-on-a-raspberry-pi-running-raspbian/2337
+- https://community.octoprint.org/t/reverse-proxy-configuration/1107
