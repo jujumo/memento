@@ -58,8 +58,8 @@ def main():
     parser = ArgumentParser()
     # Automatically add all arguments from greetings parameters
     parser.add_function_arguments(greetings)
-    parser.add_argument('-n', dest='name', required=True)
-
+    parser.add_argument('-n', dest='name', default=argparse.SUPPRESS, helps='alias for name')
+    # SUPPRESS means: If this flag isn’t used, pretend it doesn’t exist
     # Parse args and call function
     args = parser.parse_args()
     greetings(**vars(args))
