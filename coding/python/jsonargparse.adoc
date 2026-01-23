@@ -47,7 +47,7 @@ Creates "greetings.py" with :
 .greetings.py
 [source,python]
 ----
-from jsonargparse import CLI, ArgumentParser
+from jsonargparse import CLI, ArgumentParser, SUPPRESS
 
 
 def greetings(name: str):  # your main parameters and logic here
@@ -58,7 +58,7 @@ def main():
     parser = ArgumentParser()
     # Automatically add all arguments from greetings parameters
     parser.add_function_arguments(greetings)
-    parser.add_argument('-n', dest='name', default=argparse.SUPPRESS, helps='alias for name')
+    parser.add_argument('-n', default=SUPPRESS, dest='name')
     # SUPPRESS means: If this flag isn’t used, pretend it doesn’t exist
     # Parse args and call function
     args = parser.parse_args()
