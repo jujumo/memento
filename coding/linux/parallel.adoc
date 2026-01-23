@@ -178,12 +178,26 @@ Can't locate IPC/Open3.pm in @INC (you may need to install the IPC::Open3 module
 ...
 ----
 
-Use this version of Perl instead 
-
+===== Solution (A) Use this version of Perl instead
 
 [source,bash]
 ----
-sudo opkg remove perl
-sudo -i
-curl -fsSL https://git.io/perl-install | bash -s ~/perl
+$> sudo opkg remove perl
+$> sudo -i
+$> curl -fsSL https://git.io/perl-install | bash -s ~/perl
+----
+
+This is **not available for arm32**.
+
+===== Solution (B) manual install required packages
+
+[source,bash]
+----
+$> sudo opkg update
+$> sudo opkg install perl perlbase-ipc perlbase-getopt
+# check with :
+$> /opt/bin/perl -MGetopt::Long -e 'print "Getopt OK\n"'
+Getopt OK
+$> /opt/bin/perl -MIPC::Open3 -e 'print "Open3 OK\n"'
+Open3 OK
 ----
