@@ -16,8 +16,11 @@ Creates "greetings.py" with :
 .greetings.py
 [source,python]
 ----
+from jsonargparse import CLI
+
+
 def greetings(name: str):  # your main parameters and logic here
-    print(f'Hello, {name}')
+    print(f'Hello, {name}.')
 
 
 def main():
@@ -34,35 +37,37 @@ Use it as follows:
 .$>sh
 [source,bash]
 ----
-$> python ./greetings.py --name Friend
-Hello, Friend
+$> python ./greetings.py Friend
+Hello, Friend.
 ----
 
 
 
-== Using `add_function_arguments`
+== Add short aliases
+
+see: https://github.com/omni-us/jsonargparse/issues/840
 
 Creates "greetings.py" with :
 
 .greetings.py
 [source,python]
 ----
-from jsonargparse import CLI, ArgumentParser, SUPPRESS
+from jsonargparse import CLI, ArgumentParser
 
 
-def greetings(name: str):  # your main parameters and logic here
-    print(f'Hello, {name}')
+def greetings(name: str = ''):  # you must define a default value here
+    print(f'Il mio nome è {name}.')
+
+
+class AliasingParser(ArgumentParser):
+    def add_argument(self, *args, **kwargs):
+        if args == ("--name",): # detect the name argument, and add '-n' to it.
+            args += ("-n",)
+        return super().add_argument(*args, **kwargs)
 
 
 def main():
-    parser = ArgumentParser()
-    # Automatically add all arguments from greetings parameters
-    parser.add_function_arguments(greetings)
-    parser.add_argument('-n', default=SUPPRESS, dest='name')
-    # SUPPRESS means: If this flag isn’t used, pretend it doesn’t exist
-    # Parse args and call function
-    args = parser.parse_args()
-    greetings(**vars(args))
+    CLI(greetings, parser_class=AliasingParser)
 
 
 if __name__ == '__main__':
@@ -74,7 +79,7 @@ Use it as follows:
 .$>sh
 [source,bash]
 ----
-$> python ./greetings.py -n Friend
-Hello, Friend
+$> python ./greetings.py -n Nessuno
+Il mio nome è Nessuno.
 ----
 
