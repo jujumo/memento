@@ -231,3 +231,13 @@ ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_
 # query the container
 ffprobe -v error -select_streams v:0 -show_entries stream=nb_frames -of default=nokey=1:noprint_wrappers=1 input.mp4
 ----
+
+
+=== spherical
+
+NOTE: ffmpeg fails to properly write spherical metadata tag. You will need `exiftool`.
+
+[source,bash]
+----
+exiftool -XMP-GSpherical:Spherical="true" -XMP-GSpherical:ProjectionType="equirectangular" input.mp4
+----
