@@ -5,6 +5,7 @@
 :toc:
 :toclevels: 1
 :experimental:
+:source-highlighter: red
 
 Official: https://www.ffmpeg.org/[www.ffmpeg.org]
 
@@ -37,7 +38,7 @@ ffmpeg -i video.mov   -q:v 1 -vframes 1 -ss 00:10:00   image.jpg  # <2>
 <1> convert video to a sequence of jpeg files.
 <2> extracts a *single* image at time 10s.
 
-[cols="<2m,<5", frame=topbot, grid=none]
+[cols="<2m,<5",options="header",frame=none,grid=rows]
 |=====================================
 | option example        | comment
 
@@ -92,9 +93,10 @@ ffmpeg -i input.mp4    -ss 30 -c copy -t 10                    output.mp4
 
 === framerate
 
-[cols="2,2,8"]
+[cols="2,2,8",frame=none,grid=rows]
 |===
 | option       ^| placement | description
+
 .2+| `-r`      ^| input     | retimes input frames at that rate.
                ^| output    | will duplicate or drop frames to achieve the given rate.
 |===
@@ -161,14 +163,40 @@ with possible values :
 [source,bash]
 ----
 # first pass
-ffmpeg -i movie.mp4 -vf vidstabdetect=stepsize=6:shakiness=10:accuracy=15:result=motions.trf -f null -
+ffmpeg -i movie.mp4                                                                       \
+    -vf vidstabdetect=stepsize=6:shakiness=10:accuracy=15:result=motions.trf              \
+    -f null -
 # second pass
-ffmpeg -i movie.mp4 -vf vidstabtransform=input=motions.trf:smoothing=60:relative=1,unsharp=5:5:0.8:3:3:0.4 \
--vcodec libx264 -preset veryslow -tune film -acodec copy -y smooth.mp4
+ffmpeg -i movie.mp4                                                                       \
+    -vf vidstabtransform=input=motions.trf:smoothing=60:relative=1,unsharp=5:5:0.8:3:3:0.4 \
+    -vcodec libx264 -preset veryslow -tune film -acodec copy -y smooth.mp4
 ----
 
+with :
+
+[cols="<2m,<5",options="header",frame=none,grid=rows]
+|=====================================
+| option example                            | comment
+
+| `-i movie.mp4`                            | input video
+| `vidstabdetect=...:result=motions.trf`    | detects motion and stores tracking data
+| `-f null -`                               | discards output during analysis because only the motion file is needed
+| `vidstabtransform=input=motions.trf`      | uses the saved motion data to stabilize the video
+| `smoothing=60`                            | smooths camera movement more aggressively
+| `relative=1`                              | applies stabilization relative to the detected motion
+| `unsharp=...`                             | restores some perceived sharpness after stabilization
+| `-vcodec libx264`                         | re-encodes video with H.264
+| `-preset veryslow -tune film`             | favors compression efficiency and film-friendly encoding
+| `-acodec copy`                            | copies audio without re-encoding
+| `-y smooth.mp4`                           | overwrites the output file if it already exists
+|=====================================
+
+
+
+
 == stereo 3D
-https://trac.ffmpeg.org/wiki/Stereoscopic[source]
+
+source: https://trac.ffmpeg.org/wiki/Stereoscopic[https://trac.ffmpeg.org/wiki/Stereoscopic]
 
 NOTE: to use filter `stereo3d`, you may have a recent version of ffmpeg.
 
@@ -180,13 +208,15 @@ ffmpeg -i SbS.mp4 -vf stereo3d=sbs2l:arbg -y anaglyph.mp4
 ----
 
 with :
-[cols=">1m,<8", frame=topbot, grid=none]
+[cols="<2m,<5",options="header",frame=none,grid=rows]
 |=====================================
-| sbs | side by side
-| 2   | half width
-| l   | left first
-| a   | anaglyph
-| rbg | red blue grey
+| option example    | comment
+
+| `sbs`             | side by side
+| `2`               | half width
+| `l`               | left first
+| `a`               | anaglyph
+| `rbg`             | red blue grey
 |=====================================
 
 If the output video is still squeezed, use :
@@ -197,11 +227,13 @@ ffmpeg -i SbS.mp4 -vf "stereo3d=sbsl:arcg,scale=iw*2:ih" -y anaglyph.mp4
 ----
 
 with :
-[cols=">1m,<8", frame=topbot, grid=none]
+[cols="<2m,<5",options="header",frame=none,grid=rows]
 |=====================================
-| sbsl          | side by side left first
-| arcg          | anaglyph red/cyan gray
-| scale=iw*2:ih | squeeze horizontally
+| option example  | comment
+
+| `sbsl`          | side by side left first
+| `arcg`          | anaglyph red/cyan gray
+| `scale=iw*2:ih` | squeeze horizontally
 |=====================================
 
 == Audio
@@ -211,9 +243,11 @@ with :
 ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
 ----
 
-0 is better
+ - qscale: to setup the audio quality. 0 is better.
 
 == Metadata
+
+=== video definition
 
 .definition
 [source,bash]
@@ -221,6 +255,8 @@ ffmpeg -i input.wav -codec:a libmp3lame -qscale:a 0 output.mp3
 ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 input.mp4
 1280x720
 ----
+
+=== FPS
 
 .number of frames
 [source,bash]
