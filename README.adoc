@@ -13,16 +13,6 @@
 , link:coding/windows/windows_cheat.adoc[cheat]
 , link:coding/windows/chocolatey/chocolatey.adoc[chocolatey]
 
-- image:coding/linux/linux_icon.svg["linux"] linux
-: link:coding/linux/linux_cheat.adoc[cheat]
-, link:coding/linux/bash.adoc[bash]
-, link:coding/linux/zsh.adoc[zsh]
-, link:coding/linux/apptainer_cheat.adoc[apptainer]
-, link:coding/linux/parallel.adoc[parallel]
-, link:coding/linux/armbian.adoc[armbian]
-, link:coding/linux/direnv.adoc[direnv]
-, link:coding/linux/de-duplicate.adoc[de-duplicate]
-
 - image:coding/python/icon_python.svg["PYTHON"] python
 : [line-through]#link:coding/python/argparse.adoc[argparse]#
 , link:coding/python/conda.adoc[conda]
@@ -36,19 +26,28 @@
 , link:coding/python/re.adoc[re]
 , link:coding/python/snippets.adoc[snippets]
 
-- image:coding/cpp/icon_cpp.svg["c++"] Cpp
-: link:coding/cpp/rules.adoc[rules]
-, link:coding/cpp/qmake.adoc[qmake]
-, link:coding/cpp/cmake.adoc[cmake]
-, link:coding/cpp/snippets.adoc[snippets]
-, link:coding/cpp/algorithm.adoc[algorithms]
+// - image:coding/cpp/icon_cpp.svg["c++"] Cpp
+// : link:coding/cpp/rules.adoc[rules]
+// , link:coding/cpp/qmake.adoc[qmake]
+// , link:coding/cpp/cmake.adoc[cmake]
+// , link:coding/cpp/snippets.adoc[snippets]
+// , link:coding/cpp/algorithm.adoc[algorithms]
 
-- utils :
-  image:misc/openssl_icon.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
-, image:misc/docker_icon.svg["DOCKER"] link:misc/docker.adoc[Docker]
-, image:misc/docker_icon.svg["DOCKER"] link:misc/docker_app.adoc[Docker app]
-, image:misc/rsync_icon.svg["Rsync] link:misc/rsync.adoc[rsync]
-, image:misc/octoprint_icon.svg["OCTO"] link:misc/octoprint.adoc[octoprint]
+
+- image:coding/linux/linux_icon.svg["linux"] linux
+: link:coding/linux/linux_cheat.adoc[cheat]
+, link:coding/linux/bash.adoc[bash]
+, link:coding/linux/zsh.adoc[zsh]
+// , link:coding/linux/apptainer_cheat.adoc[apptainer]
+, link:coding/linux/parallel.adoc[parallel]
+, link:coding/linux/armbian.adoc[armbian]
+, link:coding/linux/direnv.adoc[direnv]
+, link:coding/linux/de-duplicate.adoc[de-duplicate]
+, link:misc/openssl.adoc[openssl]
+, link:misc/docker.adoc[Docker]
+, link:misc/docker_app.adoc[Docker app]
+, link:misc/rsync.adoc[rsync]
+
 
 - Cheat :
   image:misc/gmail_icon.svg["GMAIL"] link:misc/gmail.adoc[gmail]
@@ -56,3 +55,4 @@
 , image:misc/synology_icon.svg["SYNO"] link:misc/synology.adoc[synology]
 , image:misc/keyboard_icon.svg["KBD"] link:misc/us_keyboard.adoc[keyboard]
 , image:misc/erl3_icon.svg["ERL3"] link:misc/erl3.adoc[ERL3]
+, link:misc/octoprint.adoc[octoprint]
