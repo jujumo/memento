@@ -1,6 +1,5 @@
 = MÉMENTO
 
-== IMAGE // VIDEO
 - image:image/icon_ffmpeg.svg["ffmpeg",link="image/ffmpeg.adoc"] link:image/ffmpeg.adoc[ffmpeg]
 , image:image/icon_magick.svg["convert",link="image/convert.adoc"] link:image/convert.adoc[convert]
 , image:image/icon_sensor.svg["sensors",link="image/sensors.adoc"] link:image/sensors.adoc[sensors]
@@ -8,7 +7,6 @@
 , image:math/icon_geometry.svg["geometry"] link:math/frames.adoc[frames]
 
 
-== CODING
 
 - image:coding/windows/icon_windows.svg["windows"] windows
 : link:coding/windows/dos.adoc[dos]
@@ -38,7 +36,6 @@
 , link:coding/python/re.adoc[re]
 , link:coding/python/snippets.adoc[snippets]
 
-
 - image:coding/cpp/icon_cpp.svg["c++"] Cpp
 : link:coding/cpp/rules.adoc[rules]
 , link:coding/cpp/qmake.adoc[qmake]
@@ -46,13 +43,16 @@
 , link:coding/cpp/snippets.adoc[snippets]
 , link:coding/cpp/algorithm.adoc[algorithms]
 
-== MISC.
-- image:misc/asciidoc_icon.svg["asciidoc"] link:misc/asciidoc.adoc[asciidoc]
-- image:misc/gmail_icon.svg["GMAIL"] link:misc/gmail.adoc[gmail]
-- image:misc/openssl_icon.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
-- image:misc/docker_icon.svg["DOCKER"] link:misc/docker.adoc[Docker]
-- image:misc/rsync_icon.svg["Rsync] link:misc/rsync.adoc[rsync]
-- image:misc/synology_icon.svg["SYNO"] link:misc/synology.adoc[synology]
-- image:misc/keyboard_icon.svg["KBD"] link:misc/us_keyboard.adoc[keyboard]
-- image:misc/erl3_icon.svg["ERL3"] link:misc/erl3.adoc[ERL3]
-- image:misc/octoprint_icon.svg["OCTO"] link:misc/octoprint.adoc[octoprint]
+- utils :
+  image:misc/openssl_icon.svg["OPENSSL"] link:misc/openssl.adoc[openssl]
+, image:misc/docker_icon.svg["DOCKER"] link:misc/docker.adoc[Docker]
+, image:misc/docker_icon.svg["DOCKER"] link:misc/docker_app.adoc[Docker app]
+, image:misc/rsync_icon.svg["Rsync] link:misc/rsync.adoc[rsync]
+, image:misc/octoprint_icon.svg["OCTO"] link:misc/octoprint.adoc[octoprint]
+
+- Cheat :
+  image:misc/gmail_icon.svg["GMAIL"] link:misc/gmail.adoc[gmail]
+, image:misc/asciidoc_icon.svg["asciidoc"] link:misc/asciidoc.adoc[asciidoc]
+, image:misc/synology_icon.svg["SYNO"] link:misc/synology.adoc[synology]
+, image:misc/keyboard_icon.svg["KBD"] link:misc/us_keyboard.adoc[keyboard]
+, image:misc/erl3_icon.svg["ERL3"] link:misc/erl3.adoc[ERL3]
