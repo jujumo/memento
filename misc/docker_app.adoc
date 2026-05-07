@@ -1,0 +1,266 @@
+= image:docker_icon.svg["docker", width=64px] Docker app
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:sectnumlevels: 2
+:toc:
+:toclevels: 2
+:experimental:
+
+
+== Brief
+
+What I call a docker app, is an app packaged in a docker container.
+Here, I describe how to package it, to seamlessly call it.
+
+The recipe uses *rootless podman* + *podman-compose* and is the same for
+every app — only the compose file changes. With rootless podman, the
+container's UID 0 is mapped to your host user, so files written under
+`$HOME` or `/local` stay owned by you, and X11 access works without
+`xhost`.
+
+== Layout
+
+Two files per app, named after the app (e.g. `colmap`):
+
+[cols="1,3"]
+|===
+|path | role
+
+|`~/.local/etc/dockers/<app>/docker-compose.yml`
+|describes the image, mounts, devices, env
+
+|`~/.local/bin/<app>`
+|thin wrapper on `$PATH` — forwards args to `podman-compose run`
+|===
+
+Make sure `~/.local/bin` is on your `PATH`.
+
+== Wrapper script
+
+A generic wrapper that forwards arguments to the container. It also
+re-exports the host CWD into the container via `-w` when the CWD is
+under a mounted path, so relative paths "just work".
+
+.`~/.local/bin/<app>`
+[source,bash]
+----
+#!/usr/bin/env bash
+# Thin wrapper around the <app> container image, run with rootless podman.
+set -euo pipefail
+
+COMPOSE_FILE="${HOME}/.local/etc/dockers/<app>/docker-compose.yml"
+
+# Forward host CWD into the container when it's under a mounted path.
+extra=()
+case "${PWD}/" in
+  "${HOME}"/*|/local/*) extra+=( -w "${PWD}" ) ;;
+esac
+
+exec podman-compose -f "${COMPOSE_FILE}" run --rm "${extra[@]}" <app> "$@"
+----
+
+`chmod +x` the wrapper and you can call it from anywhere:
+`<app> [args...]`.
+
+
+== Compose file — the building blocks
+
+Pick the blocks you need.
+
+=== Image and entrypoint
+
+[source,yaml]
+----
+services:
+  <app>:
+    image: docker.io/<vendor>/<app>:latest
+    # If the image's ENTRYPOINT swallows arguments, override it so that
+    # `podman-compose run <app> foo bar` reaches the actual binary.
+    entrypoint: ["<app>"]
+    command: []   # default args, optional
+----
+
+=== GPU (NVIDIA)
+
+Use a *CDI* device — works out of the box with rootless podman, no
+`runtime: nvidia` needed. Pre-requisite on the host:
+`nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`.
+
+[source,yaml]
+----
+    devices:
+      - nvidia.com/gpu=all
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+----
+
+=== X11 (GUI apps)
+
+[source,yaml]
+----
+    environment:
+      DISPLAY: ${DISPLAY}
+      XAUTHORITY: ${XAUTHORITY:-}
+      QT_X11_NO_MITSHM: "1"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-/dev/null}:${XAUTHORITY:-/dev/null}:ro
+    network_mode: host
+----
+
+`network_mode: host` is the simplest way to make X11 over TCP and
+generic networking work without surprises.
+
+=== File access
+
+Mount the trees you actually use. With rootless podman the host user
+owns whatever the container writes there.
+
+[source,yaml]
+----
+    volumes:
+      - /local:/local
+      - ${HOME}:${HOME}
+----
+
+=== Wrap-up: full template
+
+All blocks combined. Drop the sections you don't need (GPU for a
+non-CUDA app, X11 for a pure CLI, etc.).
+
+.`~/.local/etc/dockers/<app>/docker-compose.yml`
+[source,yaml]
+----
+services:
+  <app>:
+    image: docker.io/<vendor>/<app>:latest
+    entrypoint: ["<app>"]              # override if image's ENTRYPOINT swallows args
+    command: []                        # default args when called with none
+
+    # --- GPU (NVIDIA, via CDI) ---
+    devices:
+      - nvidia.com/gpu=all
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+
+      # --- X11 (GUI) ---
+      DISPLAY: ${DISPLAY}
+      XAUTHORITY: ${XAUTHORITY:-}
+      QT_X11_NO_MITSHM: "1"
+
+    volumes:
+      # X11 socket + cookie
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-/dev/null}:${XAUTHORITY:-/dev/null}:ro
+      # host file access (rootless podman => host user owns the writes)
+      - /local:/local
+      - ${HOME}:${HOME}
+
+    network_mode: host                 # simplest path for X11/networking
+----
+
+Cheat-sheet of which block to keep:
+
+[cols="1,3"]
+|===
+|need |keep
+
+|GUI
+|`DISPLAY`, `XAUTHORITY`, `QT_X11_NO_MITSHM`, `/tmp/.X11-unix`, `XAUTHORITY` mount, `network_mode: host`
+
+|GPU
+|`devices: nvidia.com/gpu=all`, `NVIDIA_*` env
+
+|host files
+|`/local`, `${HOME}` mounts
+
+|CLI only
+|drop X11 + `network_mode: host`
+|===
+
+== Worked example: COLMAP
+
+Goal: run COLMAP (SfM/MVS, GUI + CLI, NVIDIA GPU required) without
+installing it on the host.
+
+.`~/.local/etc/dockers/colmap/docker-compose.yml`
+[source,yaml]
+----
+services:
+  colmap:
+    image: docker.io/colmap/colmap:latest
+    # Chain the image's nvidia entrypoint with `colmap`, so any args
+    # passed via `podman-compose run` become COLMAP subcommands
+    # (e.g. `mapper`, `gui`).
+    entrypoint: ["/opt/nvidia/nvidia_entrypoint.sh", "colmap"]
+    command: ["gui"]
+    devices:
+      - nvidia.com/gpu=all
+    environment:
+      DISPLAY: ${DISPLAY}
+      XAUTHORITY: ${XAUTHORITY:-}
+      QT_X11_NO_MITSHM: "1"
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: all
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /local:/local
+      - ${HOME}:${HOME}
+      - ${XAUTHORITY:-/dev/null}:${XAUTHORITY:-/dev/null}:ro
+    network_mode: host
+----
+
+.`~/.local/bin/colmap`
+[source,bash]
+----
+#!/usr/bin/env bash
+set -euo pipefail
+
+COMPOSE_FILE="${HOME}/.local/etc/dockers/colmap/docker-compose.yml"
+
+extra=()
+case "${PWD}/" in
+  "${HOME}"/*|/local/*) extra+=( -w "${PWD}" ) ;;
+esac
+
+exec podman-compose -f "${COMPOSE_FILE}" run --rm "${extra[@]}" colmap "$@"
+----
+
+Usage:
+
+[source,bash]
+----
+colmap gui                          # launch the GUI
+colmap mapper --help                # any CLI subcommand
+colmap automatic_reconstructor \    # works on host paths thanks to
+    --workspace_path . \            # the CWD forwarding in the wrapper
+    --image_path ./images
+----
+
+== Troubleshooting
+
+[cols="2,3"]
+|===
+|symptom |fix
+
+|`Cannot connect to the Docker daemon at unix:///run/user/.../podman/podman.sock`
+|You're calling `podman compose` (subcommand) and it picked up
+`docker-compose`. Switch the wrapper to `podman-compose`, or
+`systemctl --user enable --now podman.socket`.
+
+|`cannot open display: :0` / blank GUI
+|`$XAUTHORITY` not set on the host, or its file isn't mounted.
+Check `echo $XAUTHORITY` and that the path is mounted read-only.
+
+|GPU not visible inside container
+|CDI spec missing on host. Run
+`sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml`
+and re-run.
+
+|files written by the app are owned by some weird UID
+|You're running rootful docker, not rootless podman. Either
+`podman-compose` as your user, or add `--userns=keep-id` to the run.
+|===
