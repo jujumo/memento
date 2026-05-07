@@ -192,7 +192,30 @@ with :
 |=====================================
 
 
+== overlay
 
+Assume you have:
+
+- Background sequence: `bg_%04d.png` (no alpha)
+- Foreground sequence: `fg_%04d.png` (with alpha channel)
+
+The basic command is:
+[source,bash]
+----
+ffmpeg -i bg_%04d.png -i fg_%04d.png -filter_complex "[0][1] overlay" -c:v libx264 -pix_fmt yuv420p output.mp4
+----
+
+with :
+[cols="<2m,<5",options="header",frame=none,grid=rows]
+|=====================================
+| argument                              | comment
+
+| `-i bg_%04d.png`                   .2+| Input image sequences.
+| `-i fg_%04d.png`
+| `-filter_complex "[0][1] overlay"`    | Overlays the second input (with alpha) over the first.
+| `-c:v libx264`                        | Encodes the output as H.264 (common for MP4).
+| `-pix_fmt yuv420p`                    | Ensures compatibility with most players.
+|=====================================
 
 == stereo 3D
 
