@@ -1,0 +1,337 @@
+= image:gitextensions_icon.svg["GitExtensions", width=64px] GitExtensions on Linux via Wine
+:author: jumo
+:email: jujumo@gmail.com
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
+
+.see
+https://gitextensions.github.io/[GitExtensions]
+https://gitforwindows.org/[Git for Windows]
+https://meldmerge.org/[Meld]
+https://www.winehq.org/[Wine]
+
+== Goal
+
+Run the Windows portable build of *GitExtensions* on Linux through Wine, with a dedicated `WINEPREFIX` so it doesn't pollute the default one. SSH key passphrases are loaded from the Linux terminal because Wine GUI prompts ignore numpad digits.
+
+Layout used in this guide:
+
+[cols="<1m,<2", width=80%]
+|===
+| Path | Purpose
+
+| ~/Applications/wine-gitext/ | dedicated `WINEPREFIX`
+| ~/Downloads/gitext/         | GitExtensions portable zip
+| ~/.local/bin/gitext         | shell wrapper launching the app
+| ~/.local/bin/gitext-ssh-add | helper to load an SSH key per session
+| ~/.cache/wine-gitext/       | runtime state (agent env, log)
+|===
+
+Versions verified working at time of writing:
+
+* Git for Windows *2.54.0*
+* GitExtensions Portable *5.1.1.17970*
+* Wine 9.x+
+
+== Prerequisites
+
+. Host packages:
++
+[source,bash]
+----
+sudo apt install wine winetricks winbind unzip bsdmainutils
+----
++
+NOTE: `bsdmainutils` provides `script(1)`, used by `gitext-ssh-add` to give mingw `ssh-add` a pty.
+
+. Linux SSH keys present at `~/.ssh/id_rsa` (and any other you intend to use).
+
+== Wine prefix
+
+A `WINEPREFIX` is the directory Wine uses as a self-contained "virtual Windows installation": fake `C:\` (`drive_c/`), the Windows registry (`system.reg`, `user.reg`), drive-letter map (`dosdevices/`), and per-user `AppData`. If `$WINEPREFIX` is unset, Wine uses `~/.wine`.
+
+Using a *dedicated* prefix for GitExtensions instead of the default:
+
+* *isolation* — a bad installer or winetricks verb can't break other Wine apps;
+* *reproducibility* — `rm -rf ~/Applications/wine-gitext` and rebuild from this doc, no collateral;
+* *per-app tuning* — different apps may need different .NET versions, fonts, or Windows version emulation;
+* *easy backup* — just tar the prefix.
+
+Every `wine` invocation selects its prefix via the env var (the `gitext` wrapper sets it automatically, so all child processes — `GitExtensions.exe`, `git.exe`, `ssh.exe`, `ssh-agent.exe` — end up inside the same isolated tree).
+
+Create an isolated prefix dedicated to GitExtensions:
+
+[source,bash]
+----
+export WINEPREFIX="$HOME/Applications/wine-gitext"
+mkdir -p "$WINEPREFIX"
+wineboot --init
+----
+
+Install the runtimes GitExtensions needs (.NET 8 Desktop and core fonts):
+
+[source,bash]
+----
+WINEPREFIX="$HOME/Applications/wine-gitext" winetricks -q \
+  corefonts dotnetdesktop8 dotnetdesktop9
+----
+
+== Git for Windows
+
+Download the *standalone* installer (not the portable one) from https://gitforwindows.org/[gitforwindows.org] — releases live on https://github.com/git-for-windows/git/releases[GitHub]:
+
+[source,bash]
+----
+mkdir -p ~/Downloads
+wget -P ~/Downloads \
+  https://github.com/git-for-windows/git/releases/download/v2.54.0.windows.1/Git-2.54.0-64-bit.exe
+
+WINEPREFIX="$HOME/Applications/wine-gitext" wine ~/Downloads/Git-2.54.0-64-bit.exe
+----
+
+In the installer, select:
+
+* *SSH Option*: `OpenSSH` (use the bundled mingw `ssh.exe`, **not** PuTTY/Plink)
+* *Path Option*: `Cmd`
+* *Editor*: VIM (or your choice)
+* Leave the other defaults as-is.
+
+== Meld (Optional)
+
+Optional but recommended as merge/diff tool. The Meld project's Windows installer is hosted at https://meldmerge.org/[meldmerge.org] (with a community-maintained build at https://github.com/yousseb/meld/releases[github.com/yousseb/meld]):
+
+[source,bash]
+----
+wget -P ~/Downloads \
+  https://github.com/yousseb/meld/releases/download/osx-25/Meld.3.22.2-Installer-x64.msi
+
+WINEPREFIX="$HOME/Applications/wine-gitext" wine ~/Downloads/Meld.3.22.2-Installer-x64.msi
+----
+
+NOTE: Browse the releases page for the latest version; adjust the URL accordingly.
+
+== GitExtensions portable
+
+Download the portable `.zip` from https://github.com/gitextensions/gitextensions/releases[GitExtensions releases] and extract to `C:\GitExtensions` inside the prefix:
+
+[source,bash]
+----
+mkdir -p ~/Downloads/gitext
+wget -P ~/Downloads/gitext \
+  https://github.com/gitextensions/gitextensions/releases/download/v5.1.1/GitExtensions-Portable-x64-5.1.1.17970-939c0edba.zip
+
+mkdir -p "$WINEPREFIX/drive_c/GitExtensions"
+unzip ~/Downloads/gitext/GitExtensions-Portable-x64-*.zip \
+      -d "$WINEPREFIX/drive_c/GitExtensions"
+----
+
+NOTE: The filename includes a build hash that changes per release. Pick the matching asset from the releases page.
+
+Symlink your real `~/.ssh` so GitExtensions sees the same keys and `known_hosts` as Linux:
+
+[source,bash]
+----
+ln -s "$HOME/.ssh" "$WINEPREFIX/drive_c/users/$USER/.ssh"
+----
+
+Optional baseline `gitconfig` inside the prefix (sets Meld as merge/diff tool):
+
+..gitconfig (inside the wine prefix)
+[source,ini]
+----
+[user]
+	name = name
+	email = name@org.com
+[merge]
+	tool = meld
+	guitool = meld
+[mergetool "meld"]
+	path = C:/Program Files/Meld/Meld.exe
+	cmd = "C:/Program Files/Meld/Meld.exe" "$LOCAL" "$BASE" "$REMOTE" --output "$MERGED"
+[diff]
+	tool = meld
+	guitool = Meld
+[difftool "Meld"]
+	path = C:/Program Files/Meld/Meld.exe
+	cmd = "C:/Program Files/Meld/Meld.exe" "$LOCAL" "$REMOTE"
+[mergetool]
+	keepBackup = false
+----
+
+Drop it at `~/Applications/wine-gitext/drive_c/users/$USER/.gitconfig`.
+
+== Launcher script
+
+The `gitext` wrapper sets `WINEPREFIX`, translates Linux paths to Wine paths, and forwards the SSH agent env (see next section) into Wine.
+
+..~/.local/bin/gitext
+[source,bash]
+----
+#!/usr/bin/env bash
+set -euo pipefail
+
+export WINEPREFIX="$HOME/Applications/wine-gitext"
+EXE='C:\GitExtensions\GitExtensions.exe'
+LOG="$HOME/.cache/gitext-wine.log"
+AGENT_ENV="$HOME/.cache/wine-gitext/ssh-agent.env"
+mkdir -p "$(dirname "$LOG")"
+
+if [[ -f "$AGENT_ENV" ]]; then
+  source "$AGENT_ENV" 2>/dev/null || true
+  export SSH_AUTH_SOCK SSH_AGENT_PID
+fi
+
+if [[ $# -eq 0 ]]; then
+  set -- "$PWD"
+fi
+
+args=()
+for a in "$@"; do
+  if [[ -e "$a" ]]; then
+    args+=("$(winepath -w "$a")")
+  else
+    args+=("$a")
+  fi
+done
+
+exec wine "$EXE" "${args[@]}" >>"$LOG" 2>&1
+----
+
+[source,bash]
+----
+chmod +x ~/.local/bin/gitext
+----
+
+Usage:
+
+[source,bash]
+----
+gitext              # opens current dir
+gitext path/to/repo # opens a specific repo
+----
+
+== SSH key handling
+
+=== The numpad problem
+
+GitExtensions, running under Wine, shows a built-in passphrase prompt (Pageant-style) whose Wine widget *silently drops digits typed from the numeric keypad*. Any passphrase containing digits cannot be entered there.
+
+Solution: load the key into a Wine-side mingw `ssh-agent` *before* launching GitExtensions, typing the passphrase in your *Linux* terminal (the host kernel handles keypresses normally). GitExtensions then picks up the key silently via `SSH_AUTH_SOCK`.
+
+=== Disable autostart Pageant
+
+Edit `~/Applications/wine-gitext/drive_c/GitExtensions/GitExtensions.settings` and set:
+
+[source,xml]
+----
+<key>
+  <string>autostartpageant</string>
+</key>
+<value>
+  <string>false</string>
+</value>
+----
+
+This makes GitExtensions defer to `git` + OpenSSH instead of its built-in Pageant flow.
+
+=== The `gitext-ssh-add` helper
+
+Why this is non-trivial:
+
+* The Linux gnome-keyring `ssh-agent` socket is a real `AF_UNIX` socket. Git-for-Windows' bundled `ssh.exe` is built on Cygwin/MSYS sockets (TCP-backed magic files) — incompatible.
+* So we must run a *mingw* `ssh-agent.exe` under Wine, and load keys into _that_ agent. The Linux side just feeds it the passphrase.
+* mingw `ssh-add` prompts only on a pty. Plain stdin pipe is ignored. Wrap the call with `script -qfc` to give it one — keystrokes then come from your Linux terminal.
+
+..~/.local/bin/gitext-ssh-add
+[source,bash]
+----
+#!/usr/bin/env bash
+set -euo pipefail
+
+export WINEPREFIX="$HOME/Applications/wine-gitext"
+AGENT_ENV="$HOME/.cache/wine-gitext/ssh-agent.env"
+SSH_AGENT='C:\Program Files\Git\usr\bin\ssh-agent.exe'
+SSH_ADD='C:\Program Files\Git\usr\bin\ssh-add.exe'
+mkdir -p "$(dirname "$AGENT_ENV")"
+
+agent_alive() {
+  [[ -n "${SSH_AUTH_SOCK:-}" ]] || return 1
+  local rc=0
+  wine "$SSH_ADD" -l >/dev/null 2>&1 || rc=$?
+  [[ $rc -ne 2 ]]   # 2 = cannot connect
+}
+
+start_agent() {
+  echo "Starting wine ssh-agent..."
+  local out
+  out=$(wine "$SSH_AGENT" -s 2>/dev/null)
+  [[ -n "$out" ]] || { echo "ssh-agent produced no output" >&2; exit 1; }
+  printf '%s\n' "$out" > "$AGENT_ENV"
+  # shellcheck disable=SC1090
+  source "$AGENT_ENV"
+  export SSH_AUTH_SOCK SSH_AGENT_PID
+  echo "Agent ready (PID $SSH_AGENT_PID)"
+}
+
+if [[ -f "$AGENT_ENV" ]]; then
+  source "$AGENT_ENV" 2>/dev/null || true
+  export SSH_AUTH_SOCK SSH_AGENT_PID
+fi
+
+agent_alive || start_agent
+
+if [[ $# -eq 0 ]]; then
+  set -- "$HOME/.ssh/id_rsa"
+fi
+
+for key in "$@"; do
+  if [[ ! -f "$key" ]]; then
+    echo "Key not found: $key" >&2
+    continue
+  fi
+  win_key=$(winepath -w "$key")
+  echo "Loading $key (wine path: $win_key)"
+  # `script -qfc` gives mingw ssh-add a pty so its prompt renders here.
+  script -qfc "wine \"$SSH_ADD\" \"$win_key\"" /dev/null
+done
+
+echo "---"
+echo "Keys currently in agent:"
+wine "$SSH_ADD" -l 2>/dev/null \
+  | grep -v -E "fixme:|stub|Cygwin WARNING|FAST_CWD|cygwin\.com|please see" || true
+----
+
+[source,bash]
+----
+chmod +x ~/.local/bin/gitext-ssh-add
+----
+
+=== Workflow per session
+
+[source,bash]
+----
+gitext-ssh-add ~/.ssh/id_rsa         # type passphrase here (numpad works)
+gitext path/to/repo                  # push/fetch silently uses the agent
+----
+
+The agent persists until logout/reboot. Re-run `gitext-ssh-add` once per session.
+
+== Known issues / FAQ
+
+=== `Cygwin WARNING: Couldn't compute FAST_CWD pointer`
+
+Harmless under Wine. Cygwin/MSYS tries to locate a Windows kernel pointer to speed up `getcwd()`/path conversion. That pointer doesn't exist in Wine (it's not real Windows), so Cygwin falls back to a slower compat path. Ignore.
+
+=== Numerous `fixme:` wine messages
+
+Normal noise from Wine stubs. None of those observed so far block GitExtensions, `git`, or `ssh`. The wrapper redirects them to `~/.cache/gitext-wine.log`.
+
+=== `The agent has no identities` after reboot
+
+Expected — the Wine-side `ssh-agent.exe` dies with the user session. Run `gitext-ssh-add` again.
+
+=== Forwarding the *Linux* `ssh-agent` into Wine — why not?
+
+Tried; doesn't work. Git-for-Windows `ssh.exe` cannot speak to a Linux `AF_UNIX` socket (Cygwin socket format mismatch). The mingw-agent-in-Wine route is the simplest path that keeps the key passphrase-protected on disk.
