@@ -52,6 +52,7 @@
 - Cheat :
   image:misc/gmail_icon.svg["GMAIL"] link:misc/gmail.adoc[gmail]
 , image:misc/asciidoc_icon.svg["asciidoc"] link:misc/asciidoc.adoc[asciidoc]
+, link:misc/gitextensions.adoc[gitextensions]
 , image:misc/synology_icon.svg["SYNO"] link:misc/synology.adoc[synology]
 , image:misc/keyboard_icon.svg["KBD"] link:misc/us_keyboard.adoc[keyboard]
 , image:misc/erl3_icon.svg["ERL3"] link:misc/erl3.adoc[ERL3]
