@@ -1,0 +1,41 @@
+= AppImage handling
+:author: jumo
+:email: jujumo@gmail.com
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
+
+.see
+https://appimage.org/[AppImage]
+https://github.com/ivan-hc/AppMan[AppMan] (per-user AppImage manager)
+
+== Install AppMan
+
+[source,bash]
+----
+wget -q https://raw.githubusercontent.com/ivan-hc/AppMan/main/INSTALL -O - | bash
+----
+
+Installs to `~/.local/bin/appman`.
+AppImages land in `~/Applications/`, with `.desktop` entries and symlinks in `~/.local/bin/` (apps callable from terminal).
+
+== Usage
+
+[source,bash]
+----
+appman -i freecad        # install
+appman -r freecad        # remove
+appman -u                # update all
+appman -l                # list installed
+----
+
+== Ubuntu 24.04+ user namespaces
+
+If apps warn `ACCESS TO USER NAMESPACES IS RESTRICTED`, disable the AppArmor restriction:
+
+[source,bash]
+----
+echo 'kernel.apparmor_restrict_unprivileged_userns = 0' | sudo tee /etc/sysctl.d/20-apparmor-mint.conf
+sudo sysctl --system
+----
