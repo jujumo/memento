@@ -335,3 +335,17 @@ Expected — the Wine-side `ssh-agent.exe` dies with the user session. Run `gite
 === Forwarding the *Linux* `ssh-agent` into Wine — why not?
 
 Tried; doesn't work. Git-for-Windows `ssh.exe` cannot speak to a Linux `AF_UNIX` socket (Cygwin socket format mismatch). The mingw-agent-in-Wine route is the simplest path that keeps the key passphrase-protected on disk.
+
+=== Pointing GitExtensions at the host `/usr/bin/ssh` (`Z:\usr\bin\ssh`) — why not?
+
+A natural-looking alternative is: let the Ubuntu host's `ssh-agent` be the single source of truth, forward `SSH_AUTH_SOCK` into Wine, and tell GitExtensions / git to call the *host* `ssh` binary via Wine's `Z:` drive (e.g. `GIT_SSH=Z:\usr\bin\ssh`). It looks plausible — Wine's Z: drive exposes the Linux filesystem, the agent works (`wine 'Z:\usr\bin\ssh-add' -l` lists keys, `wine 'Z:\usr\bin\ssh' -T git@github.com` authenticates fine). But `git push` from inside GitExtensions still fails with `fatal: Could not read from remote repository`.
+
+The reason is a fundamental Wine limitation:
+
+* `Z:\usr\bin\ssh` is a *Linux ELF* binary, not a Windows PE binary.
+* When invoked as `wine 'Z:\usr\bin\ssh' ...` from a Linux shell, the outer `wine` launcher (itself a Linux program) recognizes the ELF and just `execve()`'s it — Wine's Windows-process machinery is never involved. That's why the standalone test works.
+* When `git.exe` (a Windows PE binary already running under Wine) tries to spawn the same path via `CreateProcess`, Wine's Windows process loader (`NtCreateUserProcess`) attempts to load the target as a *Windows PE* image. ELF ≠ PE, the load fails silently (`pid 0000 tid 0000` in `WINEDEBUG=+process`), and git sees a broken pipe.
+
+Wine *does* ship an escape hatch — `start.exe /unix /path/to/linux/binary` — which can fork+exec a native Linux binary from a Windows process. Wrapping ssh in a `.cmd` shim that does `start /b /wait /unix /usr/bin/ssh %*` is enough to actually run ssh and authenticate (`ssh -vvv` shows `debug1: Exit status 0`, the agent answers, github accepts the key). But `start /unix` is designed for fire-and-forget GUI helpers and only forwards *stderr* — `stdin`/`stdout` are detached. git's pack protocol can't flow through, so the remote sees EOF and the operation aborts.
+
+The only clean fix would be a custom mingw PE wrapper that uses Wine's internal `__wine_unix_call` to do a real `fork()` + `execve()` of the Linux ssh while inheriting all three stdio fds. That's possible but invasive enough that the in-Wine mingw `ssh-agent` route (above) remains the simplest workable design.
