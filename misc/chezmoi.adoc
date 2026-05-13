@@ -1,0 +1,21 @@
+= Chezmoi cheat sheet
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums:
+:toc: left
+:toclevels: 1
+:experimental:
+
+== Basics
+
+
+[cols]
+|===
+| Home  | <-->          | Working copy | <--> | Local repo | <--> | remote repo
+3+^| --  chezmoi add FILE  -> 4+|
+3+^| <-  chezmoi status  -- 4+|
+3+^| <-  chezmoi diff  -- 4+|
+
+
+|===
+
