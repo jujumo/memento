@@ -166,82 +166,19 @@ Drop it at `~/Applications/wine-gitext/drive_c/users/$USER/.gitconfig`.
 
 The `gitext` wrapper sets `WINEPREFIX`, translates Linux paths to Wine paths, and forwards the SSH agent env (see next section) into Wine.
 
-..~/.local/bin/gitext
+The script lives next to this doc — see link:gitext[gitext]:
+
+.gitext
 [source,bash]
 ----
-#!/usr/bin/env bash
-# Launch the Windows portable GitExtensions under Wine.
-#
-# SSH strategy: a mingw `ssh-agent.exe` runs inside this same Wine
-# prefix and holds the decrypted key. The companion `gitext-ssh-add`
-# helper starts that agent and loads the key (with the passphrase
-# typed in a Linux terminal so the numpad works); it writes the
-# resulting SSH_AUTH_SOCK to $AGENT_ENV. This wrapper sources that
-# file and exports the var so GitExtensions' bundled git → ssh.exe
-# finds the agent silently.
-set -euo pipefail
-
-# Dedicated prefix — isolates GitExtensions from the default ~/.wine.
-export WINEPREFIX="$HOME/Applications/wine-gitext"
-EXE='C:\GitExtensions\GitExtensions.exe'
-# Wine emits heavy `fixme:` noise on stderr; pin it to a log file
-# instead of polluting the terminal.
-LOG="$HOME/.cache/gitext-wine.log"
-AGENT_ENV="$HOME/.cache/wine-gitext/ssh-agent.env"
-mkdir -p "$(dirname "$LOG")"
-
-# Source SSH_AUTH_SOCK from the agent env file. CRITICAL: this must
-# happen *before* any `wine` call below, because wineserver caches its
-# environment at startup. If wineserver is already running with the
-# wrong SSH_AUTH_SOCK, GitExtensions' ssh.exe will inherit that stale
-# value and never reach our agent.
-if [[ -f "$AGENT_ENV" ]]; then
-  # shellcheck disable=SC1090
-  source "$AGENT_ENV" 2>/dev/null || true
-  export SSH_AUTH_SOCK
-fi
-
-# Auto-load the SSH key. `gitext-ssh-add` is idempotent — if a key is
-# already loaded it exits ~immediately with no prompt. We only auto-run
-# it when stdin AND stdout are ttys (i.e. launched from a terminal),
-# because the passphrase prompt needs a human at a tty. From a GUI
-# launcher we instead probe the agent and warn — never block on a
-# prompt that has nowhere to render.
-SSH_ADD_EXE='C:\Program Files\Git\usr\bin\ssh-add.exe'
-if [[ -t 0 && -t 1 ]]; then
-  gitext-ssh-add >&2 || \
-    echo "warning: gitext-ssh-add failed — SSH push/fetch may not work" >&2
-else
-  if [[ -z "${SSH_AUTH_SOCK:-}" ]] || \
-     ! timeout 3 wine "$SSH_ADD_EXE" -l >/dev/null 2>&1; then
-    notify-send "GitExtensions" \
-      "No SSH key loaded — run gitext-ssh-add from a terminal" 2>/dev/null || \
-      echo "warning: no SSH key loaded in wine agent" >&2
-  fi
-fi
-
-# No argument → open the current directory.
-if [[ $# -eq 0 ]]; then
-  set -- "$PWD"
-fi
-
-# Translate existing Linux paths to Wine paths (e.g. /home/x → Z:\home\x).
-# Non-path args (branch names, refs, options) pass through unchanged.
-args=()
-for a in "$@"; do
-  if [[ -e "$a" ]]; then
-    args+=("$(winepath -w "$a")")
-  else
-    args+=("$a")
-  fi
-done
-
-exec wine "$EXE" "${args[@]}" >>"$LOG" 2>&1
+include::gitext[]
 ----
+
+Install it (run from this directory):
 
 [source,bash]
 ----
-chmod +x ~/.local/bin/gitext
+install -m 0755 gitext ~/.local/bin/gitext
 ----
 
 Usage:
@@ -287,144 +224,19 @@ Why this is non-trivial — four traps stack on top of each other:
 
 The helper below addresses all four. It also uses a *deterministic* socket path (`~/.ssh/agent/wine.sock`, exposed inside the prefix via the `drive_c/users/$USER/.ssh` symlink) so the registry-pinned `SSH_AUTH_SOCK` value never goes stale across restarts.
 
-..~/.local/bin/gitext-ssh-add
+The helper lives next to this doc — see link:gitext-ssh-add[gitext-ssh-add]:
+
+.gitext-ssh-add
 [source,bash]
 ----
-#!/usr/bin/env bash
-# Load an SSH key into a mingw ssh-agent.exe running inside the
-# GitExtensions Wine prefix. The passphrase is read from *this* Linux
-# terminal (via a pty given to ssh-add by `script -qfc`) so the numpad
-# works — every Wine GUI passphrase dialog silently drops keypad digits.
-# The agent connection info is written to $AGENT_ENV; the `gitext`
-# wrapper sources that file so GitExtensions' git → ssh.exe finds the
-# agent without ever prompting.
-set -euo pipefail
-# Verbose trace when invoked with GITEXT_SSH_DEBUG=1.
-[[ "${GITEXT_SSH_DEBUG:-}" == 1 ]] && set -x
-
-export WINEPREFIX="$HOME/Applications/wine-gitext"
-AGENT_ENV="$HOME/.cache/wine-gitext/ssh-agent.env"
-AGENT_LOG="$HOME/.cache/wine-gitext/ssh-agent.log"
-SSH_AGENT='C:\Program Files\Git\usr\bin\ssh-agent.exe'
-SSH_ADD='C:\Program Files\Git\usr\bin\ssh-add.exe'
-
-# Deterministic socket path. We must export SSH_AUTH_SOCK to this value
-# BEFORE any wine call, so wineserver inherits it and propagates it to
-# every Windows process — including GitExtensions' bundled ssh.exe.
-# Cygwin-style path; resolves via the drive_c/users/$USER/.ssh symlink
-# to ~/.ssh/agent/wine.sock on the Linux side.
-SSH_SOCK_CYGWIN="/c/users/$USER/.ssh/agent/wine.sock"
-SSH_SOCK_LINUX="$HOME/.ssh/agent/wine.sock"
-export SSH_AUTH_SOCK="$SSH_SOCK_CYGWIN"
-
-mkdir -p "$(dirname "$AGENT_ENV")" "$(dirname "$SSH_SOCK_LINUX")"
-
-# Strip the harmless noise mingw tools spew under Wine.
-filter_noise() {
-  grep -v -E 'fixme:|stub|Cygwin WARNING|FAST_CWD|cygwin\.com|please see' || true
-}
-
-# Kill any ssh-agent.exe and the wineserver behind it. We kill wineserver
-# too because the new agent must come up under a wineserver whose env has
-# SSH_AUTH_SOCK pointing at our socket — and wineserver only reads env
-# at startup, so a leftover wineserver poisons every later wine call.
-kill_our_agents() {
-  WINEPREFIX="$WINEPREFIX" wineserver -k 2>/dev/null || true
-  sleep 0.3
-  local pid
-  for pid in $(pgrep -f 'ssh-agent\.exe|wineserver' 2>/dev/null); do
-    if grep -qz "WINEPREFIX=$WINEPREFIX" "/proc/$pid/environ" 2>/dev/null; then
-      kill -9 "$pid" 2>/dev/null || true
-    fi
-  done
-}
-
-start_agent() {
-  echo "Starting wine ssh-agent (socket: $SSH_SOCK_CYGWIN)..."
-  rm -f "$SSH_SOCK_LINUX"
-  # Pin SSH_AUTH_SOCK in HKCU\Environment so every Windows process gets
-  # it from the registry at startup. GitExtensions builds a sanitized
-  # env block when it spawns git.exe (.NET ProcessStartInfo behaviour),
-  # which drops parent-inherited env vars — so wine-shell-side exports
-  # alone aren't enough; the registry value survives that scrub.
-  wine reg add 'HKCU\Environment' /v SSH_AUTH_SOCK /t REG_SZ \
-    /d "$SSH_SOCK_CYGWIN" /f >/dev/null 2>&1 || true
-  # Write AGENT_ENV up front: the path is deterministic and writing it
-  # before launching wine guarantees `gitext` can never see a live agent
-  # with no matching env file — even if this script is interrupted later.
-  cat > "$AGENT_ENV" <<EOF
-SSH_AUTH_SOCK='$SSH_SOCK_CYGWIN'; export SSH_AUTH_SOCK;
-EOF
-  # -D = foreground, -a = explicit socket path. We background it ourselves
-  # so this script can return; the agent daemon stays attached to the new
-  # wineserver and reparents to it. SSH_AUTH_SOCK is already exported, so
-  # wineserver starts with it in its environment. Stderr → $AGENT_LOG so
-  # cold-start failures (missing dll, locked socket dir, etc.) leave a
-  # forensic trail instead of vanishing into /dev/null.
-  : > "$AGENT_LOG"
-  wine "$SSH_AGENT" -D -a "$SSH_SOCK_CYGWIN" </dev/null >>"$AGENT_LOG" 2>&1 &
-  local wpid=$!
-  # 15 s budget: cold-start after `wineserver -k` can need ~3-5 s on its
-  # own, then ssh-agent.exe itself has to load. 5 s was too tight in
-  # practice; bumping to 15 keeps the failure path responsive while
-  # tolerating slow cold starts.
-  for _ in $(seq 1 150); do
-    [[ -e "$SSH_SOCK_LINUX" ]] && break
-    sleep 0.1
-  done
-  if [[ ! -e "$SSH_SOCK_LINUX" ]]; then
-    echo "ssh-agent failed to create socket at $SSH_SOCK_LINUX" >&2
-    echo "see $AGENT_LOG for agent stderr" >&2
-    kill "$wpid" 2>/dev/null || true
-    rm -f "$AGENT_ENV"
-    exit 1
-  fi
-  disown "$wpid" 2>/dev/null || true
-  echo "Agent ready"
-}
-
-# Reuse a live agent if the deterministic socket file exists AND the
-# agent responds. Otherwise wipe state and start fresh.
-if [[ -e "$SSH_SOCK_LINUX" ]] && \
-   timeout 5 wine "$SSH_ADD" -l >/dev/null 2>&1; then
-  echo "Reusing existing agent at $SSH_SOCK_CYGWIN"
-else
-  kill_our_agents
-  rm -f "$AGENT_ENV" "$SSH_SOCK_LINUX"
-  start_agent
-fi
-
-# If a key is already loaded, treat the helper as a safe no-op so it
-# can be re-run mid-session without re-prompting. `timeout` guards
-# against a dead agent socket making ssh-add hang silently.
-if timeout 10 wine "$SSH_ADD" -l >/dev/null 2>&1; then
-  echo "Keys already loaded:"
-  timeout 10 wine "$SSH_ADD" -l 2>/dev/null | filter_noise
-  exit 0
-fi
-
-[[ $# -gt 0 ]] || set -- "$HOME/.ssh/id_rsa"
-
-for key in "$@"; do
-  if [[ ! -f "$key" ]]; then
-    echo "Key not found: $key" >&2
-    continue
-  fi
-  win_key=$(winepath -w "$key")
-  echo "Loading $key (wine path: $win_key)"
-  # `script -qfc` gives mingw ssh-add a pty so its passphrase prompt
-  # renders in this Linux terminal — bypasses the Wine numpad bug.
-  script -qfc "wine \"$SSH_ADD\" \"$win_key\"" /dev/null
-done
-
-echo "---"
-echo "Keys currently in agent:"
-timeout 10 wine "$SSH_ADD" -l 2>/dev/null | filter_noise
+include::gitext-ssh-add[]
 ----
+
+Install it (run from this directory):
 
 [source,bash]
 ----
-chmod +x ~/.local/bin/gitext-ssh-add
+install -m 0755 gitext-ssh-add ~/.local/bin/gitext-ssh-add
 ----
 
 === Workflow per session

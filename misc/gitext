@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# Launch the Windows portable GitExtensions under Wine.
+#
+# SSH strategy: a mingw `ssh-agent.exe` runs inside this same Wine
+# prefix and holds the decrypted key. The companion `gitext-ssh-add`
+# helper starts that agent and loads the key (with the passphrase
+# typed in a Linux terminal so the numpad works); it writes the
+# resulting SSH_AUTH_SOCK + SSH_AGENT_PID to $AGENT_ENV. This wrapper
+# sources that file and exports the vars so GitExtensions' bundled
+# git → ssh.exe finds the agent silently.
+set -euo pipefail
+
+# Dedicated prefix — isolates GitExtensions from the default ~/.wine.
+export WINEPREFIX="$HOME/Applications/wine-gitext"
+EXE='C:\GitExtensions\GitExtensions.exe'
+# Wine emits heavy `fixme:` noise on stderr; pin it to a log file
+# instead of polluting the terminal.
+LOG="$HOME/.cache/gitext-wine.log"
+AGENT_ENV="$HOME/.cache/wine-gitext/ssh-agent.env"
+mkdir -p "$(dirname "$LOG")"
+
+# Source SSH_AUTH_SOCK from the agent env file. CRITICAL: this must
+# happen *before* any `wine` call below, because wineserver caches its
+# environment at startup. If wineserver is already running with the
+# wrong SSH_AUTH_SOCK, GitExtensions' ssh.exe will inherit that stale
+# value and never reach our agent — symptom is "could not read" /
+# "cannot read remote directory" on pull/push.
+if [[ -f "$AGENT_ENV" ]]; then
+  # shellcheck disable=SC1090
+  source "$AGENT_ENV" 2>/dev/null || true
+  export SSH_AUTH_SOCK
+fi
+
+# Auto-load the SSH key. `gitext-ssh-add` is idempotent — if a key is
+# already loaded it exits ~immediately with no prompt. We only auto-run
+# it when stdin AND stdout are ttys (i.e. launched from a terminal),
+# because the passphrase prompt needs a human at a tty. From a GUI
+# launcher we instead probe the agent and warn — never block on a
+# prompt that has nowhere to render.
+SSH_ADD_EXE='C:\Program Files\Git\usr\bin\ssh-add.exe'
+if [[ -t 0 && -t 1 ]]; then
+  gitext-ssh-add >&2 || \
+    echo "warning: gitext-ssh-add failed — SSH push/fetch may not work" >&2
+else
+  if [[ -z "${SSH_AUTH_SOCK:-}" ]] || \
+     ! timeout 3 wine "$SSH_ADD_EXE" -l >/dev/null 2>&1; then
+    notify-send "GitExtensions" \
+      "No SSH key loaded — run gitext-ssh-add from a terminal" 2>/dev/null || \
+      echo "warning: no SSH key loaded in wine agent" >&2
+  fi
+fi
+
+# No argument → open the current directory.
+if [[ $# -eq 0 ]]; then
+  set -- "$PWD"
+fi
+
+# Translate existing Linux paths to Wine paths (e.g. /home/x → Z:\home\x).
+# Non-path args (branch names, refs, options) pass through unchanged.
+args=()
+for a in "$@"; do
+  if [[ -e "$a" ]]; then
+    args+=("$(winepath -w "$a")")
+  else
+    args+=("$a")
+  fi
+done
+
+exec wine "$EXE" "${args[@]}" >>"$LOG" 2>&1
