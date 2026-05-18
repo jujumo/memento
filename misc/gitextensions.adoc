@@ -166,15 +166,7 @@ Drop it at `~/Applications/wine-gitext/drive_c/users/$USER/.gitconfig`.
 
 The `gitext` wrapper sets `WINEPREFIX`, translates Linux paths to Wine paths, and forwards the SSH agent env (see next section) into Wine.
 
-The script lives next to this doc — see link:gitext[gitext]:
-
-.gitext
-[source,bash]
-----
-include::gitext[]
-----
-
-Install it (run from this directory):
+The script lives next to this doc: link:gitext[gitext]. Install it (run from this directory):
 
 [source,bash]
 ----
@@ -224,15 +216,7 @@ Why this is non-trivial — four traps stack on top of each other:
 
 The helper below addresses all four. It also uses a *deterministic* socket path (`~/.ssh/agent/wine.sock`, exposed inside the prefix via the `drive_c/users/$USER/.ssh` symlink) so the registry-pinned `SSH_AUTH_SOCK` value never goes stale across restarts.
 
-The helper lives next to this doc — see link:gitext-ssh-add[gitext-ssh-add]:
-
-.gitext-ssh-add
-[source,bash]
-----
-include::gitext-ssh-add[]
-----
-
-Install it (run from this directory):
+The helper lives next to this doc: link:gitext-ssh-add[gitext-ssh-add]. Install it (run from this directory):
 
 [source,bash]
 ----
