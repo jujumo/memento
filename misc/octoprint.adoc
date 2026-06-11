@@ -140,9 +140,41 @@ Then, in the OctoPrint web-ui, go to `Settings` > `Server` > `Commands`, configu
 - OctoPrint-PrintTimeGenius: Use a gcode pre-analysis to provide better print time estimation
 - DisplayLayerProgress: Progress and other data on "Printer-Display"
 - OctoPrint-MQTT + OctoPrint-HomeAssistant
+
+setup:
+
+.Show printer display on Desktop
+-> uncheck
+
+.navigationbar
+----
+Done: <span style='display: inline-block;width:24px;'>[progress]%</span> ,
+Left: <span style='display: inline-block;width:54px;'>[printtime_left]</span> ,
+Due: <span style='display: inline-block;width:34px;'>[estimated_end_time]</span>
+----
+
+.printer display
+----
+[progress]% TL : [printtime_left] ETA : [estimated_end_time]
+----
+
+.browser title:
+----
+[printer_state] : [progress]% TL: [printtime_left] ETA :[estimated_end_time]
+----
+
+- MQTT:
+
+setup: "Host", "Base topic" name, "username" and "password".
+
+- HomeAssistant Discovery :
+
+setup: "Device name"  and "Model"
+
 - Themeify: dark theme
 - Cura Thumbnail: support for Ultimaker Format Package (.ufp) files
 - OctoPrint-TabOrder: ordering of tabs
+
 
 Let's keep in mind the evolution of the camera stack:
 https://github.com/cp2004/OctoPrint-CameraStreamer-Control
