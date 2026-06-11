@@ -1,0 +1,83 @@
+= got2rtc
+
+
+== install in userspace
+
+----
+$> mkdir go2rtc && cd go2rtc
+$> wget https://github.com/AlexxIT/go2rtc/releases/latest/download/go2rtc_linux_arm64
+
+chmod +x go2rtc_linux_arm64
+nano go2rtc.yaml
+----
+
+== configure camera
+
+=== for logitech webcam 
+
+.go2rtc.yaml
+---- 
+streams:
+  webcam:
+    - v4l2:device?video=/dev/video0&input_format=mjpeg&video_size=640x480&framerate=30
+----
+
+
+=== for ONVIF 
+
+.go2rtc.yaml
+---- 
+streams:
+  main: rtsp://192.168.50.10:554/user=admin_password=_channel=1_stream=0
+  sub:
+    - rtsp://192.168.50.10:554/user=admin_password=_channel=1_stream=1
+    - ffmpeg:sub#video=mjpeg
+----
+
+optionally reduce processing with 
+
+----
+    - ffmpeg:sub#video=mjpeg#width=800#fps=10
+----
+
+got to webadmin page
+http://192.168.0.110:1984/config.html
+
+
+add URL in classic camera :
+
+http:///192.168.0.110:1984/api/stream.mjpeg?src=camera
+
+
+== install as a service :
+
+
+----
+$> nano go2rtc.service
+$> sudo ln -s ~/go2rtc/go2rtc.service /etc/systemd/system/go2rtc.service
+$> sudo systemctl daemon-reload
+$> sudo systemctl enable go2rtc
+$> sudo systemctl start go2rtc
+$> sudo systemctl status go2rtc
+----
+
+.go2rtc.service
+----
+[Unit]
+Description=go2rtc streaming server
+After=network.target
+
+[Service]
+Type=simple
+User=USERNAME
+WorkingDirectory=/home/USERNAME/go2rtc
+ExecStart=/home/USERNAME/go2rtc/go2rtc_linux_arm64 -c /home/USERNAME/go2rtc/go2rtc.yaml
+Restart=always
+RestartSec=5
+
+# Limiter un peu l'impact CPU (optionnel mais utile sur Pi 3)
+Nice=10
+
+[Install]
+WantedBy=multi-user.target
+----
