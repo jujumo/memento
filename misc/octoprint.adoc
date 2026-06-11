@@ -139,7 +139,6 @@ Then, in the OctoPrint web-ui, go to `Settings` > `Server` > `Commands`, configu
 - Bed Level Visualizer: Displays 3D mesh of bed topography report.
 - OctoPrint-PrintTimeGenius: Use a gcode pre-analysis to provide better print time estimation
 - DisplayLayerProgress: Progress and other data on "Printer-Display"
-- OctoPrint-MQTT + OctoPrint-HomeAssistant
 
 setup:
 
@@ -300,6 +299,15 @@ $> sudo systemctl start haproxy
 $> sudo systemctl status haproxy
 $> sudo systemctl enable haproxy
 ----
+== configure webcam
+
+use link:go2rtc.adoc[go2rtc] for video stream
+
+In octoprint `settings` > `Classic webcam` :
+
+ - Stream URL: `/webcam/api/stream.mjpeg?src=webcam`
+ - Snapshot URL: `http://127.0.0.1/webcam/api/frame.jpeg?src=webcam`
+ - Path to FFMPEG: `/usr/bin/ffmpeg`
 
 
 == references
