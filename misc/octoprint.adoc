@@ -149,19 +149,77 @@ https://github.com/cp2004/OctoPrint-CameraStreamer-Control
 
 == reverse proxy
 
-Neet to host both webcam and octoprint.
-It redirects to octoprint or webcam based on the url.
-Install haproxy :
+My first choice would be caddy.
+
+=== caddy
+
+==== install caddy
+
+Check whether Caddy is already available:
+
+[source,bash]
+----
+$> sudo apt install caddy
+$> caddy version
+$> sudo systemctl status caddy
+----
+
+
+==== configure caddy
+
+Find your services:
+
+[source,bash]
+----
+$> ss -tlnp
+$> sudo nano /etc/caddy/Caddyfile
+----
+
+For pure http (not secured):
+
+./etc/caddy/Caddyfile
+[source,conf]
+----
+:80 {
+        handle_path /webcam/* {
+                reverse_proxy localhost:1984
+        }
+        handle {
+                reverse_proxy localhost:5000
+        }
+}
+----
+
+[source,bash]
+----
+# to fix warnings:
+$> sudo caddy fmt --overwrite /etc/caddy/Caddyfile
+$> sudo caddy validate --config /etc/caddy/Caddyfile
+# to apply
+$> sudo systemctl reload caddy
+$> sudo systemctl restart caddy
+----
+
+
+=== haproxy :
+haproxy would be my second choice:
+
+==== install haproxy
 
 [source,bash]
 ----
 $> sudo apt install -y haproxy
+----
+
+==== configure haproxy
+
+[source,bash]
+----
 $> sudo mv /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.bak
 $> sudo nano /etc/haproxy/haproxy.cfg
 # check the configuration is valid!
 $> /usr/sbin/haproxy -c -V -f /etc/haproxy/haproxy.cfg
 ----
-
 
 ./etc/haproxy/haproxy.cfg
 [source,ini]
@@ -204,6 +262,7 @@ backend webcam
 
 Activate the reverse proxy:
 
+[source,bash]
 ----
 $> sudo systemctl start haproxy
 $> sudo systemctl status haproxy
