@@ -3,12 +3,12 @@
 
 == install in userspace
 
+[source,bash]
 ----
 $> mkdir go2rtc && cd go2rtc
 $> wget https://github.com/AlexxIT/go2rtc/releases/latest/download/go2rtc_linux_arm64
-
-chmod +x go2rtc_linux_arm64
-nano go2rtc.yaml
+$> chmod +x go2rtc_linux_arm64
+$> nano go2rtc.yaml
 ----
 
 == configure camera
@@ -16,6 +16,7 @@ nano go2rtc.yaml
 === for logitech webcam 
 
 .go2rtc.yaml
+[source,yaml]
 ---- 
 streams:
   webcam:
@@ -26,6 +27,7 @@ streams:
 === for ONVIF 
 
 .go2rtc.yaml
+[source,yaml]
 ---- 
 streams:
   main: rtsp://192.168.50.10:554/user=admin_password=_channel=1_stream=0
@@ -36,6 +38,7 @@ streams:
 
 optionally reduce processing with 
 
+[source,yaml]
 ----
     - ffmpeg:sub#video=mjpeg#width=800#fps=10
 ----
@@ -62,7 +65,7 @@ $> sudo systemctl status go2rtc
 ----
 
 .go2rtc.service
-[source,inis]
+[source,ini]
 ----
 [Unit]
 Description=go2rtc streaming server
@@ -85,6 +88,7 @@ WantedBy=multi-user.target
 
 == uninstall
 
+[source,bash]
 ----
 # Stop the service
 $> sudo systemctl stop go2rtc
