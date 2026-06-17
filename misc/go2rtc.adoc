@@ -43,21 +43,27 @@ optionally reduce processing with
     - ffmpeg:sub#video=mjpeg#width=800#fps=10
 ----
 
-got to webadmin page
-http://192.168.0.110:1984/config.html
+got to web admin page:
+
+http://HOSTNAME:1984/config.html
 
 
-add URL in classic camera :
+For direct stream URL (like octoprint need) add URL in classic camera :
 
-http:///192.168.0.110:1984/api/stream.mjpeg?src=camera
+http:///HOSTNAME:1984/api/stream.mjpeg?src=camera
 
 
 == install as a service :
 
 [source,bash]
 ----
+# edit service file and copy/paste content below
 $> nano go2rtc.service
+# replace USERNAME with actual username
+$> sed -i "s/USERNAME/$USER/g" go2rtc.service
+# create (link) service file
 $> sudo ln -s ~/go2rtc/go2rtc.service /etc/systemd/system/go2rtc.service
+# service 
 $> sudo systemctl daemon-reload
 $> sudo systemctl enable go2rtc
 $> sudo systemctl start go2rtc
@@ -104,3 +110,4 @@ $> sudo systemctl reset-failed
 $> systemctl status go2rtc
 Unit go2rtc.service could not be found.
 ----
+
