@@ -51,7 +51,7 @@ http:///192.168.0.110:1984/api/stream.mjpeg?src=camera
 
 == install as a service :
 
-
+[source,bash]
 ----
 $> nano go2rtc.service
 $> sudo ln -s ~/go2rtc/go2rtc.service /etc/systemd/system/go2rtc.service
@@ -62,6 +62,7 @@ $> sudo systemctl status go2rtc
 ----
 
 .go2rtc.service
+[source,inis]
 ----
 [Unit]
 Description=go2rtc streaming server
@@ -80,4 +81,22 @@ Nice=10
 
 [Install]
 WantedBy=multi-user.target
+----
+
+== uninstall
+
+----
+# Stop the service
+$> sudo systemctl stop go2rtc
+# Disable autostart
+$> sudo systemctl disable go2rtc
+Removed '/etc/systemd/system/multi-user.target.wants/go2rtc.service'.
+Removed '/etc/systemd/system/go2rtc.service'.
+# Reload systemd configuration
+$> sudo systemctl daemon-reload
+# Optional: clear failed state if present
+$> sudo systemctl reset-failed
+# Verify that systemd no longer knows about the service
+$> systemctl status go2rtc
+Unit go2rtc.service could not be found.
 ----
