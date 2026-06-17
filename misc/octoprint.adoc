@@ -162,6 +162,10 @@ Due: <span style='display: inline-block;width:34px;'>[estimated_end_time]</span>
 [printer_state] : [progress]% TL: [printtime_left] ETA :[estimated_end_time]
 ----
 
+.append
+check
+
+
 - MQTT:
 
 setup: "Host", "Base topic" name, "username" and "password".
