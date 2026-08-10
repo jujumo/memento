@@ -6,7 +6,59 @@
 update the windows registry using :
 link:putty-modern-256color.reg[]
 
-== keymap
+== Terminal type
 
-set
+.why bother
+The terminal type (TERM) tells applications running on the remote machine
+which terminal capabilities and keyboard/control sequences are supported
+by the terminal emulator. It is used to select the appropriate terminfo
+definition, allowing programs such as htop, vim, and less to correctly
+handle colors, cursor movement, function keys, and other terminal features.
 
+.Why choose `xterm-256color`?
+
+xterm-256color provides **support for 256 colors** while using a **widely supported**
+terminal definition. Unlike putty-256color, it is commonly available on Linux
+systems by default, so applications such as htop can use it without requiring
+additional terminfo packages to be installed on the remote machine.
+
+.setup PuTTY
+
+PuTTY Configuration → Connection → Data → Terminal-type string
+
+Set it to:
+
+[source,bash]
+====
+xterm-256color
+====
+
+.Why keep `putty-256color`
+
+Choosing `xterm-256color` might break "hom"and "end" keys behavior.
+Here is a piece of code to install the  `putty-256color` on the machine if it does not have it.
+If it does not have it, `htop`command might fail.
+
+[source,bash]
+====
+cd /tmp
+curl -fLO https://ftp.debian.org/debian/pool/main/n/ncurses/ncurses-term_6.6+20260608-2_all.deb
+mkdir -p ncurses-term
+cd ncurses-term
+ar x ../ncurses-term_6.6+20260608-2_all.deb
+tar -xf data.tar.xz ./usr/share/terminfo/p/putty-256color
+mkdir -p ~/.terminfo/p
+cp usr/share/terminfo/p/putty-256color ~/.terminfo/p/
+ls -l ~/.terminfo/p/putty-256color
+====
+
+
+== Keypad
+
+.why this happens
+PuTTY can put the numeric keypad into application mode, where the keys send escape sequences
+instead of ordinary digits. Some terminal applications deliberately enable this mode,
+and with certain terminal/shell configurations it can make the keypad appear to stop working.
+
+.Disable application keypad mode
+PuTTY Configuration → Terminal → Features → Disable application keypad mode
