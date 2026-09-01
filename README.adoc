@@ -6,8 +6,6 @@
 , image:math/icon_geometry.svg["geometry"] link:math/geometry.adoc[geometry]
 , image:math/icon_geometry.svg["geometry"] link:math/frames.adoc[frames]
 
-
-
 - image:coding/windows/icon_windows.svg["windows"] windows
 : link:coding/windows/dos.adoc[dos]
 , link:coding/windows/windows_cheat.adoc[cheat]
@@ -25,14 +23,6 @@
 , link:coding/python/pyproject.adoc[pyproject.toml]
 , link:coding/python/re.adoc[re]
 , link:coding/python/snippets.adoc[snippets]
-
-// - image:coding/cpp/icon_cpp.svg["c++"] Cpp
-// : link:coding/cpp/rules.adoc[rules]
-// , link:coding/cpp/qmake.adoc[qmake]
-// , link:coding/cpp/cmake.adoc[cmake]
-// , link:coding/cpp/snippets.adoc[snippets]
-// , link:coding/cpp/algorithm.adoc[algorithms]
-
 
 - image:coding/linux/linux_icon.svg["linux"] linux
 : link:coding/linux/linux_cheat.adoc[cheat]
