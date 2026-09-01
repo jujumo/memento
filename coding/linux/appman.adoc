@@ -1,0 +1,94 @@
+= image:appman_icon.svg["appman", width=64px] appman
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:sectnums: 2
+:toc:
+:toclevels: 1
+:experimental:
+
+== brief
+
+**AppMan** is the APT for AppImage: i.e. an AppImage package manager.
+
+See more on the https://github.com/ivan-hc/AppMan[GitHub repo].
+
+== install
+
+Install it with this one-liner:
+
+[source,bash]
+----
+curl -s -Lo ./AM-INSTALLER https://raw.githubusercontent.com/ivan-hc/AM/main/AM-INSTALLER && chmod a+x ./AM-INSTALLER && ./AM-INSTALLER && rm ./AM-INSTALLER
+----
+
+See full documentation on https://github.com/ivan-hc/AppMan#how-to-install-appman[how-to-install-appman].
+
+== usage
+
+=== list
+
+[source,bash]
+----
+appman files                # installed apps, with sizes (sorted by size)
+appman -f                   # alternative to previous command
+appman -f --byname          # same, sorted by name
+appman list                 # everything available in the database
+appman -l                   # alternative to previous command
+appman search {KEYWORD}     # search the database
+appman -q {KEYWORD}         # alternative to previous command
+----
+
+=== install
+
+[source,bash]
+----
+appman install {PROGRAM}    # install from the database
+appman -i {PROGRAM}         # alternative to previous command
+----
+
+=== remove
+
+[source,bash]
+----
+appman remove {PROGRAM}     # remove, asks for confirmation
+appman -r {PROGRAM}         # alternative to previous command
+appman -R {PROGRAM}         # remove without asking
+----
+
+=== update
+
+[source,bash]
+----
+appman update               # update appman itself + every installed app
+appman -u                   # alternative to previous command
+appman -u --apps            # update the apps only
+appman -u {PROGRAM}         # update a single app
+----
+
+=== install straight from a github repo
+
+Use `-e` (*extra*) for AppImages that are not in the database. `user/project`
+can also be the full URL to the repository. The second argument is the name the
+program will get on the command line; append an unambiguous keyword if the
+release lists several AppImages.
+
+[source,bash]
+----
+appman -e jorio/gitfourchette gitfourchette x86_64
+----
+
+Once installed this way, the app is updated and removed like any other
+(`appman -u gitfourchette`, `appman -r gitfourchette`).
+
+
+== Troubleshooting
+
+=== ubuntu 24.04+ user namespaces
+
+If apps warn `ACCESS TO USER NAMESPACES IS RESTRICTED`, disable the AppArmor restriction:
+
+[source,bash]
+----
+echo 'kernel.apparmor_restrict_unprivileged_userns = 0' | sudo tee /etc/sysctl.d/20-apparmor-mint.conf
+sudo sysctl --system
+----

@@ -36,6 +36,7 @@
 
 - image:coding/linux/linux_icon.svg["linux"] linux
 : link:coding/linux/linux_cheat.adoc[cheat]
+, link:coding/linux/appman.adoc[appman]
 , link:coding/linux/bash.adoc[bash]
 , link:coding/linux/zsh.adoc[zsh]
 // , link:coding/linux/apptainer_cheat.adoc[apptainer]
