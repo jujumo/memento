@@ -1,0 +1,7 @@
+# Everything is LF in the repository; git auto-detects and skips binaries.
+* text=auto eol=lf
+
+# Windows-native files need CRLF in the working tree (stored as LF regardless).
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.reg text eol=crlf
