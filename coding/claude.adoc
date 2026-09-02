@@ -1,0 +1,70 @@
+= Claude Code
+:author: Julien Morat
+:email: julien.morat@gmail.com
+:toc:
+:experimental:
+
+Cheatsheet for the `claude` CLI (Anthropic Claude Code).
+
+== sessions
+
+Every session is stored as a JSONL transcript, one file per session, grouped by
+working directory:
+
+----
+~/.claude/projects/<cwd-slug>/<session-uuid>.jsonl
+----
+
+The slug is the absolute path with `/` replaced by `-`
+(e.g. `/home/jmorat` -> `-home-jmorat`).
+
+=== resume
+
+[source,zsh]
+----
+$> claude --continue          # reopen the most recent session of this directory
+$> claude --resume            # interactive picker (newest first)
+$> claude --resume <uuid>     # jump straight to a known session
+----
+
+Inside a running session, kbd:[/resume] opens the same picker.
+
+TIP: `--resume` only lists sessions of the *current* directory. `cd` to the
+project first, or pick from the file listing below.
+
+=== list from the shell
+
+[source,zsh]
+----
+$> ls -lt ~/.claude/projects/-home-jmorat/*.jsonl        # sessions of one directory
+$> ls -lt ~/.claude/projects/**/*.jsonl | head -30       # all directories, newest first
+$> ls ~/.claude/projects/                                # which directories have history
+----
+
+First user message of each session, to tell them apart:
+
+[source,zsh]
+----
+$> for f in ~/.claude/projects/-home-jmorat/*.jsonl(om); do
+     print -r -- "${f:t:r}  $(jq -r 'select(.type=="user") | .message.content | if type=="string" then . else .[0].text end' $f 2>/dev/null | head -1 | cut -c1-70)"
+   done
+----
+
+`(om)` is the zsh glob qualifier sorting by mtime (newest first); `${f:t:r}` is
+the basename without extension, i.e. the session uuid to feed to `--resume`.
+
+.function to drop in `~/.aliases.sh`
+[source,zsh]
+----
+claude_sessions() {
+  local dir=${1:-$PWD}
+  local slug=${dir//\//-}
+  for f in ~/.claude/projects/$slug/*.jsonl(om); do
+    print -r -- "${f:t:r}  $(date -r $f '+%F %R')  $(jq -r 'select(.type=="user") | .message.content | if type=="string" then . else .[0].text end' $f 2>/dev/null | head -1 | cut -c1-60)"
+  done
+}
+----
+
+== see also
+
+- link:linux/zsh.adoc[zsh] for the glob qualifiers and modifiers used above.

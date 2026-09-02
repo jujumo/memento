@@ -34,6 +34,7 @@
 , link:coding/linux/armbian.adoc[armbian]
 , link:coding/linux/direnv.adoc[direnv]
 , link:coding/linux/de-duplicate.adoc[de-duplicate]
+, link:coding/claude.adoc[Claude Code]
 , link:misc/openssl.adoc[openssl]
 , link:misc/docker.adoc[Docker]
 , link:misc/docker_app.adoc[Docker app]
