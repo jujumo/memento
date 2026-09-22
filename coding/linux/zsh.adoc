@@ -26,11 +26,7 @@ source: https://leahneukirchen.org/blog/archive/2008/02/10-zsh-tricks-you-may-no
 
 == automatic install and configure
 
-[source,bash]
-.bash
-----
-$> sh -c "$(curl -fsSL https://raw.githubusercontent.com/jujumo/memento/refs/heads/main/coding/linux/zsh-setup.sh)"
-----
+see chezmoi https://github.com/jujumo/dotfiles[dotfiles]
 
 == manual install
 
@@ -55,75 +51,29 @@ $> wget https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.
 $> curl https://raw.githubusercontent.com/jujumo/memento/main/coding/linux/jumo.zsh-theme -o ~/.oh-my-zsh/themes/jumo.zsh-theme  # or use curl if you prefer
 ----
 
-enable plugins
+== Zsh Dotfiles and Loading Contexts
 
-[source,bash]
-.bash
-----
-$> cat <<EOT >> profile.patch
-11c11
-< ZSH_THEME="robbyrussell"
----
-> ZSH_THEME="jumo"
-73c73,82
-< plugins=(git)
----
-> plugins=(
->         cp
->         gitfast
->         common-aliases
->         rsync
->         debian
->         sudo
->         screen
->         docker
-> )
-EOT
-$> patch .zshrc -i profile.patch
-$> . ~/.zshrc  # apply changes
-----
-
-== configure kbd:[HOME] and kbd:[END] keys.
-
-In some cases, through ssh, kbd:[HOME] and kbd:[END] does not work as expected.
-Adding the following to `.zshrc` usually restore the their behavior.
-
-..zshrc
-[source,bash]
-----
-...
-bindkey "\033[1~" beginning-of-line
-bindkey "\033[4~" end-of-line
-
-   or
-
-bindkey  "^[[F"   end-of-line
-bindkey  "^[[3~"  delete-char
-----
-
-== .*rc files
-
-complete list of which zsh config files are loaded
-
-
-[cols='2m,3*^s', options="header"]
+[cols="2,1,1,1,1,8", options="header"]
 |===
-|    | Interactive login | Interactive non═login | Script
+| Dotfile      | All | Login | Interactive | Non-Interactive | Use For
 
-|/etc/zshenv    | A | A | A
-|~/.zshenv      | B | B | B
-|/etc/zprofile  | C | --| --
-|~/.zprofile    | D | --| --
-|/etc/zshrc     | E | C | --
-|~/.zshrc       | F | D | --
-|/etc/zlogin    | G | --| --
-|~/.zlogin      | H | --| --
-| 3+| on logout
-|~/.zlogout     | I | --| --
-|/etc/zlogout   | J | --| --
+| `.zshenv`    | ✅   | ✅     | ✅           | ✅               | Sets environment variables for _all_ Zsh sessions.
+
+| `.zprofile`  | ❌   | ✅     | ❌           | ❌               | Runs at _login_ (e.g., SSH, TTY). Used for PATH, environment setup.
+
+| `.zshrc`     | ❌   | ❌*    | ✅           | ❌               | Configures _interactive_ shells (aliases, prompts, plugins).
+
+| `.zlogin`    | ❌   | ✅     | ❌           | ❌               | Runs _after `.zprofile`_ at login (e.g., `neofetch`, session tasks).
+
+| `.zlogout`   | ❌   | ✅     | ❌           | ❌               | Executes on _login shell exit_ (cleanup tasks).
+
+| `.zcompdump` | ❌   | ❌     | ❌           | ❌               | Auto-generated cache for Zsh completions (not user-edited).
 |===
 
 
-source:
-https://unix.stackexchange.com/questions/66614/oh-my-zsh-theme-doesnt-seem-to-update-unless-i-re-launch-zsh
+Notes:
+
+- `.zshrc` is loaded for _interactive login shells_ (e.g., terminal login) *if* the shell is interactive.
+- **Non-Interactive Shells** (e.g., scripts): Only `.zshenv` is loaded.
+- **Login Shells**: Load `.zshenv` → `.zprofile` → `.zshrc` (if interactive) → `.zlogin`.
 
