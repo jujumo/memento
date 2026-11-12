@@ -94,7 +94,6 @@ Consequently:
 | OpenMVG, KITTI, 7Scenes | right | down  | front
 | Tait-Bryan              | front | right | down
 | Photoscan camera        | right | up    | back
-| Photoscan UAV           | pitch | roll  | yaw
 |===
 
 === Gaming
@@ -123,9 +122,6 @@ it transforms a point in the plane frame `P~c~` into the world frame `P~w~`:
 
 .Photoscan camera axis: X => right, Y => up, Z => back
 image::frame_photoscan.svg[photoscan camera,400,300]
-
-.Photoscan UAV rotation axis: X => pitch (uav-right), Y => roll (uav-front), Z => yaw (uav-up)
-image::frame_photoscan2.svg[photoscan uav,400,300]
 
 WARNING: Photoscan is a beach: *(yaw, pitch, roll) does not refer to the camera*
 apparatus, but to the plane. The camera is considered fixed below the plane,
