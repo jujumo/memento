@@ -13,12 +13,12 @@
  - points in *world* (resp. *camera*) frame are denoted `V~w~`, (resp `V~c~`),
  - *pose* is the *position* and *orientation* of the camera into the world, it is denoted `Q`,
  - *position* is the coordinate of an object (eg. the camera center) into the world, it is a 3 vector denoted `t^w^~c~`,
- - *orientation* is the attitude of an object into the world, it is a 3x3 rotation matrix be denoted `R^w^~c~`,
- - *transform* is the inverse of pose, and decomposed into a *translation* and an *orientation*,
+ - *orientation* is the attitude of an object into the world, it is a 3x3 rotation matrix denoted `R^w^~c~`,
+ - *transform* is the inverse of pose, and decomposed into a *translation* and a *rotation*,
  - *translation* is a 3 vector denoted `t^c^~w~`,
  - *rotation* is a 3x3 rotation matrix denoted `R^c^~w~`.
 
-With this notation, the *pose* give the transformation from *camera to world*, like follows:
+With this notation, the *pose* gives the transformation from *camera to world*, like follows:
 
 `V~w~ = R^w^~c~ V~c~ + t^w^~c~` [1]
 
@@ -32,7 +32,7 @@ And the inverse transform from *world to camera*, like follows:
 TO BE DONE
 
 == homogeneous notation
-In *homogeneous coordinates* notations, a additional value is added.
+In *homogeneous coordinates* notations, an additional value is added.
 So 3D points have 4 coordinates, and are denoted `Ṽ = [X, Y, Z, W]`.
 In homogeneous coordinates, 2 points are equivalent (denoted ≈), if
 they are equal up to a scale factor. Then, the *pose* and *transform* are used
@@ -85,13 +85,13 @@ Similarly, we can show that `R^w^~c~ = R^c^~w~^T^` and `t^w^~c~ = -R^c^~w~^T^ x 
 
 == change reference frame of a pose / transformation
 
-Lets admit we have the *pose* of a camera into reference frame `α`,
+Let's admit we have the *pose* of a camera into reference frame `α`,
 but we need to express it into `β` reference frame, ie:
 
 `V~βw~ = R^βw^~βc~ V~βc~ + t^βw^~βc~`.
 
 Assuming transformation between `α` and `β` are pure *rotations* (same origin,
-same axis norm, same handness, ...) denoted as `R^α^~β~` and `R^β^~α~`, like :
+same axis norm, same handedness, ...) denoted as `R^α^~β~` and `R^β^~α~`, like :
 
 `V~β~ = R^β^~α~ V~α~` and `V~α~ = R^α^~β~ V~β~`. [4]
 
@@ -121,17 +121,6 @@ consequently,
 .Gaming axis: X => Front, Y => Left, Z => Up
 image:frame_gaming.svg[gaming,400,300]
 
-////
- Note to my self : I would have used svg, but it does not work on the corporate github.
- For security reason, svg is sanitized by github (avoid script injection attack)
- and for some uknown reason, my SVG fails to passe the sanitize process.
-see: https://github.com/github/markup/issues/556
-
- Errors looks like :
- XML Parsing Error: syntax error
-Location: https://es.naverlabs.com/raw/julien-morat/memorandum/master/geometry/frame_photoscan.svg?token=AAALOIhufSXBN1XCNvumU8JdpUX1PsCwks5bO3xewA%3D%3D&sanitize=true
-Line Number 1, Column 1: 502: Failure
-////
 
 === OpenMVG
 
@@ -153,7 +142,7 @@ So `P~w~ = R~yaw~ x R~pitch~ x R~roll~ x P~c~`, with `x` the matrix product.
 .Photoscan camera axis: X => Right, Y => Up, Z => Back
 image:frame_photoscan.svg[photoscan,400,300]
 
-.Photoscan UAV rotation axis: X => pitch (uav-right), Y => roll (auv-front), Z => yaw (uav-down)
+.Photoscan UAV rotation axis: X => pitch (uav-right), Y => roll (uav-front), Z => yaw (uav-down)
 image:frame_photoscan2.svg[photoscan,400,300]
 
 WARNING: Photoscan is a beach, and *(yaw, pitch, roll) does not refer to the camera*
@@ -161,17 +150,13 @@ apparatus, but to the plane. Since the camera is considered fixed below the
 plane, consequently with null yaw, pitch roll, the camera is looking face down,
 top border in north direction.
 
+CAUTION: as written, the UAV axis (X right, Y front, Z down) is *left-handed*.
+Double-check before use.
 
-=== 7Scenes
-
-.7Scenes camera axis: X => Right, Y => Up, Z => Back
-NOTE: 7Scenes is the same as Photoscan
 
 === KITTI, 7Scenes
 
-.Like openMVG camera axis: X => Right, Y => Down, Z => Front
-
-NOTE: KITTI and 7Scenes are the same as openMVG.
+Same as openMVG camera axis: X => Right, Y => Down, Z => Front.
 
 === Summary
 
@@ -179,9 +164,9 @@ NOTE: KITTI and 7Scenes are the same as openMVG.
 |=============================================
 | frame name    | X     | Y     | Z
 
-| Gaming        | front | left  | up
-| OpenMVG       | right | down  | front
-| Tait-Bryan    | front | right | down
-| Phtscan World | right | up    | back
-| Ptscan UAV    | pitch | roll  | yaw
+| Gaming          | front | left  | up
+| OpenMVG / KITTI | right | down  | front
+| Tait-Bryan      | front | right | down
+| Photoscan cam.  | right | up    | back
+| Photoscan UAV   | pitch | roll  | yaw
 |=============================================
