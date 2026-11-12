@@ -1,256 +1,247 @@
-= reference frames
+= Camera obscura
 :author: Julien Morat
 :email: julien.morat@gmail.com
 :sectnums:
 :toc:
-:toclevels: 1
+:toclevels: 2
 :experimental:
 :stem: latexmath
 
-== notations
+== Reference frames
 
- - *points* are noted as column vector as `V = [X, Y, Z] ^T^`,
- - points in *world* (resp. *camera*) frame are denoted `V~w~`, (resp `V~c~`),
- - *pose* is the *position* and *orientation* of the camera into the world, it is denoted `Q`,
- - *position* is the coordinate of an object (eg. the camera center) into the world, it is a 3 vector denoted `t^w^~c~`,
- - *orientation* is the attitude of an object into the world, it is a 3x3 rotation matrix denoted `R^w^~c~`,
- - *transform* is the inverse of pose, and decomposed into a *translation* and a *rotation*,
- - *translation* is a 3 vector denoted `t^c^~w~`,
- - *rotation* is a 3x3 rotation matrix denoted `R^c^~w~`.
+=== Notations
 
-With this notation, the *pose* gives the transformation from *camera to world*, like follows:
+* *points* are column vectors: stem:[V = [X, Y, Z\]^T],
+* points in *world* (resp. *camera*) frame are denoted stem:[V_w] (resp. stem:[V_c]),
+* *pose* is the *position* and *orientation* of the camera in the world, denoted stem:[Q],
+* *position* is the coordinate of an object (e.g. the camera center) in the world, a 3-vector denoted stem:[t^w_c],
+* *orientation* is the attitude of an object in the world, a 3x3 rotation matrix denoted stem:[R^w_c],
+* *transform* is the inverse of the pose, decomposed into a *translation* and a *rotation*,
+* *translation* is a 3-vector denoted stem:[t^c_w],
+* *rotation* is a 3x3 rotation matrix denoted stem:[R^c_w].
 
-`V~w~ = R^w^~c~ V~c~ + t^w^~c~` [1]
-
-And the inverse transform from *world to camera*, like follows:
-
-`V~c~ = R^c^~w~ V~w~ + t^c^~w~` [2]
-
-
-== meaning of pose
-
-TO BE DONE
-
-== homogeneous notation
-In *homogeneous coordinates* notations, an additional value is added.
-So 3D points have 4 coordinates, and are denoted `Ṽ = [X, Y, Z, W]`.
-In homogeneous coordinates, 2 points are equivalent (denoted ≈), if
-they are equal up to a scale factor. Then, the *pose* and *transform* are used
-like below:
+The *pose* maps *camera to world*:
 
 [latexmath]
 ++++
-Ṽ_c  = \left(
-\begin{array}{ccc|c}
-  &       &  &       \\
-  & R^c_w &  & t^c_w \\
-  &       &  &       \\
-\hline
-  &  0    &  & 1
-\end{array}
-\right)
-\times Ṽ_w
+V_w = R^w_c V_c + t^w_c \qquad (1)
 ++++
 
+The *transform* maps *world to camera*:
 
 [latexmath]
 ++++
-Ṽ_w  = \left(
-\begin{array}{ccc|c}
-  &       &  &       \\
-  & R^w_c &  & t^w_c \\
-  &       &  &       \\
-\hline
-  &  0    &  & 1
-\end{array}
-\right)
-\times Ṽ_c
+V_c = R^c_w V_w + t^c_w \qquad (2)
 ++++
 
-== pose / transformation conversion
+NOTE: with stem:[V_c = 0] in (1), stem:[V_w = t^w_c]: the position part of the pose is the camera center in the world.
+The translation stem:[t^c_w] of the transform is *not* the camera center.
 
-from [1], we can write;
+=== Homogeneous notation
 
-`V~w~ - t^w^~c~ = R^w^~c~ x V~c~`
+In *homogeneous coordinates*, an additional value is added:
+3D points have 4 coordinates, denoted stem:[\tilde{V} = [X, Y, Z, W\]].
+Two points are equivalent (denoted ≈) if they are equal up to a scale factor.
+Pose and transform then become 4x4 matrices:
 
-`(R^w^~c~)^T^ x (V~w~ - t^w^~c~) = V~c~`
+[latexmath]
+++++
+\tilde{V}_c = \left(
+\begin{array}{c|c}
+  R^c_w & t^c_w \\
+\hline
+  0     & 1
+\end{array}
+\right) \tilde{V}_w
+\qquad
+\tilde{V}_w = \left(
+\begin{array}{c|c}
+  R^w_c & t^w_c \\
+\hline
+  0     & 1
+\end{array}
+\right) \tilde{V}_c
+++++
 
-`(R^w^~c~^T^ x V~w~) - (R^w^~c~^T^ x t^w^~c~) = V~c~`
+=== Pose / transform conversion
 
-`V~c~ = R^w^~c~^T^ x V~w~ -(R^w^~c~^T^ x t^w^~c~)`, [3]
+From (1):
 
-from [2] and [3], we deduce that `R^c^~w~ = R^w^~c~^T^` and `t^c^~w~ = -R^w^~c~^T^ x t^w^~c~`.
+[latexmath]
+++++
+\begin{aligned}
+V_w - t^w_c &= R^w_c V_c \\
+{R^w_c}^T (V_w - t^w_c) &= V_c \\
+V_c &= {R^w_c}^T V_w - {R^w_c}^T t^w_c \qquad (3)
+\end{aligned}
+++++
 
-Similarly, we can show that `R^w^~c~ = R^c^~w~^T^` and `t^w^~c~ = -R^c^~w~^T^ x t^c^~w~`.
+From (2) and (3):
 
-== change reference frame of a pose / transformation
+[latexmath]
+++++
+R^c_w = {R^w_c}^T \qquad t^c_w = -{R^w_c}^T t^w_c
+++++
 
-Let's admit we have the *pose* of a camera into reference frame `α`,
-but we need to express it into `β` reference frame, ie:
+and similarly:
 
-`V~βw~ = R^βw^~βc~ V~βc~ + t^βw^~βc~`.
+[latexmath]
+++++
+R^w_c = {R^c_w}^T \qquad t^w_c = -{R^c_w}^T t^c_w
+++++
 
-Assuming transformation between `α` and `β` are pure *rotations* (same origin,
-same axis norm, same handedness, ...) denoted as `R^α^~β~` and `R^β^~α~`, like :
+=== Change of reference frame of a pose
 
-`V~β~ = R^β^~α~ V~α~` and `V~α~ = R^α^~β~ V~β~`. [4]
+Given the *pose* of a camera in reference frame stem:[\alpha], express it in frame stem:[\beta], i.e. find:
 
-From [1], we know
+[latexmath]
+++++
+V_{\beta w} = R^{\beta w}_{\beta c} V_{\beta c} + t^{\beta w}_{\beta c}
+++++
 
-`V~αw~ = R^αw^~αc~ V~αc~ + t^αw^~αc~`
+Assuming stem:[\alpha] and stem:[\beta] differ by a pure *rotation* (same origin, same scale, same handedness, ...)
+denoted stem:[R^\alpha_\beta] and stem:[R^\beta_\alpha]:
 
-using [4],
+[latexmath]
+++++
+V_\beta = R^\beta_\alpha V_\alpha \qquad V_\alpha = R^\alpha_\beta V_\beta \qquad (4)
+++++
 
-`V~αw~ = R^αw^~αc~ (R^α^~β~ V~βc~) + t^αw^~αc~`
+From (1) in stem:[\alpha], then (4):
 
-`(R^β^~α~ V~αw~) = R^β^~α~ (R^αw^~αc~ R^α^~β~ V~βc~ + t^αw^~αc~)`
+[latexmath]
+++++
+\begin{aligned}
+V_{\alpha w} &= R^{\alpha w}_{\alpha c} V_{\alpha c} + t^{\alpha w}_{\alpha c} \\
+V_{\alpha w} &= R^{\alpha w}_{\alpha c} R^\alpha_\beta V_{\beta c} + t^{\alpha w}_{\alpha c} \\
+R^\beta_\alpha V_{\alpha w} &= R^\beta_\alpha \left( R^{\alpha w}_{\alpha c} R^\alpha_\beta V_{\beta c} + t^{\alpha w}_{\alpha c} \right) \\
+V_{\beta w} &= \left( R^\beta_\alpha R^{\alpha w}_{\alpha c} R^\alpha_\beta \right) V_{\beta c} + R^\beta_\alpha t^{\alpha w}_{\alpha c} \qquad (5)
+\end{aligned}
+++++
 
-`V~βw~ = R^β^~α~ (R^αw^~αc~ R^α^~β~ V~βc~ + t^αw^~αc~)`
+Consequently:
 
-`V~βw~ = (R^β^~α~ R^αw^~αc~ R^α^~β~) V~βc~ + (R^β^~α~ t^αw^~αc~)` [5]
+[latexmath]
+++++
+R^{\beta w}_{\beta c} = R^\beta_\alpha R^{\alpha w}_{\alpha c} R^\alpha_\beta
+\qquad
+t^{\beta w}_{\beta c} = R^\beta_\alpha t^{\alpha w}_{\alpha c}
+++++
 
-consequently,
-
-`R^βw^~βc~ = R^β^~α~ R^αw^~αc~ R^α^~β~` and `t^βw^~βc~ = R^β^~α~ t^αw^~αc~`.
-
-
-== Axis
-
-=== Gaming
-
-.Gaming axis: X => Front, Y => Left, Z => Up
-image:frame_gaming.svg[gaming,400,300]
-
-
-=== OpenMVG
-
-.openMVG axis: X => Right, Y => Down, Z => Front
-image:frame_openmvg.svg[frame,400,300]
-
-=== Tait-Bryan notation (Aerial)
-
-.Tait-Bryan common axis: X => Front, Y => Right, Z => Down.
-image:frame_aerial.png[aerial,400,300]
-
-The (yaw, pitch, roll) triplet gives the attitude of the plane into the world.
-In other words, it transform a point in plane reference frame (denoted `P~c~`)
-into a point into world reference frame (denoted `P~w~`).
-So `P~w~ = R~yaw~ x R~pitch~ x R~roll~ x P~c~`, with `x` the matrix product.
-
-=== Photoscan
-
-.Photoscan camera axis: X => Right, Y => Up, Z => Back
-image:frame_photoscan.svg[photoscan,400,300]
-
-.Photoscan UAV rotation axis: X => pitch (uav-right), Y => roll (uav-front), Z => yaw (uav-down)
-image:frame_photoscan2.svg[photoscan,400,300]
-
-WARNING: Photoscan is a beach, and *(yaw, pitch, roll) does not refer to the camera*
-apparatus, but to the plane. Since the camera is considered fixed below the
-plane, consequently with null yaw, pitch roll, the camera is looking face down,
-top border in north direction.
-
-CAUTION: as written, the UAV axis (X right, Y front, Z down) is *left-handed*.
-Double-check before use.
-
-
-=== KITTI, 7Scenes
-
-Same as openMVG camera axis: X => Right, Y => Down, Z => Front.
+== Axis conventions
 
 === Summary
 
-[cols=">1e,3*^m",options="header"]
-|=============================================
-| frame name    | X     | Y     | Z
+[%header,cols="<2e,3*^1m"]
+|===
+| convention              | X     | Y     | Z
+| Gaming                  | front | left  | up
+| OpenMVG, KITTI, 7Scenes | right | down  | front
+| Tait-Bryan              | front | right | down
+| Photoscan camera        | right | up    | back
+| Photoscan UAV           | pitch | roll  | yaw
+|===
 
-| Gaming          | front | left  | up
-| OpenMVG / KITTI | right | down  | front
-| Tait-Bryan      | front | right | down
-| Photoscan cam.  | right | up    | back
-| Photoscan UAV   | pitch | roll  | yaw
-|=============================================
+=== Gaming
 
-== sensors
+.Gaming axis: X => front, Y => left, Z => up
+image::frame_gaming.svg[gaming,400,300]
 
-[options="header",cols=">10,^m,^m,^m,^m"]
-|==================================================================================
-| name                       | Diag (mm) | Width (mm)  | Height (mm)  | Area (mm2)
-| Super 8mm film frame       | 7.04      | 5.79        | 4.01         | 23.22
-| Super 35mm film 4 Perf     | 31.11     | 24.89       | 18.66        | 464
-| Super 16mm film frame      | 14.54     | 12.52       | 7.41         | 92.80
-| Standard 8mm film frame    | 5.94      | 4.8         | 3.5          | 16.8
-| Standard 65mm film frame   | 57.30     | 52.48       | 23.01        | 1208
-| Standard 35mm film frame   | 27.20     | 22.0        | 16.0         | 352
-| Standard 16mm film frame   | 12.7      | 10.26       | 7.49         | 76.85
-| Phase One P 65+,
-IQ160, IQ180                 | 67.40     | 53.90       | 40.40        | 2178
-| Pentax 645D                | 55        | 44          | 33           | 1452
-| original Sigma Foveon X3   | 24.90     | 20.70       | 13.80        | 286
-| Medium-format
- (Hasselblad H5D-60)     | 67.08     | 53.7        | 40.2         | 2159
-| Medium Format Film 6x7     | 87        | 67          | 56           | 3752
-| Medium Format Film 6x6     | 79        | 56          | 56           | 3136
-| Medium Format Film 6x4.5   | 70        | 56          | 42           | 2352
-| Leica S                    | 54        | 45          | 30           | 1350
-| Leaf AFi 10                | 66.57     | 56          | 36           | 2016
-| Large Format Film 8x10     | 325       | 254         | 203          | 51562
-| Large Format Film 5x7      | 219       | 178         | 127          | 22606
-| Large Format Film 4x5      | 155       | 121         | 97           | 11737
-| Kodak KAF 39000 CCD    | 61.30     | 49          | 36.80        | 1803
-| IMAX film frame            | 87.91     | 70.41       | 52.63        | 3706
-| Four Thirds, Micro Four Thirds
-("4/3", "m4/3")              | 21.60     | 17.30       | 13           | 225
-| Canon EF-S, APS-C          | 26.82     | 22.30       | 14.90        | 332
-| Canon APS-H                | 33.50     | 27.90       | 18.60        | 519
-| Blackmagic Production
-Camera 4K                    | 24.23     | 21.12       | 11.88        | 251
-| Blackmagic Pocket Cinema Camera
- Blackmagic Studio Camera    | 14.32     | 12.48       | 7.02         | 87.6
-| Blackmagic Cinema Camera EF| 18.13     | 15.81       | 8.88         | 140
-| APS-C
-(Sony α DT, Sony E, Nikon DX,
-Pentax K, Samsung NX, Fuji X)| 28.2–28.4 | 23.6–23.7   | 15.60        | 368–370
-| 35mm full-frame,
-(Canon EF, Nikon FX,
-Sony α, Sony FE)             | 43.1–43.3 | 35.8–36     | 23.9–24      | 856–864
-| 2/3" (Nokia Lumia 1020,
-Fujifilm X-S1, X20, XF1)     | 11.00     | 8.80        | 6.60         | 58.10
-| 1/8"                       | 2.00      | 1.60        | 1.20         | 1.92
-| 1/6"                       | 3.00      | 2.40        | 1.80         | 4.32
-| 1/4"                       | 4.00      | 3.20        | 2.40         | 7.68
-| 1/3.6" (
-Nokia Lumia 720)         | 5.00      | 4.00        | 3.00         | 12.0
-| 1/3.2"
-(iPhone 5)               | 5.68      | 4.54        | 3.42         | 15.50
-| 1/3"
-(iPhone 5S, iPhone 6)   | 6.00      | 4.80        | 3.60         | 17.30
-| 1/2.7"                     | 6.72      | 5.37        | 4.04         | 21.70
-| 1/2.5"
-(Nokia Lumia 1520,
-Sony Cyber-shot DSC-T5)      | 7.18      | 5.76        | 4.29         | 24.70
-| 1/2.3"
-(Sony Exmor IMX220)      | 7.87      | 6.30        | 4.72         | 29.73
-| 1/2.3"
-(Pentax Q)
-(Sony Cyber-shot DSC-W330)(gopro hero 3)
-(Panasonic HX-A500)          | 7.66      | 6.17        | 4.55         | 28.07
-| 1/2"  (Fujifilm HS30EXR,
- Espros EPC 660)             | 8.00      | 6.40        | 4.80         | 30.70
-| 1/10"                      | 1.60      | 1.28        | 0.96         | 1.23
-| 1/1.8" (Nokia N8, Olympus C-5050,
- C-5060, C-7070)             | 8.93      | 7.18        | 5.32         | 38.20
-| 1/1.7"
-(Pentax Q7, Canon G10, G15)  | 9.50      | 7.60        | 5.70         | 43.30
-| 1/1.6"                     | 10.07     | 8.08        | 6.01         | 48.56
-| 1/1.2"
-(Nokia 808 PureView)         | 13.33     | 10.67       | 8.00         | 85.33
-| 1.5"
-Canon PowerShot G1 X Mark II | 23.36     | 18.70       | 14           | 262
-| 1" Sony RX100 and RX10,
-Nikon CX, Samsung NX Mini    | 15.86     | 13.20       | 8.80         | 116
-| 1" Digital Bolex d16       | 16.00     | 12.80       | 9.60         | 123
-| "Super 35mm" 2 Perf        | 26.58     | 24.89       | 9.35         | 232.7
-| "35mm" 2 Perf Techniscope  | 23.85     | 21.95       | 9.35         | 205.23
-| "35mm 3 Perf"              | 28.48     | 24.89       | 13.86        | 344.97
-|==================================================================================
+=== OpenMVG, KITTI, 7Scenes
+
+.OpenMVG camera axis: X => right, Y => down, Z => front
+image::frame_openmvg.svg[openmvg,400,300]
+
+KITTI and 7Scenes use the same camera axis as OpenMVG.
+
+=== Tait-Bryan (aerial)
+
+.Tait-Bryan common axis: X => front, Y => right, Z => down
+image::frame_aerial.png[aerial,400,300]
+
+The (yaw, pitch, roll) triplet gives the attitude of the plane in the world:
+it transforms a point in the plane frame stem:[P_c] into the world frame stem:[P_w]:
+
+[latexmath]
+++++
+P_w = R_{yaw} \, R_{pitch} \, R_{roll} \, P_c
+++++
+
+=== Photoscan
+
+.Photoscan camera axis: X => right, Y => up, Z => back
+image::frame_photoscan.svg[photoscan camera,400,300]
+
+.Photoscan UAV rotation axis: X => pitch (uav-right), Y => roll (uav-front), Z => yaw (uav-up)
+image::frame_photoscan2.svg[photoscan uav,400,300]
+
+WARNING: Photoscan is a beach: *(yaw, pitch, roll) does not refer to the camera*
+apparatus, but to the plane. The camera is considered fixed below the plane,
+so with null (yaw, pitch, roll), the camera is looking down, top border towards north.
+
+== Sensors
+
+[%header,cols="<3,4*>1m"]
+|===
+| name                                                              | diag (mm) | width (mm) | height (mm) | area (mm²)
+
+5+h| Cinema film
+| IMAX film frame                                                   |     87.91 |      70.41 |       52.63 |       3706
+| Standard 65mm film frame                                          |     57.30 |      52.48 |       23.01 |       1208
+| Super 35mm film 4 Perf                                            |     31.11 |      24.89 |       18.66 |        464
+| 35mm 3 Perf                                                       |     28.48 |      24.89 |       13.86 |     344.97
+| Standard 35mm film frame                                          |     27.20 |       22.0 |        16.0 |        352
+| Super 35mm 2 Perf                                                 |     26.58 |      24.89 |        9.35 |      232.7
+| 35mm 2 Perf Techniscope                                           |     23.85 |      21.95 |        9.35 |     205.23
+| Super 16mm film frame                                             |     14.54 |      12.52 |        7.41 |      92.80
+| Standard 16mm film frame                                          |      12.7 |      10.26 |        7.49 |      76.85
+| Super 8mm film frame                                              |      7.04 |       5.79 |        4.01 |      23.22
+| Standard 8mm film frame                                           |      5.94 |        4.8 |         3.5 |       16.8
+
+5+h| Medium & large format
+| Large Format Film 8x10                                            |       325 |        254 |         203 |      51562
+| Large Format Film 5x7                                             |       219 |        178 |         127 |      22606
+| Large Format Film 4x5                                             |       155 |        121 |          97 |      11737
+| Medium Format Film 6x7                                            |        87 |         67 |          56 |       3752
+| Medium Format Film 6x6                                            |        79 |         56 |          56 |       3136
+| Medium Format Film 6x4.5                                          |        70 |         56 |          42 |       2352
+| Phase One P 65+, IQ160, IQ180                                     |     67.40 |      53.90 |       40.40 |       2178
+| Hasselblad H5D-60                                                 |     67.08 |       53.7 |        40.2 |       2159
+| Leaf AFi 10                                                       |     66.57 |         56 |          36 |       2016
+| Kodak KAF 39000 CCD                                               |     61.30 |         49 |       36.80 |       1803
+| Pentax 645D                                                       |        55 |         44 |          33 |       1452
+| Leica S                                                           |        54 |         45 |          30 |       1350
+
+5+h| Full-frame, APS, 4/3, 1"
+| 35mm full-frame (Canon EF, Nikon FX, Sony α, Sony FE)             | 43.1–43.3 |    35.8–36 |     23.9–24 |    856–864
+| Canon APS-H                                                       |     33.50 |      27.90 |       18.60 |        519
+| APS-C (Sony, Nikon DX, Pentax K, Samsung NX, Fuji X)              | 28.2–28.4 |  23.6–23.7 |       15.60 |    368–370
+| APS-C Canon (EF-S)                                                |     26.82 |      22.30 |       14.90 |        332
+| Sigma Foveon X3 (original)                                        |     24.90 |      20.70 |       13.80 |        286
+| Blackmagic Production Camera 4K                                   |     24.23 |      21.12 |       11.88 |        251
+| 1.5" (Canon PowerShot G1 X Mark II)                               |     23.36 |      18.70 |          14 |        262
+| Four Thirds / Micro Four Thirds                                   |     21.60 |      17.30 |          13 |        225
+| Blackmagic Cinema Camera EF                                       |     18.13 |      15.81 |        8.88 |        140
+| 1" (Digital Bolex d16)                                            |     16.00 |      12.80 |        9.60 |        123
+| 1" (Sony RX100, RX10, Nikon CX, Samsung NX Mini)                  |     15.86 |      13.20 |        8.80 |        116
+| Blackmagic Pocket Cinema / Studio Camera                          |     14.32 |      12.48 |        7.02 |       87.6
+
+5+h| Small sensors (1/x")
+| 1/1.2" (Nokia 808 PureView)                                       |     13.33 |      10.67 |        8.00 |      85.33
+| 2/3" (Nokia Lumia 1020, Fujifilm X-S1, X20, XF1)                  |     11.00 |       8.80 |        6.60 |      58.10
+| 1/1.6"                                                            |     10.07 |       8.08 |        6.01 |      48.56
+| 1/1.7" (Pentax Q7, Canon G10, G15)                                |      9.50 |       7.60 |        5.70 |      43.30
+| 1/1.8" (Nokia N8, Olympus C-5050, C-5060, C-7070)                 |      8.93 |       7.18 |        5.32 |      38.20
+| 1/2" (Fujifilm HS30EXR, Espros EPC 660)                           |      8.00 |       6.40 |        4.80 |      30.70
+| 1/2.3" (Sony Exmor IMX220)                                        |      7.87 |       6.30 |        4.72 |      29.73
+| 1/2.3" (Pentax Q, Sony DSC-W330, GoPro Hero 3, Panasonic HX-A500) |      7.66 |       6.17 |        4.55 |      28.07
+| 1/2.5" (Nokia Lumia 1520, Sony Cyber-shot DSC-T5)                 |      7.18 |       5.76 |        4.29 |      24.70
+| 1/2.7"                                                            |      6.72 |       5.37 |        4.04 |      21.70
+| 1/3" (iPhone 5S, iPhone 6)                                        |      6.00 |       4.80 |        3.60 |      17.30
+| 1/3.2" (iPhone 5)                                                 |      5.68 |       4.54 |        3.42 |      15.50
+| 1/3.6" (Nokia Lumia 720)                                          |      5.00 |       4.00 |        3.00 |       12.0
+| 1/4"                                                              |      4.00 |       3.20 |        2.40 |       7.68
+| 1/6"                                                              |      3.00 |       2.40 |        1.80 |       4.32
+| 1/8"                                                              |      2.00 |       1.60 |        1.20 |       1.92
+| 1/10"                                                             |      1.60 |       1.28 |        0.96 |       1.23
+|===
