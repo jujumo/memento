@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="408" height="270" viewBox="0 0 408 270">
+<style>.f{fill:#222}.s{stroke:#222;fill:none}.g{fill:#777}.sep{stroke:#999}@media (prefers-color-scheme: dark){.f{fill:#e6e6e6}.s{stroke:#e6e6e6}.g{fill:#9a9a9a}.sep{stroke:#777}}</style>
+<path class="s" stroke-width="2" d="M23.0,16.0 H16.0 V124.0 H23.0"/>
+<path class="s" stroke-width="2" d="M117.0,16.0 H124.0 V124.0 H117.0"/>
+<text class="f" x="53.4" y="79.2" font-size="28" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">R</text>
+<text class="f" x="73.6" y="68.6" font-size="17.4" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+<text class="f" x="73.6" y="84.8" font-size="17.4" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text>
+<text class="f" x="151" y="79.0" font-size="26" text-anchor="middle" font-family="DejaVu Serif, Times New Roman, serif">=</text>
+<path class="s" stroke-width="2" d="M185.0,16.0 H178.0 V124.0 H185.0"/>
+<path class="s" stroke-width="2" d="M279.0,16.0 H286.0 V124.0 H279.0"/>
+<text class="f" x="215.4" y="79.2" font-size="28" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">R</text>
+<text class="f" x="235.6" y="68.6" font-size="17.4" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text>
+<text class="f" x="235.6" y="84.8" font-size="17.4" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+<text class="f" x="289.0" y="28.0" font-size="17" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">T</text>
+<path class="s" stroke-width="2" d="M95.0,146.0 H88.0 V254.0 H95.0"/>
+<path class="s" stroke-width="2" d="M117.0,146.0 H124.0 V254.0 H117.0"/>
+<text class="f" x="98.2" y="205.9" font-size="18" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">t</text>
+<text class="f" x="105.4" y="199.1" font-size="11.2" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+<text class="f" x="105.4" y="209.5" font-size="11.2" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text>
+<text class="f" x="151" y="209.0" font-size="26" text-anchor="middle" font-family="DejaVu Serif, Times New Roman, serif">=</text>
+<text class="f" x="195" y="209.0" font-size="26" text-anchor="middle" font-family="DejaVu Serif, Times New Roman, serif">−</text>
+<path class="s" stroke-width="2" d="M229.0,146.0 H222.0 V254.0 H229.0"/>
+<path class="s" stroke-width="2" d="M323.0,146.0 H330.0 V254.0 H323.0"/>
+<text class="f" x="259.4" y="209.2" font-size="28" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">R</text>
+<text class="f" x="279.6" y="198.6" font-size="17.4" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text>
+<text class="f" x="279.6" y="214.8" font-size="17.4" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+<text class="f" x="333.0" y="158.0" font-size="17" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">T</text>
+<path class="s" stroke-width="2" d="M363.0,146.0 H356.0 V254.0 H363.0"/>
+<path class="s" stroke-width="2" d="M385.0,146.0 H392.0 V254.0 H385.0"/>
+<text class="f" x="366.2" y="205.9" font-size="18" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">t</text>
+<text class="f" x="373.4" y="199.1" font-size="11.2" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text>
+<text class="f" x="373.4" y="209.5" font-size="11.2" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+</svg>

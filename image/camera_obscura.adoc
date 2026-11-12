@@ -21,11 +21,11 @@
 
 The *pose* maps *camera to world*:
 
-`V~w~ = R^w^~c~ V~c~ + t^w^~c~` (1)
+image::formulae/pose.svg["V_w = R^w_c V_c + t^w_c (1)"]
 
 The *transform* maps *world to camera*:
 
-`V~c~ = R^c^~w~ V~w~ + t^c^~w~` (2)
+image::formulae/transform.svg["V_c = R^c_w V_w + t^c_w (2)"]
 
 NOTE: with `V~c~ = 0` in (1), `V~w~ = t^w^~c~`: the position part of the pose is the camera center in the world.
 The translation `t^c^~w~` of the transform is *not* the camera center.
@@ -38,50 +38,43 @@ Two points are equivalent (denoted ≈) if they are equal up to a scale factor.
 Pose and transform then become 4x4 matrices, written by blocks:
 
 .Transform: world to camera
-image::frame_homogeneous_transform.svg[homogeneous transform,480,237]
+image::formulae/homogeneous_transform.svg["V~_c = [R^c_w | t^c_w ; 0 | 1] V~_w"]
 
 .Pose: camera to world
-image::frame_homogeneous_pose.svg[homogeneous pose,480,237]
+image::formulae/homogeneous_pose.svg["V~_w = [R^w_c | t^w_c ; 0 | 1] V~_c"]
 
 === Pose / transform conversion
 
 From (1):
 
-[%hardbreaks]
-`V~w~ - t^w^~c~ = R^w^~c~ V~c~`
-`(R^w^~c~)^T^ (V~w~ - t^w^~c~) = V~c~`
-`V~c~ = (R^w^~c~)^T^ V~w~ - (R^w^~c~)^T^ t^w^~c~` (3)
+image::formulae/conversion_derivation.svg["V_c = (R^w_c)^T V_w - (R^w_c)^T t^w_c (3)"]
 
 From (2) and (3):
 
-`R^c^~w~ = (R^w^~c~)^T^` and `t^c^~w~ = -(R^w^~c~)^T^ t^w^~c~`
+image::formulae/conversion_transform.svg["R^c_w = (R^w_c)^T and t^c_w = -(R^w_c)^T t^w_c"]
 
 and similarly:
 
-`R^w^~c~ = (R^c^~w~)^T^` and `t^w^~c~ = -(R^c^~w~)^T^ t^c^~w~`
+image::formulae/conversion_pose.svg["R^w_c = (R^c_w)^T and t^w_c = -(R^c_w)^T t^c_w"]
 
 === Change of reference frame of a pose
 
 Given the *pose* of a camera in reference frame `α`, express it in frame `β`, i.e. find:
 
-`V~βw~ = R^βw^~βc~ V~βc~ + t^βw^~βc~`
+image::formulae/change_target.svg["V_βw = R^βw_βc V_βc + t^βw_βc"]
 
 Assuming `α` and `β` differ by a pure *rotation* (same origin, same scale, same handedness, ...)
 denoted `R^α^~β~` and `R^β^~α~`:
 
-`V~β~ = R^β^~α~ V~α~` and `V~α~ = R^α^~β~ V~β~` (4)
+image::formulae/change_rotation.svg["V_β = R^β_α V_α and V_α = R^α_β V_β (4)"]
 
 From (1) in `α`, then (4):
 
-[%hardbreaks]
-`V~αw~ = R^αw^~αc~ V~αc~ + t^αw^~αc~`
-`V~αw~ = R^αw^~αc~ R^α^~β~ V~βc~ + t^αw^~αc~`
-`R^β^~α~ V~αw~ = R^β^~α~ (R^αw^~αc~ R^α^~β~ V~βc~ + t^αw^~αc~)`
-`V~βw~ = (R^β^~α~ R^αw^~αc~ R^α^~β~) V~βc~ + R^β^~α~ t^αw^~αc~` (5)
+image::formulae/change_derivation.svg["V_βw = (R^β_α R^αw_αc R^α_β) V_βc + R^β_α t^αw_αc (5)"]
 
 Consequently:
 
-`R^βw^~βc~ = R^β^~α~ R^αw^~αc~ R^α^~β~` and `t^βw^~βc~ = R^β^~α~ t^αw^~αc~`
+image::formulae/change_result.svg["R^βw_βc = R^β_α R^αw_αc R^α_β and t^βw_βc = R^β_α t^αw_αc"]
 
 == Axis conventions
 
@@ -94,7 +87,6 @@ Consequently:
 | OpenMVG, KITTI, 7Scenes | right | down  | front
 | Tait-Bryan              | front | right | down
 | Photoscan camera        | right | up    | back
-| Photoscan UAV           | pitch | roll  | yaw
 |===
 
 === Gaming
@@ -117,15 +109,12 @@ image::frame_aerial.png[aerial,400,300]
 The (yaw, pitch, roll) triplet gives the attitude of the plane in the world:
 it transforms a point in the plane frame `P~c~` into the world frame `P~w~`:
 
-`P~w~ = R~yaw~ × R~pitch~ × R~roll~ × P~c~`
+image::formulae/tait_bryan.svg["P_w = R_yaw R_pitch R_roll P_c"]
 
 === Photoscan
 
 .Photoscan camera axis: X => right, Y => up, Z => back
 image::frame_photoscan.svg[photoscan camera,400,300]
-
-.Photoscan UAV rotation axis: X => pitch (uav-right), Y => roll (uav-front), Z => yaw (uav-up)
-image::frame_photoscan2.svg[photoscan uav,400,300]
 
 WARNING: Photoscan is a beach: *(yaw, pitch, roll) does not refer to the camera*
 apparatus, but to the plane. The camera is considered fixed below the plane,
