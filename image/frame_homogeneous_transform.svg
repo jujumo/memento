@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="316" viewBox="0 0 640 316">
+<style>.f{fill:#222}.s{stroke:#222}.g{fill:#777}.sep{stroke:#999}@media (prefers-color-scheme: dark){.f{fill:#e6e6e6}.s{stroke:#e6e6e6}.g{fill:#9a9a9a}.sep{stroke:#777}}</style>
+<g class="f">
+<text x="28.3" y="188" font-size="34" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">Ṽ</text><text x="52.1" y="194.1" font-size="21.1" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text>
+<text x="74" y="188" font-size="34">=</text>
+<text x="198.8" y="158.0" font-size="40" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">R</text><text x="227.6" y="144.0" font-size="24.8" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text><text x="227.6" y="165.2" font-size="24.8" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+<text x="325.2" y="158.0" font-size="40" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">t</text><text x="341.2" y="144.0" font-size="24.8" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">c</text><text x="341.2" y="165.2" font-size="24.8" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+<text x="204.9" y="278.0" font-size="34" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">0</text><text x="223.6" y="266.1" font-size="21.1" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">T</text>
+<text x="330.6" y="278.0" font-size="34" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">1</text>
+<text x="396" y="188" font-size="30" font-style="normal">×</text>
+<text x="444.3" y="188" font-size="34" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">Ṽ</text><text x="468.1" y="194.1" font-size="21.1" font-family="DejaVu Serif, Times New Roman, serif" font-style="italic">w</text>
+</g>
+<g class="g" font-family="DejaVu Sans, Arial, sans-serif" font-size="11" text-anchor="end">
+<text x="305" y="231">3×3</text>
+<text x="365" y="231">3×1</text>
+<text x="305" y="291">1×3</text>
+<text x="365" y="291">1×1</text>
+</g>
+<g class="g" font-family="DejaVu Sans, Arial, sans-serif" font-size="13" text-anchor="middle"><text x="220.0" y="46">rotation</text><text x="340.0" y="46">translation</text></g>
+<g fill="none" class="s" stroke-width="2.4">
+<path d="M140,56 H130 V296 H140"/>
+<path d="M360,56 H370 V296 H360"/>
+</g><g class="sep" stroke-width="1.4">
+<line x1="310" y1="60" x2="310" y2="292"/>
+<line x1="136" y1="236" x2="364" y2="236"/>
+</g></svg>
