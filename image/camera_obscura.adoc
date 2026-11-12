@@ -38,10 +38,10 @@ Two points are equivalent (denoted ≈) if they are equal up to a scale factor.
 Pose and transform then become 4x4 matrices, written by blocks:
 
 .Transform: world to camera
-image::frame_homogeneous_transform.svg[homogeneous transform,560,176]
+image::frame_homogeneous_transform.svg[homogeneous transform,480,237]
 
 .Pose: camera to world
-image::frame_homogeneous_pose.svg[homogeneous pose,560,176]
+image::frame_homogeneous_pose.svg[homogeneous pose,480,237]
 
 === Pose / transform conversion
 
