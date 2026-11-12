@@ -35,11 +35,13 @@ The translation `t^c^~w~` of the transform is *not* the camera center.
 In *homogeneous coordinates*, an additional value is added:
 3D points have 4 coordinates, denoted `Ṽ = {startsb}X, Y, Z, W{endsb}^T^`.
 Two points are equivalent (denoted ≈) if they are equal up to a scale factor.
-Pose and transform then become 4x4 matrices, written by blocks (`|` separates columns, `;` separates rows):
+Pose and transform then become 4x4 matrices, written by blocks:
 
-[%hardbreaks]
-`Ṽ~c~ = [ R^c^~w~ | t^c^~w~ ; 0 | 1 ] × Ṽ~w~`
-`Ṽ~w~ = [ R^w^~c~ | t^w^~c~ ; 0 | 1 ] × Ṽ~c~`
+.Transform: world to camera
+image::frame_homogeneous_transform.svg[homogeneous transform,560,176]
+
+.Pose: camera to world
+image::frame_homogeneous_pose.svg[homogeneous pose,560,176]
 
 === Pose / transform conversion
 
