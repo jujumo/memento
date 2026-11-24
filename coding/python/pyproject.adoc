@@ -40,7 +40,7 @@ def play():
     shovel.dig()
 
 if __name__ == '__main__':
-    main()
+    play()
 ----
 
 .shovel.py

@@ -61,7 +61,7 @@ def greetings(name: str = ''):  # you must define a default value here
 
 class AliasingParser(ArgumentParser):
     def add_argument(self, *args, **kwargs):
-        if args == ('--name',): ags += ('-n',)
+        if args == ('--name',): args += ('-n',)
         return super().add_argument(*args, **kwargs)
 
 
